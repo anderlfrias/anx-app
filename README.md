@@ -1,2 +1,2 @@
 # XUSER 2.0
-Segunda version del mantentemiento de los usuarios del siglo 21
+Segunda version de la app web del mantenimiento del siglo 21
