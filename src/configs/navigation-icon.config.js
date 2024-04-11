@@ -1,14 +1,16 @@
 import React from 'react'
+import { FaUsersCog } from 'react-icons/fa'
 import {
     HiOutlineColorSwatch, 
 	HiOutlineDesktopComputer,
     HiOutlineTemplate,
     HiOutlineViewGridAdd,
-    HiOutlineHome
+    HiHome,
 } from 'react-icons/hi'
 
 const navigationIcon = {
-    home: <HiOutlineHome />,
+    home: <HiHome />,
+    roles: <FaUsersCog />,
     singleMenu: <HiOutlineViewGridAdd />,
     collapseMenu: <HiOutlineTemplate />,
     groupSingleMenu: <HiOutlineDesktopComputer />,
