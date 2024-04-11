@@ -7,10 +7,10 @@ export const publicRoutes = [
 
 export const protectedRoutes = [
   {
-  key: 'home',
-  path: '/home',
-  component: React.lazy(() => import('views/Home')),
-  authority: [],
+    key: 'home',
+    path: '/home',
+    component: React.lazy(() => import('views/Home')),
+    authority: [],
   },
   {
     key: 'roles',
