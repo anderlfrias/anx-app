@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { setUser, initialState } from 'store/auth/userSlice'
-import { apiSignIn, apiSignOut, apiSignUp } from 'services/AuthService'
+import { apiSignIn, apiSignUp } from 'services/AuthService'
 import { onSignInSuccess, onSignOutSuccess } from 'store/auth/sessionSlice'
 import appConfig from 'configs/app.config'
 import { REDIRECT_URL_KEY } from 'constants/app.constant'
@@ -22,10 +22,8 @@ function useAuth() {
 		try {
 			const resp = await apiSignIn(values)
 			if (resp.data) {
-				console.log('resp', resp)
 				const token = resp.data
         const user = mapUserFromToken(token)
-				console.log('user', user)
 				dispatch(onSignInSuccess(token))
 				dispatch(setUser(user))
 				const redirectUrl = query.get(REDIRECT_URL_KEY)
@@ -79,7 +77,7 @@ function useAuth() {
 	}
 
 	const signOut = async () => {
-		await apiSignOut()
+		// await apiSignOut()
 		handleSignOut()
 	}
 
