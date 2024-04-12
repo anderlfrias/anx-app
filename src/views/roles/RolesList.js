@@ -4,6 +4,7 @@ import { apiGetRoles } from "services/RoleService"
 import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi"
+import Confirm from "components/custom/Confirm"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -49,11 +50,13 @@ export default function RolesList() {
               <Td>{role.app}</Td>
               <Td>
                 <div className="flex gap-2 min-w-max">
+                  <Confirm onConfirm={() => console.log('delete')} type='danger'>
+                    <Tooltip title='Eliminar'>
+                      <Button size='sm' color='gray-600' icon={<HiOutlineTrash />} variant="twoTone" />
+                    </Tooltip>
+                  </Confirm>
                   <Tooltip title='Editar'>
                     <Button size='sm' color='gray-600' icon={<HiOutlinePencilAlt />} variant="twoTone" />
-                  </Tooltip>
-                  <Tooltip title='Eliminar'>
-                    <Button size='sm' color='gray-600' icon={<HiOutlineTrash />} variant="twoTone" />
                   </Tooltip>
                 </div>
               </Td>

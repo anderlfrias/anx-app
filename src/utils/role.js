@@ -6,7 +6,6 @@ const getNormalisedRoles = (roles) => {
 export const displayRole = (roles) => {
   if (!roles) return ''
   const normalisedRoles = getNormalisedRoles(roles)
-  console.log(normalisedRoles)
   if (normalisedRoles.includes('root')) return 'Root'
   if (normalisedRoles.includes('admin')) return 'Admin'
   if (normalisedRoles.includes('user')) return 'User'
