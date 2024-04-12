@@ -50,7 +50,7 @@ export default function UsersList() {
                     <Button size='sm' color='gray-600' icon={<HiOutlineTrash />} variant="twoTone" />
                   </Tooltip>
                   <Tooltip title='Ver perfil'>
-                    <Button size='sm' icon={<HiOutlinePaperAirplane className='text-lg rotate-90' />} variant="twoTone" />
+                    <Button size='sm' icon={<HiOutlinePaperAirplane className='text-lg rotate-90' />} variant="solid" />
                   </Tooltip>
                 </div>
               </Td>

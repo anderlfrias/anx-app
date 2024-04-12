@@ -1,11 +1,13 @@
+import { APP_CODE } from 'constants/app.constant'
 import ApiService from './ApiService'
+import { URL_API } from 'constants/api.constant'
 
 export async function apiSignIn (data) {
-    return ApiService.fetchData({
-        url: '/sign-in',
-        method: 'post',
-        data
-    })
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/login`,
+    method: 'post',
+    data: { ...data, app: APP_CODE }
+  })
 }
 
 export async function apiSignUp (data) {
