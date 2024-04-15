@@ -3,14 +3,16 @@ import { useEffect, useState } from "react"
 import { apiDeleteRole, apiGetRoles } from "services/RoleService"
 import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
-import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi"
+import { HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
+import { Link } from "react-router-dom"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
 export default function RolesList() {
   const apiRequest = useRequest()
   const [roles, setRoles] = useState([])
+  console.log('roles', roles)
 
   const deleteRole = async (id) => {
     const resp = await apiRequest(() => apiDeleteRole(id))
@@ -61,16 +63,18 @@ export default function RolesList() {
               <Td>{index + 1}</Td>
               <Td>{role.name}</Td>
               <Td>{role.normalizedName}</Td>
-              <Td>{role.app}</Td>
+              <Td>{role.app?.name}</Td>
               <Td>
                 <div className="flex justify-end gap-2 min-w-max">
                   <Confirm onConfirm={() => deleteRole(role.id)} type='danger'>
                     <Tooltip title='Eliminar'>
-                      <Button size='sm' color='gray-600' icon={<HiOutlineTrash />} variant="twoTone" />
+                      <Button size='sm' color='gray-600' icon={<HiTrash />} variant="twoTone" />
                     </Tooltip>
                   </Confirm>
                   <Tooltip title='Editar'>
-                    <Button size='sm' color='gray-600' icon={<HiOutlinePencilAlt />} variant="twoTone" />
+                    <Link to={`/roles/${role.id}`}>
+                      <Button size='sm' color='gray-600' icon={<HiPencilAlt />} variant="twoTone" />
+                    </Link>
                   </Tooltip>
                 </div>
               </Td>

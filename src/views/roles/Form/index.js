@@ -9,11 +9,14 @@ import SelectApps from "./SelectApps"
 const { validationSchema, defaultValues } = roleConfig
 
 export default function RoleForm({ initialValues: propsValues, onSubmit, onDelete, onCancel }) {
+  console.log('RoleForm', propsValues)
   const initialValues = propsValues || defaultValues
 
   const onChangeName = (name, form) => {
-    const normalizedName = name.replace(/\s/g, '').toLowerCase()
-    form.setFieldValue('normalizedName', normalizedName)
+    if (!propsValues) {
+      const normalizedName = name.replace(/\s/g, '').toLowerCase()
+      form.setFieldValue('normalizedName', normalizedName)
+    }
     form.setFieldValue('name', name)
   }
   return (
@@ -63,6 +66,7 @@ export default function RoleForm({ initialValues: propsValues, onSubmit, onDelet
                         name='normalizedName'
                         type='text'
                         placeholder='Nombre normalizado'
+                        disabled={!!propsValues}
                         component={Input}
                       />
                     </FormItem>
