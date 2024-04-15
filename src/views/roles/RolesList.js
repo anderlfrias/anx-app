@@ -1,6 +1,6 @@
 import { Button, Card, Table, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
-import { apiGetRoles } from "services/RoleService"
+import { apiDeleteRole, apiGetRoles } from "services/RoleService"
 import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi"
@@ -11,6 +11,20 @@ const { Tr, Th, Td, THead, TBody } = Table
 export default function RolesList() {
   const apiRequest = useRequest()
   const [roles, setRoles] = useState([])
+
+  const deleteRole = async (id) => {
+    const resp = await apiRequest(() => apiDeleteRole(id))
+
+    if (resp.ok) {
+      openNotification('success', 'Rol eliminado', 'El rol ha sido eliminado correctamente')
+      setRoles(roles.filter(role => role.id !== id))
+    }
+
+    if (!resp.ok) {
+      openNotification('danger', 'Error', 'Error al eliminar el rol')
+      console.error('Error:', resp.error)
+    }
+  }
 
   useEffect(() => {
     const fetchRoles = async () => {
@@ -50,7 +64,7 @@ export default function RolesList() {
               <Td>{role.app}</Td>
               <Td>
                 <div className="flex justify-end gap-2 min-w-max">
-                  <Confirm onConfirm={() => console.log('delete')} type='danger'>
+                  <Confirm onConfirm={() => deleteRole(role.id)} type='danger'>
                     <Tooltip title='Eliminar'>
                       <Button size='sm' color='gray-600' icon={<HiOutlineTrash />} variant="twoTone" />
                     </Tooltip>
