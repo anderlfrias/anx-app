@@ -23,7 +23,7 @@ const dialogType = {
     title: 'Advertencia!',
     children: '¿Estás seguro de realizar esta acción?',
     cancelText: 'Cancelar',
-    confirmText: 'Entendido',
+    confirmText: 'Aceptar',
     confirmButtonColor: 'amber-600',
   },
   danger: {
@@ -43,7 +43,7 @@ export default function Confirm({ onConfirm, children, subtitle, loading: loadin
   const [loading, setLoading] = React.useState(false)
   const handleConfirm = async () => {
     setLoading(true);
-    await onConfirm();
+    await onConfirm?.();
     setLoading(false);
     closeConfirm();
   }

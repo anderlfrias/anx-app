@@ -1,23 +1,15 @@
 import Confirm from "components/custom/Confirm"
 import { StickyFooter } from "components/shared"
-import { Button, Card, FormContainer, FormItem, Input } from "components/ui"
+import { Button, FormContainer } from "components/ui"
 import { userConfig } from "configs/form.config"
-import { Field, Form, Formik } from "formik"
+import { Form, Formik } from "formik"
 import { HiSave, HiTrash } from "react-icons/hi"
+import BasicInfoFields from "./BasicInfoFields"
+import ChangePasswordFields from "./ChangePasswordFields"
 
 const { validationSchema, defaultValues } = userConfig
 
-const Fields = [
-  { type: 'text', label: 'Nombre', name: 'name', placeholder: 'Nombre' },
-  { type: 'text', label: 'Primer apellido', name: 'firstSurname', placeholder: 'Primer apellido' },
-  { type: 'text', label: 'Segundo apellido', name: 'secondSurname', placeholder: 'Segundo apellido' },
-  { type: 'text', label: 'Nombre de usuario', name: 'username', placeholder: 'Nombre de usuario' },
-  { type: 'email', label: 'Email', name: 'email', placeholder: 'Email' },
-  { type: 'text', label: 'Código de empleado', name: 'employeeCode', placeholder: 'Código de empleado' },
-  { type: 'text', label: 'Número de teléfono', name: 'phoneNumber', placeholder: 'Número de teléfono' }
-]
-
-export default function UserForm({ initialValues: propsValues, onSubmit, onDelete, onCancel}) {
+export default function UserForm({ initialValues: propsValues, onSubmit, onDelete, onCancel }) {
   const initialValues = propsValues || defaultValues
 
   return (
@@ -25,80 +17,62 @@ export default function UserForm({ initialValues: propsValues, onSubmit, onDelet
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={async(values, { resetForm, setSubmitting }) => {
+        onSubmit={async (values, { resetForm, setSubmitting }) => {
           await onSubmit(values, { resetForm, setSubmitting })
           setSubmitting(false)
         }}
       >
-        {({ touched, errors, values, isSubmitting }) => (
-          <Form>
-            <FormContainer>
-              <Card>
-                <div className="mb-4">
-                  <h5>Información básica</h5>
-                  <p>
-                    Sesión para configurar la información básica del usuario.
-                  </p>
-                </div>
-                {Fields.map((field, index) => (
-                  <FormItem
-                    key={index}
-                    label={field.label}
-                    invalid={!!touched[field.name] && !!errors[field.name]}
-                    errorMessage={errors[field.name]}
-                  >
-                    <Field
-                      name={field.name}
-                      type={field.type}
-                      placeholder={field.placeholder}
-                      component={field.component || Input}
-                    />
-                  </FormItem>
-                ))}
-              </Card>
+        {({ touched, errors, values, isSubmitting,  }) => {
+          return (
+            <Form>
+              <FormContainer>
+                <BasicInfoFields touched={touched} errors={errors} values={values} />
+                <ChangePasswordFields touched={touched} errors={errors} propsValues={propsValues} />
 
-              <StickyFooter
-                className='-mx-8 px-8 flex items-center justify-between py-4'
-                stickyClass='border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
-              >
-                <div>
-                  {
-                    onDelete && (
+                <StickyFooter
+                  className='-mx-8 px-8 flex items-center justify-between py-4'
+                  stickyClass='border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+                >
+                  <div>
+                    {
+                      onDelete && (
+                        <Confirm type="danger" onConfirm={onDelete} >
+                          <Button
+                            size='md'
+                            type='button'
+                            variant='solid'
+                            color='red-500'
+                            icon={<HiTrash />}
+                          >
+                            Eliminar
+                          </Button>
+                        </Confirm>
+                      )
+                    }
+                  </div>
+                  <div className='flex items-center'>
+                    <Confirm type="warning" onConfirm={onCancel} subtitle={'Se perderán los cambios realizados'}>
                       <Button
-                        size='md'
                         type='button'
-                        variant='solid'
-                        color='red-500'
-                        onClick={onDelete}
-                        icon={<HiTrash />}
+                        className='mr-4'
                       >
-                        Eliminar
+                        Cancelar
                       </Button>
-                    )
-                  }
-                </div>
-                <div className='md:flex items-center'>
-                  <Confirm type="warning" onConfirm={onCancel} subtitle={'Se perderán los cambios realizados'}>
+                    </Confirm>
                     <Button
-                      type='button'
-                      className='mr-4'
+                      variant='solid'
+                      type='submit'
+                      loading={isSubmitting}
+                      icon={<HiSave />}
                     >
-                      Cancelar
+                      {isSubmitting ? 'Guardando...' : 'Guardar'}
                     </Button>
-                  </Confirm>
-                  <Button
-                    variant='solid'
-                    type='submit'
-                    loading={isSubmitting}
-                    icon={<HiSave />}
-                  >
-                    {isSubmitting ? 'Guardando...' : 'Guardar'}
-                  </Button>
-                </div>
-              </StickyFooter>
-            </FormContainer>
-          </Form>
-        )}
+                  </div>
+                </StickyFooter>
+              </FormContainer>
+            </Form>
+          )
+        }}
       </Formik>
     </div>
   )

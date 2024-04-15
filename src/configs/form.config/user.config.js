@@ -7,7 +7,11 @@ const validationSchema = Yup.object().shape({
   employeeCode: Yup.string().required('El código de empleado es requerido'),
   firstSurname: Yup.string(),
   secondSurname: Yup.string(),
-  phoneNumber: Yup.string()
+  phoneNumber: Yup.string(),
+  password: Yup.string()
+    .min(8, 'La contraseña debe tener al menos 8 caracteres'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Las contraseñas no coinciden')
 });
 
 const defaultValues = {
@@ -17,7 +21,9 @@ const defaultValues = {
   employeeCode: '',
   firstSurname: '',
   secondSurname: '',
-  phoneNumber: ''
+  phoneNumber: '',
+  password: '',
+  confirmPassword: ''
 };
 
 const userConfig = { validationSchema, defaultValues };

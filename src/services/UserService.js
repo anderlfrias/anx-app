@@ -7,3 +7,11 @@ export async function apiGetUsers () {
     method: 'get'
   })
 }
+
+export async function apiCreateUser (data) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users`,
+    method: 'post',
+    data
+  })
+}
