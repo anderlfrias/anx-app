@@ -23,6 +23,15 @@ const navigationConfig = [
 		subMenu: []
 	},
 	{
+		key: 'apps',
+		path: '/apps',
+		title: 'Apliaciones',
+		icon: 'apps',
+		type: NAV_ITEM_TYPE_ITEM,
+		authority: [],
+		subMenu: []
+	},
+	{
 		key: 'roles',
 		path: '/roles',
 		title: 'Roles',

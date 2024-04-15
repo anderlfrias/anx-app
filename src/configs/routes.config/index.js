@@ -13,6 +13,12 @@ export const protectedRoutes = [
     authority: [],
   },
   {
+    key: 'apps',
+    path: '/apps',
+    component: React.lazy(() => import('views/apps')),
+    authority: [],
+  },
+  {
     key: 'roles',
     path: '/roles',
     component: React.lazy(() => import('views/roles')),
