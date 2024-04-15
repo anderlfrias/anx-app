@@ -7,3 +7,11 @@ export async function apiGetRoles () {
     method: 'get'
   })
 }
+
+export async function apiCreateRole (data) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/roles`,
+    method: 'post',
+    data
+  })
+}

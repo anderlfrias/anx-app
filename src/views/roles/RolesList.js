@@ -49,7 +49,7 @@ export default function RolesList() {
               <Td>{role.normalizedName}</Td>
               <Td>{role.app}</Td>
               <Td>
-                <div className="flex gap-2 min-w-max">
+                <div className="flex justify-end gap-2 min-w-max">
                   <Confirm onConfirm={() => console.log('delete')} type='danger'>
                     <Tooltip title='Eliminar'>
                       <Button size='sm' color='gray-600' icon={<HiOutlineTrash />} variant="twoTone" />

@@ -35,7 +35,7 @@ export default function BasicInfoFields({ touched, errors, values }) {
 
         <FormItem
           label="Nombre"
-          invalid={!!touched.name && !!errors.name}
+          invalid={errors.name && touched.name}
           errorMessage={errors.name}
         >
           <Field name='name'>
@@ -54,7 +54,7 @@ export default function BasicInfoFields({ touched, errors, values }) {
 
         <FormItem
           label="Primer apellido"
-          invalid={!!touched.firstSurname && !!errors.firstSurname}
+          invalid={errors.name && touched.name}
           errorMessage={errors.firstSurname}
         >
           <Field>
@@ -76,7 +76,7 @@ export default function BasicInfoFields({ touched, errors, values }) {
           <FormItem
             key={index}
             label={field.label}
-            invalid={!!touched[field.name] && !!errors[field.name]}
+            invalid={errors[field.name] && touched[field.name]}
             errorMessage={errors[field.name]}
           >
             <Field

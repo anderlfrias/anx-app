@@ -4,6 +4,7 @@ import { Button, Card, FormContainer, FormItem, Input } from "components/ui"
 import { roleConfig } from "configs/form.config"
 import { Field, Form, Formik } from "formik"
 import { HiSave, HiTrash } from "react-icons/hi"
+import SelectApps from "./SelectApps"
 
 const { validationSchema, defaultValues } = roleConfig
 
@@ -30,7 +31,7 @@ export default function RoleForm({ initialValues: propsValues, onSubmit, onDelet
             return (
               <Form>
                 <FormContainer>
-                  <Card>
+                  <Card className='mb-6'>
                     <div className='mb-4'>
                       <h5>Formulario de roles</h5>
                     </div>
@@ -64,6 +65,23 @@ export default function RoleForm({ initialValues: propsValues, onSubmit, onDelet
                         placeholder='Nombre normalizado'
                         component={Input}
                       />
+                    </FormItem>
+
+                    <FormItem
+                      label='Apliación'
+                      invalid={errors.app && touched.app}
+                      errorMessage={errors.app}
+                    >
+                      <Field name='app'>
+                      {({ field, form }) => (
+                        <SelectApps
+                          field={field}
+                          form={form}
+                          value={values.app}
+                          onChange={(app) => form.setFieldValue('app', app?.value)}
+                        />
+                      )}
+                      </Field>
                     </FormItem>
                   </Card>
                   <StickyFooter
