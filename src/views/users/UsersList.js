@@ -3,6 +3,7 @@ import { Loading } from "components/shared"
 import { Button, Card, Table, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
 import { HiPaperAirplane, HiTrash } from "react-icons/hi"
+import { Link } from "react-router-dom"
 import { apiGetUsers } from "services/UserService"
 import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
@@ -59,7 +60,9 @@ export default function UsersList() {
                       </Tooltip>
                     </Confirm>
                     <Tooltip title='Ver perfil'>
-                      <Button size='sm' icon={<HiPaperAirplane className='text-lg rotate-90' />} variant="solid" />
+                      <Link to={`/users/${user.id}`}>
+                        <Button size='sm' icon={<HiPaperAirplane className='text-lg rotate-90' />} variant="solid" />
+                      </Link>
                     </Tooltip>
                   </div>
                 </Td>

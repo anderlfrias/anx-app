@@ -15,3 +15,10 @@ export async function apiCreateUser (data) {
     data
   })
 }
+
+export async function apiGetUserById (id) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${id}`,
+    method: 'get'
+  })
+}
