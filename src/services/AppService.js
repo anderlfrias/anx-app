@@ -7,3 +7,10 @@ export async function apiGetApps () {
     method: 'get'
   })
 }
+
+export async function apiDeleteApp (id) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/apps/${id}`,
+    method: 'delete'
+  })
+}
