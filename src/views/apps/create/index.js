@@ -19,7 +19,7 @@ export default function CreateApp() {
     }
 
     if (!resp.ok) {
-      openNotification('danger', 'Error', 'Error al crear la aplicación')
+      openNotification('danger', 'Error', resp.message)
       console.error('Error:', resp.error)
     }
   }

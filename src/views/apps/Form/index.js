@@ -39,6 +39,7 @@ export default function AppForm({ initialValues: propsValues, onSubmit, onDelete
                         type='text'
                         placeholder='Código'
                         component={Input}
+                        disabled={propsValues}
                       />
                     </FormItem>
 

@@ -21,7 +21,7 @@ export default function useRequest () {
 
       return {
         ok: false,
-        message: error?.response?.data?.err || error.toString(),
+        message: error?.response?.data?.message || error.toString(),
         error
       }
     }
