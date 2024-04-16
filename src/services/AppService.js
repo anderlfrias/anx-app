@@ -8,6 +8,14 @@ export async function apiGetApps () {
   })
 }
 
+export async function apiCreateApp (data) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/apps`,
+    method: 'post',
+    data
+  })
+}
+
 export async function apiDeleteApp (id) {
   return ApiService.fetchData({
     url: `${URL_API}/v1/apps/${id}`,

@@ -44,7 +44,6 @@ const AppUrl = ({ url }) => {
 export default function AppsList() {
   const apiRequest = useRequest()
   const [apps, setApps] = useState([])
-  console.log('apps:', apps)
 
   const deleteApp = async (id) => {
     const resp = await apiRequest(() => apiDeleteApp(id))
