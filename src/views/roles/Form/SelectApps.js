@@ -13,7 +13,6 @@ export default function SelectApps({ value, ...rest }) {
       const resp = await apiRequest(() => apiGetApps());
 
       if (resp.ok) {
-        console.log(resp.data);
         setApps(resp.data.map((app) => ({
           label: app.name,
           value: app.id

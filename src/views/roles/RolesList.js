@@ -12,7 +12,6 @@ const { Tr, Th, Td, THead, TBody } = Table
 export default function RolesList() {
   const apiRequest = useRequest()
   const [roles, setRoles] = useState([])
-  console.log('roles', roles)
 
   const deleteRole = async (id) => {
     const resp = await apiRequest(() => apiDeleteRole(id))

@@ -9,7 +9,6 @@ import SelectApps from "./SelectApps"
 const { validationSchema, defaultValues } = roleConfig
 
 export default function RoleForm({ initialValues: propsValues, onSubmit, onDelete, onCancel }) {
-  console.log('RoleForm', propsValues)
   const initialValues = propsValues || defaultValues
 
   const onChangeName = (name, form) => {
