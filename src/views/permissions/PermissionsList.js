@@ -1,43 +1,43 @@
 import { Button, Card, Table, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
-import { apiDeleteRole, apiGetRoles } from "services/RoleService"
 import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 import { HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
 import { Link } from "react-router-dom"
+import { apiDeletePermission, apiGetPermissions } from "services/PermissionService"
 import { AppCode } from "views/apps/AppsList"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
-export default function RolesList() {
+export default function PermissionsList() {
   const apiRequest = useRequest()
-  const [roles, setRoles] = useState([])
+  const [permissions, setPermissions] = useState([])
 
-  const deleteRole = async (id) => {
-    const resp = await apiRequest(() => apiDeleteRole(id))
+  const deletePermission = async (id) => {
+    const resp = await apiRequest(() => apiDeletePermission(id))
 
     if (resp.ok) {
-      openNotification('success', 'Rol eliminado', 'El rol ha sido eliminado correctamente')
-      setRoles(roles.filter(role => role.id !== id))
+      openNotification('success', 'Permiso eliminado', 'El permiso ha sido eliminado correctamente')
+      setPermissions(permissions.filter(role => role.id !== id))
     }
 
     if (!resp.ok) {
-      openNotification('danger', 'Error', 'Error al eliminar el rol')
+      openNotification('danger', 'Error', resp.message)
       console.error('Error:', resp.error)
     }
   }
 
   useEffect(() => {
     const fetchRoles = async () => {
-      const resp = await apiRequest(() => apiGetRoles())
+      const resp = await apiRequest(() => apiGetPermissions())
 
       if (resp.ok) {
-        setRoles(resp.data)
+        setPermissions(resp.data)
       }
 
       if (!resp.ok) {
-        openNotification('danger', 'Error', 'Error al obtener los roles')
+        openNotification('danger', 'Error', resp.message)
         console.error('Error:', resp.error)
       }
     }
@@ -58,23 +58,23 @@ export default function RolesList() {
           </Tr>
         </THead>
         <TBody>
-          {roles.map((role, index) => (
-            <Tr key={role.id}>
+          {permissions.map((permission, index) => (
+            <Tr key={permission.id}>
               <Td>{index + 1}</Td>
-              <Td>{role.name}</Td>
-              <Td>{role.normalizedName}</Td>
+              <Td>{permission.name}</Td>
+              <Td>{permission.normalizedName}</Td>
               <Td>
-                {role.app && <AppCode code={role.app.code} />}
+                {permission.app && <AppCode code={permission.app.code} />}
               </Td>
               <Td>
                 <div className="flex justify-end gap-2 min-w-max">
-                  <Confirm onConfirm={() => deleteRole(role.id)} type='danger'>
+                  <Confirm onConfirm={() => deletePermission(permission.id)} type='danger'>
                     <Tooltip title='Eliminar'>
                       <Button size='sm' color='gray-600' icon={<HiTrash />} variant="twoTone" />
                     </Tooltip>
                   </Confirm>
                   <Tooltip title='Editar'>
-                    <Link to={`/roles/${role.id}`}>
+                    <Link to={`/permissions/${permission.id}`}>
                       <Button size='sm' color='gray-600' icon={<HiPencilAlt />} variant="twoTone" />
                     </Link>
                   </Tooltip>

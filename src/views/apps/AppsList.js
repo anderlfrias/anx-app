@@ -10,7 +10,7 @@ import copy from "utils/lib/copy"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
-const AppCode = ({ code }) => (
+export const AppCode = ({ code }) => (
   <Tag className="bg-slate-100 text-slate-600 dark:bg-slate-500/20 dark:text-slate-100 border-0 rounded">
     {code}
   </Tag>

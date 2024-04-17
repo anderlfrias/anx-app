@@ -40,7 +40,6 @@ export default function Create() {
 
       <UserForm
         onSubmit={onSubmit}
-        onDelete={() => console.log('deleted')}
         onCancel={onCancel}
       />
     </>
