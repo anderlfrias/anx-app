@@ -9,15 +9,17 @@ const Fields = [
   { type: 'text', label: 'Número de teléfono', name: 'phoneNumber', placeholder: 'Número de teléfono' }
 ]
 
-export default function BasicInfoFields({ touched, errors, values }) {
+export default function BasicInfoFields({ touched, errors, values, propsValues }) {
 
   const onChangeName = (name, lastname, form) => {
-    const normalizedName = name.replace(/\s/g, '').toLowerCase()
-    const normalizedLastname = lastname.replace(/\s/g, '').toLowerCase()
-    const newUsername = `${normalizedName}${normalizedLastname}`
-    const newEmail = `${normalizedName}.${normalizedLastname}`
-    form.setFieldValue('username', newUsername)
-    form.setFieldValue('email', `${newEmail}@cmsiglo21.com`)
+    if (!propsValues) {
+      const normalizedName = name.replace(/\s/g, '').toLowerCase()
+      const normalizedLastname = lastname.replace(/\s/g, '').toLowerCase()
+      const newUsername = `${normalizedName}${normalizedLastname}`
+      const newEmail = (normalizedName || normalizedLastname) && `${normalizedName}.${normalizedLastname}`
+      form.setFieldValue('username', newUsername)
+      form.setFieldValue('email', newEmail ?`${newEmail}@cmsiglo21.com` : '')
+    }
     form.setFieldValue('name', name)
     form.setFieldValue('firstSurname', lastname)
   }
@@ -54,7 +56,7 @@ export default function BasicInfoFields({ touched, errors, values }) {
 
         <FormItem
           label="Primer apellido"
-          invalid={errors.name && touched.name}
+          invalid={errors.firstSurname && touched.firstSurname}
           errorMessage={errors.firstSurname}
         >
           <Field>
@@ -84,6 +86,7 @@ export default function BasicInfoFields({ touched, errors, values }) {
               type={field.type}
               placeholder={field.placeholder}
               component={field.component || Input}
+              disabled={(field.name === 'username' || field.name === 'email') && propsValues}
             />
           </FormItem>
         ))}

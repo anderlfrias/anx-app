@@ -26,7 +26,7 @@ export default function UserForm({ initialValues: propsValues, onSubmit, onDelet
           return (
             <Form>
               <FormContainer>
-                <BasicInfoFields touched={touched} errors={errors} values={values} />
+                <BasicInfoFields touched={touched} errors={errors} values={values} propsValues={propsValues} />
                 <ChangePasswordFields touched={touched} errors={errors} propsValues={propsValues} />
 
                 <StickyFooter

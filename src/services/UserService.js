@@ -22,3 +22,18 @@ export async function apiGetUserById (id) {
     method: 'get'
   })
 }
+
+export async function apiUpdateUser (id, data) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${id}`,
+    method: 'put',
+    data
+  })
+}
+
+export async function apiDeleteUser (id) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${id}`,
+    method: 'delete'
+  })
+}

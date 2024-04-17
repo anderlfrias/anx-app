@@ -1,18 +1,32 @@
 import ViewTitle from "components/custom/ViewTitle"
 import { useNavigate, useParams } from "react-router-dom"
 import UserForm from "../Form"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import useRequest from "utils/hooks/useRequest"
-import { apiGetUserById } from "services/UserService"
+import { apiGetUserById, apiUpdateUser } from "services/UserService"
+import openNotification from "utils/openNotification"
+import { Loading } from "components/shared"
 
 export default function EditUser() {
   const { id } = useParams()
   const navigate = useNavigate()
   const apiRequest = useRequest()
-  console.log(id)
+  const [user, setUser] = useState({})
+  const [loading, setLoading] = useState(false)
 
-  const onSubmit = (values) => {
+  const onSubmit = async(values) => {
     console.log(values)
+
+    const resp = await apiRequest(() => apiUpdateUser(id, values))
+    console.log(resp)
+    if (resp.ok) {
+      openNotification('success', 'Usuario actualizado', 'El usuario ha sido actualizado correctamente')
+      navigate(-1)
+    }
+
+    if (!resp.ok) {
+      openNotification('error', 'Error', resp.data.message)
+    }
   }
 
   const onCancel = () => {
@@ -20,25 +34,40 @@ export default function EditUser() {
   }
 
   useEffect(() => {
-    console.log('fetch user')
     async function fetchUser() {
+      setLoading(true)
       const response = await apiRequest(() => apiGetUserById(id))
       console.log(response)
+      if (response.ok) {
+        setUser({
+          ...response.data,
+          password: '',
+          passwordConfirmation: ''
+        })
+      }
+      
+      if (!response.ok) {
+        openNotification('error', 'Error', response.data.message)
+      }
+      setLoading(false)
     }
 
     fetchUser()
-  }, [apiRequest, id])
+  }, [apiRequest, id, navigate])
   return (
     <>
       <div className="flex justify-between mb-6">
         <ViewTitle title="Editar usuario" showBackPage />
       </div>
 
-      <UserForm
-        onSubmit={onSubmit}
-        onDelete={() => console.log('deleted')}
-        onCancel={onCancel}
-      />
+      <Loading loading={loading}>
+        <UserForm
+          initialValues={user}
+          onSubmit={onSubmit}
+          onDelete={() => console.log('deleted')}
+          onCancel={onCancel}
+        />
+      </Loading>
     </>
   )
 }

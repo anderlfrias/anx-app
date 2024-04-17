@@ -1,7 +1,10 @@
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('El nombre es requerido'),
+  name: Yup.string()
+    .min(3, 'El nombre debe tener al menos 3 caracteres')
+    .max(20, 'El nombre debe tener como máximo 20 caracteres')
+    .required('El nombre es requerido'),
   email: Yup.string().email('El email no es válido').required('El email es requerido'),
   username: Yup.string()
     .min(5, 'El nombre de usuario debe tener al menos 5 caracteres')
@@ -9,8 +12,12 @@ const validationSchema = Yup.object().shape({
     .matches(/^[a-z]+[a-z0-9/.]*$/, 'El nombre de usuario no es válido')
     .required('El nombre de usuario es requerido'),
   employeeCode: Yup.string().required('El código de empleado es requerido'),
-  firstSurname: Yup.string(),
-  secondSurname: Yup.string(),
+  firstSurname: Yup.string()
+    .min(3, 'El apellido debe tener al menos 3 caracteres')
+    .max(20, 'El apellido debe tener como máximo 20 caracteres'),
+  secondSurname: Yup.string()
+    .min(3, 'El apellido debe tener al menos 3 caracteres')
+    .max(20, 'El apellido debe tener como máximo 20 caracteres'),
   phoneNumber: Yup.string(),
   password: Yup.string()
     .min(8, 'La contraseña debe tener al menos 8 caracteres'),

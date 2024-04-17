@@ -35,7 +35,6 @@ export default function EditApp() {
     async function fetchApp() {
       setLoading(true)
       const resp = await apiRequest(() => apiGetAppById(id))
-      console.log('resp', resp)
       if (resp.ok) {
         setApp(resp.data)
       }
