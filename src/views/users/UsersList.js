@@ -1,3 +1,4 @@
+import ChangePasswordSvg from "assets/svg/ChangePasswordSvg"
 import ResetPasswordSvg from "assets/svg/ResetPasswordSvg"
 import Confirm from "components/custom/Confirm"
 import { Loading } from "components/shared"
@@ -59,8 +60,11 @@ export default function UsersList() {
                 <Td>{user.email}</Td>
                 <Td>
                   <div className="flex gap-2 justify-end min-w-max">
+                    <Tooltip title='Cambiar Contraseña'>
+                      <Button size='sm' color='gray-600' icon={<ChangePasswordSvg />} variant="twoTone" />
+                    </Tooltip>
                     <Tooltip title='Resetear Contraseña'>
-                      <ResetPasswordSvg className='text-lg cursor-pointer hover:text-sky-600 active:text-sky-900' />
+                      <Button size='sm' color='gray-600' icon={<ResetPasswordSvg />} variant="twoTone" />
                     </Tooltip>
                   </div>
                 </Td>
