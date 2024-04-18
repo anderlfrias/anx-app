@@ -1,9 +1,9 @@
 import { URL_API } from 'constants/api.constant'
 import ApiService from 'services/ApiService'
 
-export async function apiGetPermissions () {
+export async function apiGetPermissions (search = '') {
   return ApiService.fetchData({
-    url: `${URL_API}/v1/permissions`,
+    url: `${URL_API}/v1/permissions?search=${search}`,
     method: 'get'
   })
 }

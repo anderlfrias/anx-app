@@ -4,7 +4,7 @@ import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 import { HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { apiDeletePermission, apiGetPermissions } from "services/PermissionService"
 import { AppCode } from "views/apps/AppsList"
 
@@ -13,6 +13,9 @@ const { Tr, Th, Td, THead, TBody } = Table
 export default function PermissionsList() {
   const apiRequest = useRequest()
   const [permissions, setPermissions] = useState([])
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const search = searchParams.get('search') || '';
 
   const deletePermission = async (id) => {
     const resp = await apiRequest(() => apiDeletePermission(id))
@@ -29,8 +32,8 @@ export default function PermissionsList() {
   }
 
   useEffect(() => {
-    const fetchRoles = async () => {
-      const resp = await apiRequest(() => apiGetPermissions())
+    const fetchRoles = async (search) => {
+      const resp = await apiRequest(() => apiGetPermissions(search))
 
       if (resp.ok) {
         setPermissions(resp.data)
@@ -42,8 +45,8 @@ export default function PermissionsList() {
       }
     }
 
-    fetchRoles()
-  }, [apiRequest])
+    fetchRoles(search)
+  }, [apiRequest, search])
 
   return (
     <Card>
