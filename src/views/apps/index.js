@@ -1,16 +1,11 @@
 import ViewTitle from "components/custom/ViewTitle";
 import { Button } from "components/ui";
 import { HiPlusCircle } from "react-icons/hi";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AppsList from "./AppsList";
 import Filter from "components/custom/Filter";
 
 export default function Apps() {
-
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-
-  console.log(searchParams.get('search'));
   return (
     <div>
       <div className="flex justify-between mb-6">

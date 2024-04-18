@@ -4,7 +4,7 @@ import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 import { HiExternalLink, HiLink, HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { apiDeleteApp, apiGetApps } from "services/AppService"
 import copy from "utils/lib/copy"
 
@@ -44,6 +44,9 @@ const AppUrl = ({ url }) => {
 export default function AppsList() {
   const apiRequest = useRequest()
   const [apps, setApps] = useState([])
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const search = searchParams.get('search') || '';
 
   const deleteApp = async (id) => {
     const resp = await apiRequest(() => apiDeleteApp(id))
@@ -60,8 +63,8 @@ export default function AppsList() {
   }
 
   useEffect(() => {
-    const fetchRoles = async () => {
-      const resp = await apiRequest(() => apiGetApps())
+    const fetchRoles = async (search) => {
+      const resp = await apiRequest(() => apiGetApps(search))
 
       if (resp.ok) {
         setApps(resp.data)
@@ -73,8 +76,8 @@ export default function AppsList() {
       }
     }
 
-    fetchRoles()
-  }, [apiRequest])
+    fetchRoles(search)
+  }, [apiRequest, search])
 
   return (
     <Card>
