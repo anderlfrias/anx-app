@@ -5,7 +5,7 @@ import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 import { HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { AppCode } from "views/apps/AppsList"
 
 const { Tr, Th, Td, THead, TBody } = Table
@@ -13,6 +13,9 @@ const { Tr, Th, Td, THead, TBody } = Table
 export default function RolesList() {
   const apiRequest = useRequest()
   const [roles, setRoles] = useState([])
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const search = searchParams.get('search') || '';
 
   const deleteRole = async (id) => {
     const resp = await apiRequest(() => apiDeleteRole(id))
@@ -29,8 +32,8 @@ export default function RolesList() {
   }
 
   useEffect(() => {
-    const fetchRoles = async () => {
-      const resp = await apiRequest(() => apiGetRoles())
+    const fetchRoles = async (search) => {
+      const resp = await apiRequest(() => apiGetRoles(search))
 
       if (resp.ok) {
         setRoles(resp.data)
@@ -42,8 +45,8 @@ export default function RolesList() {
       }
     }
 
-    fetchRoles()
-  }, [apiRequest])
+    fetchRoles(search)
+  }, [apiRequest, search])
 
   return (
     <Card>
