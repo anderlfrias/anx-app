@@ -1,3 +1,4 @@
+import ResetPasswordSvg from "assets/svg/ResetPasswordSvg"
 import Confirm from "components/custom/Confirm"
 import { Loading } from "components/shared"
 import { Button, Card, Table, Tooltip } from "components/ui"
@@ -43,6 +44,7 @@ export default function UsersList() {
               <Th>Username</Th>
               <Th>Email</Th>
               <Th />
+              <Th />
             </Tr>
           </THead>
           <TBody>
@@ -52,6 +54,13 @@ export default function UsersList() {
                 <Td>{`${user.name} ${user.firstSurname} ${user.secondSurname}`}</Td>
                 <Td>{user.username}</Td>
                 <Td>{user.email}</Td>
+                <Td>
+                  <div className="flex gap-2 justify-end min-w-max">
+                    <Tooltip title='Resetear Contraseña'>
+                      <ResetPasswordSvg className='text-lg cursor-pointer hover:text-sky-600 active:text-sky-900' />
+                    </Tooltip>
+                  </div>
+                </Td>
                 <Td>
                   <div className="flex gap-2 justify-end min-w-max">
                     <Confirm onConfirm={() => console.log('delete')} type='danger'>

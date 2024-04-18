@@ -26,8 +26,10 @@ export default function UserForm({ initialValues: propsValues, onSubmit, onDelet
           return (
             <Form>
               <FormContainer>
-                <BasicInfoFields touched={touched} errors={errors} values={values} propsValues={propsValues} />
-                <ChangePasswordFields touched={touched} errors={errors} propsValues={propsValues} />
+                <div className='grid grid-cols-3 gap-4'>
+                  <BasicInfoFields className='col-span-2 mb-6' touched={touched} errors={errors} values={values} propsValues={propsValues} />
+                  <ChangePasswordFields className='mb-6' touched={touched} errors={errors} propsValues={propsValues} />
+                </div>
 
                 <StickyFooter
                   className='-mx-8 px-8 flex items-center justify-between py-4'
