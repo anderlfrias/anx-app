@@ -4,7 +4,7 @@ import { Loading } from "components/shared"
 import { Button, Card, Table, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
 import { HiPaperAirplane, HiTrash } from "react-icons/hi"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { apiGetUsers } from "services/UserService"
 import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
@@ -12,26 +12,29 @@ import openNotification from "utils/openNotification"
 const { Tr, Th, Td, THead, TBody } = Table
 
 export default function UsersList() {
+  const apiRequest = useRequest()
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const search = searchParams.get('search') || '';
 
-  const apiRequest = useRequest()
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchUsers = async (search) => {
       setLoading(true)
-      const resp = await apiRequest(() => apiGetUsers())
+      const resp = await apiRequest(() => apiGetUsers(search))
       console.log(resp)
       if (resp.ok) {
         setUsers(resp.data)
       } else {
-        openNotification('error', 'Error', 'Error al obtener los usuarios')
+        openNotification('error', 'Error', resp.message)
         console.error(resp)
       }
       setLoading(false)
     }
 
-    fetchUsers()
-  }, [apiRequest])
+    fetchUsers(search)
+  }, [apiRequest, search])
 
   return (
     <Card>
