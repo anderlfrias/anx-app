@@ -17,25 +17,24 @@ export default function Create() {
       return
     }
 
-    delete values.confirmPassword
     const response = await apiRequest(() => apiCreateUser(values))
 
     if (response.ok) {
       openNotification('success', 'Completado!', 'Usuario creado exitosamente')
-      navigate(-1)
+      navigate('/users')
     } else {
       console.log(response)
-      openNotification('error', 'Error!', 'Ocurrió un error al crear el usuario')
+      openNotification('error', 'Error!', response.message)
     }
   }
 
   const onCancel = () => {
-    navigate(-1)
+    navigate('/users')
   }
   return (
     <>
       <div className="flex justify-between mb-6">
-        <ViewTitle title="Crear usuarios" showBackPage />
+        <ViewTitle title="Crear usuarios" showBackPage backPath='/users' />
       </div>
 
       <CreateUserForm

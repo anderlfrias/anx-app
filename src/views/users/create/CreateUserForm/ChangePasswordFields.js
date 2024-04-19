@@ -1,16 +1,16 @@
 import classNames from "classnames"
 import { PasswordInput } from "components/shared"
-import { Card, FormItem } from "components/ui"
+import { FormItem } from "components/ui"
 import { Field } from "formik"
 
 export default function ChangePasswordFields({ touched, errors, className }) {
   return (
     <div className={classNames(className)}>
-      <Card>
+      <div>
         <div className="mb-4">
           <h5>Contraseña</h5>
           <p>
-            Dejar en blanco si desea mantener la contraseña actual.
+            Dejar en blanco si desea asignar la contraseña por defecto.
           </p>
         </div>
 
@@ -39,7 +39,7 @@ export default function ChangePasswordFields({ touched, errors, className }) {
             component={PasswordInput}
           />
         </FormItem>
-      </Card>
+      </div>
     </div>
   )
 }

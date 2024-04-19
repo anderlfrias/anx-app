@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import { Card, FormItem, Input } from "components/ui"
+import { FormItem, Input } from "components/ui"
 import { Field } from "formik"
 
 const Fields = [
@@ -26,12 +26,12 @@ export default function BasicInfoFields({ touched, errors, values, className }) 
   return (
     <>
       <div className={classNames(className)}>
-        <Card>
+        <div>
           <div className="mb-4">
             <h5>Información básica</h5>
             <p>
               Sesión para configurar la información básica del usuario.
-              Por defecto, el usuario no tiene un rol asignado. Para asignar un rol, diríjase a la sección de roles.
+              Por defecto, el usuario no tiene un rol asignado. Para asignar un rol, diríjase a la sección de edición de usuario.
             </p>
           </div>
 
@@ -89,7 +89,7 @@ export default function BasicInfoFields({ touched, errors, values, className }) 
               />
             </FormItem>
           ))}
-        </Card>
+        </div>
       </div>
     </>
   )
