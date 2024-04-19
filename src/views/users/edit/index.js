@@ -1,6 +1,5 @@
 import ViewTitle from "components/custom/ViewTitle"
 import { useNavigate, useParams } from "react-router-dom"
-import UserForm from "../Form"
 import { useEffect, useState } from "react"
 import useRequest from "utils/hooks/useRequest"
 import { apiGetUserById, apiUpdateUser } from "services/UserService"
@@ -12,7 +11,7 @@ export default function EditUser() {
   const navigate = useNavigate()
   const apiRequest = useRequest()
   const [user, setUser] = useState({})
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const onSubmit = async(values) => {
     console.log(values)
@@ -40,7 +39,7 @@ export default function EditUser() {
       console.log(response)
       if (response.ok) {
         setUser({
-          ...response.data,
+          ...response.data.user,
           password: '',
           passwordConfirmation: ''
         })
@@ -54,6 +53,8 @@ export default function EditUser() {
 
     fetchUser()
   }, [apiRequest, id, navigate])
+
+  console.log(user)
   return (
     <>
       <div className="flex justify-between mb-6">
@@ -61,12 +62,12 @@ export default function EditUser() {
       </div>
 
       <Loading loading={loading}>
-        <UserForm
+        {/* <UserForm
           initialValues={user}
           onSubmit={onSubmit}
           onDelete={() => console.log('deleted')}
           onCancel={onCancel}
-        />
+        /> */}
       </Loading>
     </>
   )

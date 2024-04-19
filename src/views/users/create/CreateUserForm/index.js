@@ -3,19 +3,18 @@ import { StickyFooter } from "components/shared"
 import { Button, FormContainer } from "components/ui"
 import { userConfig } from "configs/form.config"
 import { Form, Formik } from "formik"
-import { HiSave, HiTrash } from "react-icons/hi"
+import { HiSave } from "react-icons/hi"
 import BasicInfoFields from "./BasicInfoFields"
 import ChangePasswordFields from "./ChangePasswordFields"
 
 const { validationSchema, defaultValues } = userConfig
 
-export default function UserForm({ initialValues: propsValues, onSubmit, onDelete, onCancel }) {
-  const initialValues = propsValues || defaultValues
+export default function CreateUserForm({ onSubmit, onCancel }) {
 
   return (
     <div>
       <Formik
-        initialValues={initialValues}
+        initialValues={defaultValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { resetForm, setSubmitting }) => {
           await onSubmit(values, { resetForm, setSubmitting })
@@ -26,32 +25,15 @@ export default function UserForm({ initialValues: propsValues, onSubmit, onDelet
           return (
             <Form>
               <FormContainer>
-                <div className='grid grid-cols-3 gap-4'>
-                  <BasicInfoFields className='col-span-2 mb-6' touched={touched} errors={errors} values={values} propsValues={propsValues} />
-                  <ChangePasswordFields className='mb-6' touched={touched} errors={errors} propsValues={propsValues} />
+                <div className=''>
+                  <BasicInfoFields className='mb-6' touched={touched} errors={errors} values={values} />
+                  <ChangePasswordFields className='mb-6' touched={touched} errors={errors} />
                 </div>
 
                 <StickyFooter
                   className='-mx-8 px-8 flex items-center justify-between py-4'
                   stickyClass='border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
                 >
-                  <div>
-                    {
-                      onDelete && (
-                        <Confirm type="danger" onConfirm={onDelete} >
-                          <Button
-                            size='md'
-                            type='button'
-                            variant='solid'
-                            color='red-500'
-                            icon={<HiTrash />}
-                          >
-                            Eliminar
-                          </Button>
-                        </Confirm>
-                      )
-                    }
-                  </div>
                   <div className='flex items-center'>
                     <Confirm type="warning" onConfirm={onCancel} subtitle={'Se perderán los cambios realizados'}>
                       <Button

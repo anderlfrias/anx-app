@@ -1,9 +1,9 @@
 import ViewTitle from "components/custom/ViewTitle";
-import UserForm from "../Form";
 import { useNavigate } from "react-router-dom";
 import useRequest from "utils/hooks/useRequest";
 import { apiCreateUser } from "services/UserService";
 import openNotification from "utils/openNotification";
+import CreateUserForm from "./CreateUserForm";
 
 export default function Create() {
   const navigate = useNavigate()
@@ -38,7 +38,7 @@ export default function Create() {
         <ViewTitle title="Crear usuarios" showBackPage />
       </div>
 
-      <UserForm
+      <CreateUserForm
         onSubmit={onSubmit}
         onCancel={onCancel}
       />
