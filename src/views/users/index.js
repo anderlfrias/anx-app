@@ -13,7 +13,7 @@ export default function Users() {
 
         <div className="flex justify-end gap-2 w-full">
           <Filter />
-          <Link to="/users/create#basic-info">
+          <Link to="/users/create">
             <Button size="sm" variant='solid' icon={<FaUserPlus />} >Crear Usuario</Button>
           </Link>
         </div>

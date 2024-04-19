@@ -3,17 +3,18 @@ import { StickyFooter } from "components/shared"
 import { Button, Card, FormContainer, Tabs } from "components/ui"
 import { userConfig } from "configs/form.config"
 import { Form, Formik } from "formik"
-import { HiOutlineKey, HiSave } from "react-icons/hi"
+import { HiOutlineKey, HiOutlineShieldCheck, HiSave } from "react-icons/hi"
 import BasicInfoFields from "./BasicInfoFields"
 import ChangePasswordFields from "./ChangePasswordFields"
 import { useLocation, useNavigate } from "react-router-dom"
 import { FaRegUserCircle } from "react-icons/fa"
 import { useEffect } from "react"
+import PermissionsFields from "./PermissionsFields"
 
 const { TabNav, TabList, TabContent } = Tabs
-const { validationSchema, defaultValues } = userConfig
+const { validationSchema } = userConfig
 
-export default function CreateUserForm({ onSubmit, onCancel }) {
+export default function EditUserForm({ initialValues, onSubmit, onCancel }) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ export default function CreateUserForm({ onSubmit, onCancel }) {
   return (
     <div>
       <Formik
-        initialValues={defaultValues}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { resetForm, setSubmitting }) => {
           await onSubmit(values, { resetForm, setSubmitting })
@@ -44,6 +45,7 @@ export default function CreateUserForm({ onSubmit, onCancel }) {
                     <TabList>
                       <TabNav value="basic-info" icon={<FaRegUserCircle />}>Información básica</TabNav>
                       <TabNav value="password" icon={<HiOutlineKey />} >Contraseña</TabNav>
+                      <TabNav value="permission" icon={<HiOutlineShieldCheck />}>Permisos</TabNav>
                     </TabList>
                     <div className='mb-4'>
                       <TabContent value="basic-info">
@@ -52,6 +54,10 @@ export default function CreateUserForm({ onSubmit, onCancel }) {
 
                       <TabContent value="password">
                         <ChangePasswordFields className='mt-4' touched={touched} errors={errors} />
+                      </TabContent>
+
+                      <TabContent value="permission">
+                        <PermissionsFields className='mt-4' touched={touched} errors={errors} />
                       </TabContent>
                     </div>
                   </Tabs>

@@ -5,6 +5,7 @@ import useRequest from "utils/hooks/useRequest"
 import { apiGetUserById, apiUpdateUser } from "services/UserService"
 import openNotification from "utils/openNotification"
 import { Loading } from "components/shared"
+import EditUserForm from "./EditUserForm"
 
 export default function EditUser() {
   const { id } = useParams()
@@ -20,7 +21,7 @@ export default function EditUser() {
     console.log(resp)
     if (resp.ok) {
       openNotification('success', 'Usuario actualizado', 'El usuario ha sido actualizado correctamente')
-      navigate(-1)
+      navigate('/users')
     }
 
     if (!resp.ok) {
@@ -29,8 +30,10 @@ export default function EditUser() {
   }
 
   const onCancel = () => {
-    navigate(-1)
+    navigate('/users')
   }
+
+  console.log(user)
 
   useEffect(() => {
     async function fetchUser() {
@@ -54,20 +57,19 @@ export default function EditUser() {
     fetchUser()
   }, [apiRequest, id, navigate])
 
-  console.log(user)
   return (
     <>
       <div className="flex justify-between mb-6">
-        <ViewTitle title="Editar usuario" showBackPage />
+        <ViewTitle title="Editar usuario" backPath={'/users'} showBackPage />
       </div>
 
       <Loading loading={loading}>
-        {/* <UserForm
+        <EditUserForm
           initialValues={user}
           onSubmit={onSubmit}
           onDelete={() => console.log('deleted')}
           onCancel={onCancel}
-        /> */}
+        />
       </Loading>
     </>
   )
