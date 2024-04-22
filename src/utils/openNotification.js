@@ -10,6 +10,7 @@ export default function openNotification (type, title, subtitle, duration = 3000
       duration={duration}
     >
       <p>{subtitle}</p>
-    </Notification>
+    </Notification>,
+    { placement: 'bottom-end'}
   )
 }
