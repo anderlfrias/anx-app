@@ -97,6 +97,16 @@ const Button =  React.forwardRef((props, ref) => {
 		return getBtnColor(btn)
 	}
 
+	const outlineColor = () => {
+		const btn = {
+			bgColor: active ? `bg-transparent border border-${buttonColor}-${buttonColorLevel}` : `bg-transparent border border-${buttonColor}-${buttonColorLevel}`,
+			textColor: `text-${buttonColor}-${buttonColorLevel}`,
+			hoverColor: active ? '' : `hover:bg-${buttonColor}-${buttonColorLevel} hover:text-white`,
+			activeColor: `active:bg-${buttonColor}-${buttonColorLevel+100} active:text-white`
+		}
+		return getBtnColor(btn)
+	}
+
 	const getBtnColor = ({bgColor, hoverColor, activeColor, textColor}) => {
 		return `${bgColor} ${disabled || loading ? disabledClass : (hoverColor + ' ' + activeColor)} ${textColor}`
 	}
@@ -111,6 +121,8 @@ const Button =  React.forwardRef((props, ref) => {
 				return plainColor()
 			case 'default':
 				return defaultColor()
+			case 'outline':
+				return outlineColor()
 			default:
 				return defaultColor()
 		}
@@ -186,7 +198,7 @@ Button.propTypes = {
 	className: PropTypes.string,
 	size: PropTypes.oneOf([SIZES.LG, SIZES.SM, SIZES.XS, SIZES.MD]),
 	color: PropTypes.string,
-	variant: PropTypes.oneOf(['solid', 'twoTone', 'plain', 'default']),
+	variant: PropTypes.oneOf(['solid', 'twoTone', 'plain', 'outline', 'default']),
 	icon: PropTypes.oneOfType([
 		PropTypes.string,
 		PropTypes.node
