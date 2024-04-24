@@ -49,6 +49,7 @@ export default function BasicInfoFields({ touched, errors, values, className }) 
                   placeholder='Nombre'
                   value={values.name}
                   onChange={(e) => onChangeName(e.target.value, form.values.firstSurname, form)}
+                  autoFocus
                 />
               )}
             </Field>
@@ -86,7 +87,6 @@ export default function BasicInfoFields({ touched, errors, values, className }) 
                 type={field.type}
                 placeholder={field.placeholder}
                 component={field.component || Input}
-                autoFocus={index === 0}
               />
             </FormItem>
           ))}

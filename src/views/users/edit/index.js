@@ -33,8 +33,6 @@ export default function EditUser() {
     navigate('/users')
   }
 
-  console.log(user)
-
   useEffect(() => {
     async function fetchUser() {
       setLoading(true)

@@ -57,7 +57,7 @@ export default function EditUserForm({ initialValues, onSubmit, onCancel }) {
                       </TabContent>
 
                       <TabContent value="permission">
-                        <PermissionsFields className='mt-4' touched={touched} errors={errors} />
+                        <PermissionsFields className='mt-4' touched={touched} errors={errors} user={initialValues} />
                       </TabContent>
                     </div>
                   </Tabs>

@@ -1,19 +1,21 @@
 import classNames from "classnames";
-import { Loading } from "components/shared";
 import { Button, Card, Switcher } from "components/ui";
 
-export default function AppsOptions({ app, className, loading }) {
+export default function AppsOptions({ app, className, onChange, loading, active }) {
   const { id, code, name } = app;
 
   return (
-    <Loading loading={loading?.[id]} type='cover'>
-      <Card bodyClass='h-full' className={classNames('', className)}>
-        <div className='flex flex-col justify-between h-full'>
+    <Card bodyClass='h-full' className={classNames('', className)}>
+      <div className='flex flex-col justify-between h-full'>
           <div className='flex flex-col justify-between mb-4'>
             <div className="flex justify-between items-center">
               <span className='text-base font-bold text-gray-900' >{code}</span>
               <div>
-                <Switcher />
+                <Switcher
+                  defaultChecked={active}
+                  onChange={(checked) => onChange(checked, id)}
+                  isLoading={loading}
+                />
               </div>
             </div>
             <span>{name}</span>
@@ -28,8 +30,7 @@ export default function AppsOptions({ app, className, loading }) {
               Roles
             </Button>
           </div>
-        </div>
-      </Card>
-    </Loading>
+      </div>
+    </Card>
   )
 }
