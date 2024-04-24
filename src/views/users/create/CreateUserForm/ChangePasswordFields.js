@@ -16,7 +16,7 @@ export default function ChangePasswordFields({ touched, errors, className }) {
 
         <FormItem
           label="Contraseña"
-          invalid={!!touched.password && !!errors.password}
+          invalid={errors.password && touched.password}
           errorMessage={errors.password}
         >
           <Field
@@ -24,12 +24,13 @@ export default function ChangePasswordFields({ touched, errors, className }) {
             type="password"
             placeholder="Contraseña"
             component={PasswordInput}
+            autoFocus
           />
         </FormItem>
 
         <FormItem
           label="Confirmar contraseña"
-          invalid={!!touched.confirmPassword && !!errors.confirmPassword}
+          invalid={errors.confirmPassword && touched.confirmPassword}
           errorMessage={errors.confirmPassword}
         >
           <Field

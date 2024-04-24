@@ -40,6 +40,7 @@ export default function AppForm({ initialValues: propsValues, onSubmit, onDelete
                         placeholder='Código'
                         component={Input}
                         disabled={propsValues}
+                        autoFocus
                       />
                     </FormItem>
 

@@ -51,6 +51,7 @@ export default function RoleForm({ initialValues: propsValues, onSubmit, onDelet
                           placeholder='Nombre'
                           value={values.name}
                           onChange={(e) => onChangeName(e.target.value, form)}
+                          autoFocus
                         />
                       )}
                       </Field>

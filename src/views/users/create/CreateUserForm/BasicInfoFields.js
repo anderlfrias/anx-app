@@ -86,6 +86,7 @@ export default function BasicInfoFields({ touched, errors, values, className }) 
                 type={field.type}
                 placeholder={field.placeholder}
                 component={field.component || Input}
+                autoFocus={index === 0}
               />
             </FormItem>
           ))}

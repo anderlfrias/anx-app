@@ -10,6 +10,7 @@ export default function Filter() {
   const navigate = useNavigate();
 
   const onChange = useDebouncedCallback((search) => {
+    console.log(search);
     if (search === '') {
       searchParams.delete('search');
       return navigate(`?${searchParams.toString()}`);

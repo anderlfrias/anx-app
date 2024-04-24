@@ -25,7 +25,7 @@ export default function EditUser() {
     }
 
     if (!resp.ok) {
-      openNotification('error', 'Error', resp.data.message)
+      openNotification('error', 'Error', resp.message)
     }
   }
 
@@ -40,6 +40,7 @@ export default function EditUser() {
       setLoading(true)
       const response = await apiRequest(() => apiGetUserById(id))
       console.log(response)
+      setLoading(false)
       if (response.ok) {
         setUser({
           ...response.data.user,
@@ -49,9 +50,9 @@ export default function EditUser() {
       }
       
       if (!response.ok) {
-        openNotification('error', 'Error', response.data.message)
+        openNotification('error', 'Error', response.message)
+        navigate('/users')
       }
-      setLoading(false)
     }
 
     fetchUser()

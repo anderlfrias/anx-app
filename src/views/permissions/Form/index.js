@@ -52,6 +52,7 @@ export default function PermissionsForm({ initialValues: propsValues, onSubmit, 
                           placeholder='Nombre'
                           value={values.name}
                           onChange={(e) => onChangeName(e.target.value, form)}
+                          autoFocus
                         />
                       )}
                       </Field>

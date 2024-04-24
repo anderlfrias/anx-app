@@ -24,6 +24,7 @@ export default function ChangePasswordFields({ touched, errors, className }) {
             type="password"
             placeholder="Contraseña"
             component={PasswordInput}
+            autoFocus
           />
         </FormItem>
 
