@@ -1,11 +1,12 @@
 import ViewTitle from "components/custom/ViewTitle"
 import { useNavigate, useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import useRequest from "utils/hooks/useRequest"
 import { apiGetUserById, apiUpdateUser } from "services/UserService"
 import openNotification from "utils/openNotification"
 import { Loading } from "components/shared"
 import EditUserForm from "./EditUserForm"
+import { UserContextProvider } from "./UserContext"
 
 export default function EditUser() {
   const { id } = useParams()
@@ -14,7 +15,7 @@ export default function EditUser() {
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(true)
 
-  const onSubmit = async(values) => {
+  const onSubmit = async (values) => {
     console.log(values)
 
     const resp = await apiRequest(() => apiUpdateUser(id, values))
@@ -46,7 +47,7 @@ export default function EditUser() {
           passwordConfirmation: ''
         })
       }
-      
+
       if (!response.ok) {
         openNotification('error', 'Error', response.message)
         navigate('/users')
@@ -57,7 +58,7 @@ export default function EditUser() {
   }, [apiRequest, id, navigate])
 
   return (
-    <>
+    <UserContextProvider value={{ user }}>
       <div className="flex justify-between mb-6">
         <ViewTitle title="Editar usuario" backPath={'/users'} showBackPage />
       </div>
@@ -70,6 +71,6 @@ export default function EditUser() {
           onCancel={onCancel}
         />
       </Loading>
-    </>
+    </UserContextProvider>
   )
 }

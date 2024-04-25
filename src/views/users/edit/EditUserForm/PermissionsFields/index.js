@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { apiGetApps } from "services/AppService"
 import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 import AppsOptions from "./AppsOptions"
 import { apiDeleteUserPermissionByUserAndApp, apiPostUserPermission } from "services/UserPermissionServices"
 import { useParams } from "react-router-dom"
+import UserContext from "../../UserContext"
 
-export default function PermissionsFields({ className, user }) {
+export default function PermissionsFields({ className }) {
   const { id } = useParams()
   const apiRequest = useRequest()
   const [apps, setApps] = useState([])
   const [loading, setLoading] = useState(null)
-  const [appsOfUser, setAppsOfUser] = useState(user.permissions.map(permission => permission.app))
+  const { user } = useContext(UserContext)
+  const [appsOfUser, setAppsOfUser] = useState(user?.permissions.map(permission => permission.app))
 
   const onChangeApp = async(checked, app) => {
     setLoading({
