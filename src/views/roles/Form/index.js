@@ -82,7 +82,7 @@ export default function RoleForm({ initialValues: propsValues, onSubmit, onDelet
                           field={field}
                           form={form}
                           value={values.app}
-                          onChange={(app) => form.setFieldValue('app', app?.value)}
+                          onChange={(app) => form.setFieldValue('app', app?.value || null)}
                         />
                       )}
                       </Field>
