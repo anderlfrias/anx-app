@@ -23,6 +23,13 @@ export async function apiCreateRole (data) {
   })
 }
 
+export async function apiGetRolesByAppId (appId) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/roles/app/${appId}`,
+    method: 'get'
+  })
+}
+
 export async function apiUpdateRole (data) {
   return ApiService.fetchData({
     url: `${URL_API}/v1/roles/${data.id}`,

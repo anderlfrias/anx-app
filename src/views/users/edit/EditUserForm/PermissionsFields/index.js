@@ -12,7 +12,7 @@ export default function PermissionsFields({ className }) {
   const apiRequest = useRequest()
   const [apps, setApps] = useState([])
   const [loading, setLoading] = useState(null)
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
   const [appsOfUser, setAppsOfUser] = useState(user.apps.map(userApp => userApp.app))
 
   const onChangeApp = async(checked, app) => {
@@ -37,9 +37,8 @@ export default function PermissionsFields({ className }) {
 
   const deleteUserPermission = async (appId) => {
     const resp = await apiRequest(() => apiDeleteAppOfUser(userId, appId))
-    console.log('deleteUserPermission', resp)
     if (resp.ok) {
-      setAppsOfUser(appsOfUser.filter(app => app !== appId))
+      setUser((prev) => ({ ...prev, apps: prev.apps.filter(app => app.app !== appId) }))
       openNotification('success', 'Success', 'Aplicación eliminada correctamente')
     }
 
@@ -50,9 +49,8 @@ export default function PermissionsFields({ className }) {
 
   const postUserPermission = async (data) => {
     const resp = await apiRequest(() => apiPostAppToUser(userId, data))
-    console.log('postUserPermission', resp)
     if (resp.ok) {
-      setAppsOfUser([...appsOfUser, resp.data.app])
+      setUser((prev) => ({ ...prev, apps: [...prev.apps, resp.data] }))
       openNotification('success', 'Success', 'Aplicación asignada correctamente')
     }
 
@@ -79,7 +77,7 @@ export default function PermissionsFields({ className }) {
     fetchPermissions()
   }, [apiRequest])
 
-  console.log('appsOfUser', appsOfUser)
+  useEffect(() => setAppsOfUser(user.apps.map(userApp => userApp.app)), [user.apps])
 
   return (
     <div className={className}>

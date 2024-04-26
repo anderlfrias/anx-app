@@ -15,3 +15,25 @@ export async function apiDeleteAppOfUser (userId, appId) {
     method: 'delete'
   })
 }
+
+export async function apiGetRolesByUserIdAndAppId (userId, appId) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${userId}/apps/${appId}/roles`,
+    method: 'get'
+  })
+}
+
+export async function apiPostRoleToUserInApp (userId, appId, data) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${userId}/apps/${appId}/roles`,
+    method: 'post',
+    data
+  })
+}
+
+export async function apiDeleteRoleOfUserInApp (userId, appId, roleId) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${userId}/apps/${appId}/roles/${roleId}`,
+    method: 'delete'
+  })
+}

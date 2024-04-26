@@ -1,16 +1,16 @@
 import { Notification, toast } from 'components/ui'
 
-export default function openNotification (type, title, subtitle, duration = 3000) {
+export default function openNotification (type, title, subtitle, options = { duration: 3000, placement: 'top-end' }) {
   if (type === 'error') type = 'danger'
   toast.push(
     <Notification
       title={title}
       type={type}
       closable
-      duration={duration}
+      duration={options.duration}
     >
       <p>{subtitle}</p>
     </Notification>,
-    { placement: 'bottom-end'}
+    { placement: options.placement }
   )
 }

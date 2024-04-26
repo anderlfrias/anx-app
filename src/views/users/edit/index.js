@@ -58,7 +58,7 @@ export default function EditUser() {
   }, [apiRequest, id, navigate])
 
   return (
-    <UserContextProvider value={{ user }}>
+    <UserContextProvider value={{ user, setUser }}>
       <div className="flex justify-between mb-6">
         <ViewTitle title="Editar usuario" backPath={'/users'} showBackPage />
       </div>

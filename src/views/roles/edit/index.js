@@ -15,6 +15,7 @@ export default function EditRole() {
   const [loading, setLoading] = useState(true)
 
   const onSubmit = async (values) => {
+    console.log(values)
     const response = await apiRequest(() => apiUpdateRole(values))
 
     if (response.ok) {
