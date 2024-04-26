@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import { Button, Card, Switcher } from "components/ui";
+import { Card, Switcher } from "components/ui";
+import RoleModal from "./RoleModal";
 
 export default function AppsOptions({ app, className, onChange, loading, active }) {
   const { id, code, name } = app;
@@ -12,7 +13,7 @@ export default function AppsOptions({ app, className, onChange, loading, active 
               <span className='text-base font-bold text-gray-900' >{code}</span>
               <div>
                 <Switcher
-                  defaultChecked={active}
+                  checked={active}
                   onChange={(checked) => onChange(checked, id)}
                   isLoading={loading}
                 />
@@ -20,16 +21,7 @@ export default function AppsOptions({ app, className, onChange, loading, active 
             </div>
             <span>{name}</span>
           </div>
-          <div>
-            <Button
-              variant='outline'
-              className='w-full'
-              type='button'
-              size="sm"
-            >
-              Roles
-            </Button>
-          </div>
+          <RoleModal app={app} />
       </div>
     </Card>
   )

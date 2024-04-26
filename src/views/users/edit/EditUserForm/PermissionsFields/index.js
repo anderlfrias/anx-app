@@ -3,17 +3,17 @@ import { apiGetApps } from "services/AppService"
 import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 import AppsOptions from "./AppsOptions"
-import { apiDeleteUserPermissionByUserAndApp, apiPostUserPermission } from "services/UserPermissionServices"
+import { apiDeleteAppOfUser, apiPostAppToUser } from "services/UserPermissionServices"
 import { useParams } from "react-router-dom"
 import UserContext from "../../UserContext"
 
 export default function PermissionsFields({ className }) {
-  const { id } = useParams()
+  const { id:userId } = useParams()
   const apiRequest = useRequest()
   const [apps, setApps] = useState([])
   const [loading, setLoading] = useState(null)
   const { user } = useContext(UserContext)
-  const [appsOfUser, setAppsOfUser] = useState(user?.permissions.map(permission => permission.app))
+  const [appsOfUser, setAppsOfUser] = useState(user.apps.map(userApp => userApp.app))
 
   const onChangeApp = async(checked, app) => {
     setLoading({
@@ -21,12 +21,12 @@ export default function PermissionsFields({ className }) {
       [app]: true
     })
 
-    if (checked) {
-      await postUserPermission({ userId: id, appId: app })
+    if (!checked) {
+      await postUserPermission({ appId: app })
     }
 
-    if (!checked) {
-      await deleteUserPermission(id, app)
+    if (checked) {
+      await deleteUserPermission(app)
     }
 
     setLoading({
@@ -35,23 +35,22 @@ export default function PermissionsFields({ className }) {
     })
   }
 
-  const deleteUserPermission = async (userId, appId) => {
-    const resp = await apiRequest(() => apiDeleteUserPermissionByUserAndApp(userId, appId))
-
+  const deleteUserPermission = async (appId) => {
+    const resp = await apiRequest(() => apiDeleteAppOfUser(userId, appId))
+    console.log('deleteUserPermission', resp)
     if (resp.ok) {
+      setAppsOfUser(appsOfUser.filter(app => app !== appId))
       openNotification('success', 'Success', 'Aplicación eliminada correctamente')
     }
 
     if (!resp.ok) {
-      console.error(resp)
-      setAppsOfUser(appsOfUser.filter(app => app !== appId))
       openNotification('error', 'Error', resp.message)
     }
   }
 
   const postUserPermission = async (data) => {
-    const resp = await apiRequest(() => apiPostUserPermission(data))
-
+    const resp = await apiRequest(() => apiPostAppToUser(userId, data))
+    console.log('postUserPermission', resp)
     if (resp.ok) {
       setAppsOfUser([...appsOfUser, resp.data.app])
       openNotification('success', 'Success', 'Aplicación asignada correctamente')
@@ -79,6 +78,8 @@ export default function PermissionsFields({ className }) {
 
     fetchPermissions()
   }, [apiRequest])
+
+  console.log('appsOfUser', appsOfUser)
 
   return (
     <div className={className}>
