@@ -57,6 +57,7 @@ export default function RestrictionsList() {
             <Th>#</Th>
             <Th>Nombre</Th>
             <Th>Nombre normalizado</Th>
+            <Th>Descripción</Th>
             <Th>Aplicación</Th>
             <Th />
           </Tr>

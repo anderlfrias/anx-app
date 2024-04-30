@@ -3,8 +3,8 @@ import { StickyFooter } from "components/shared"
 import { Button, Card, FormContainer, FormItem, Input } from "components/ui"
 import { Field, Form, Formik } from "formik"
 import { HiSave, HiTrash } from "react-icons/hi"
-import SelectApps from "./SelectApps"
 import { restrictionConfig } from "configs/form.config"
+import AppsAsyncSelect from "components/custom/AppsAsyncSelect"
 
 const { validationSchema, defaultValues } = restrictionConfig
 
@@ -79,7 +79,7 @@ export default function RestrictionForm({ initialValues: propsValues, onSubmit, 
                     >
                       <Field name='app'>
                       {({ field, form }) => (
-                        <SelectApps
+                        <AppsAsyncSelect
                           field={field}
                           form={form}
                           value={values.app}

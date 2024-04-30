@@ -4,7 +4,7 @@ import { Button, Card, FormContainer, FormItem, Input } from "components/ui"
 import { roleConfig } from "configs/form.config"
 import { Field, Form, Formik } from "formik"
 import { HiSave, HiTrash } from "react-icons/hi"
-import SelectApps from "./SelectApps"
+import AppsAsyncSelect from "components/custom/AppsAsyncSelect"
 
 const { validationSchema, defaultValues } = roleConfig
 
@@ -78,7 +78,7 @@ export default function RoleForm({ initialValues: propsValues, onSubmit, onDelet
                     >
                       <Field name='app'>
                       {({ field, form }) => (
-                        <SelectApps
+                        <AppsAsyncSelect
                           field={field}
                           form={form}
                           value={values.app}
