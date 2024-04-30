@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "components/ui";
 import { HiPlusCircle } from "react-icons/hi";
 import Filter from "components/custom/Filter";
-import PermissionsList from "./PermissionsList";
+import RestrictionsList from "./RestrictionsList";
 
 export default function Roles() {
   return (
@@ -13,13 +13,13 @@ export default function Roles() {
 
         <div className="flex justify-end gap-2 w-full">
           <Filter />
-          <Link to="/permissions/create">
-            <Button size="sm" variant='solid' icon={<HiPlusCircle />} >Crear Permiso</Button>
+          <Link to="/restrictions/create">
+            <Button size="sm" variant='solid' icon={<HiPlusCircle />} >Crear Restricción</Button>
           </Link>
         </div>
       </div>
 
-      <PermissionsList />
+      <RestrictionsList />
     </>
   )
 }

@@ -67,21 +67,21 @@ export const protectedRoutes = [
     authority: [],
   },
   {
-    key: 'permissions',
-    path: '/permissions',
-    component: React.lazy(() => import('views/permissions')),
+    key: 'restrictions',
+    path: '/restrictions',
+    component: React.lazy(() => import('views/restrictions')),
     authority: [],
   },
   {
-    key: 'permissions',
-    path: '/permissions/create',
-    component: React.lazy(() => import('views/permissions/create')),
+    key: 'restrictions',
+    path: '/restrictions/create',
+    component: React.lazy(() => import('views/restrictions/create')),
     authority: [],
   },
   {
-    key: 'permissions',
-    path: '/permissions/:id',
-    component: React.lazy(() => import('views/permissions/edit')),
+    key: 'restrictions',
+    path: '/restrictions/:id',
+    component: React.lazy(() => import('views/restrictions/edit')),
     authority: [],
   }
 ]

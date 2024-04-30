@@ -8,6 +8,7 @@ const validationSchema = Yup.object().shape({
     .matches(/^[a-z]+[a-z0-9\-.]*$/, 'El nombre normalizado solo puede contener letras minúsculas y números')
     .min(3, 'El nombre normalizado debe tener al menos 3 caracteres')
     .required('El nombre normalizado es requerido'),
+  description: Yup.string(),
   app: Yup.string()
     .required('La aplicación es requerida')
 });
@@ -15,9 +16,10 @@ const validationSchema = Yup.object().shape({
 const defaultValues = {
   name: '',
   normalizedName: '',
+  description: '',
   app: ''
 };
 
-const permissionConfig = { validationSchema, defaultValues };
+const restrictionConfig = { validationSchema, defaultValues };
 
-export default permissionConfig;
+export default restrictionConfig;

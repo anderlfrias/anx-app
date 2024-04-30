@@ -41,10 +41,10 @@ const navigationConfig = [
 		subMenu: []
 	},
 	{
-		key: 'permissions',
-		path: '/permissions',
-		title: 'Permisos',
-		icon: 'permissions',
+		key: 'restrictions',
+		path: '/restrictions',
+		title: 'Restricciones',
+		icon: 'restrictions',
 		type: NAV_ITEM_TYPE_ITEM,
 		authority: [],
 		subMenu: []

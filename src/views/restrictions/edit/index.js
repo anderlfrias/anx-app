@@ -4,21 +4,21 @@ import openNotification from "utils/openNotification";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Loading } from "components/shared";
-import PermissionsForm from "../Form";
-import { apiDeletePermission, apiGetPermissionById, apiUpdatePermission } from "services/PermissionService";
+import { apiDeleteRestriction, apiGetRestrictionById, apiUpdateRestriction } from "services/RestrictionService";
+import RestrictionForm from "../Form";
 
-export default function EditPermission() {
+export default function EditRestriction() {
   const apiRequest = useRequest()
   const navigate = useNavigate()
   const { id } = useParams()
-  const [permission, setPermission] = useState(null)
+  const [restriction, setRestriction] = useState(null)
   const [loading, setLoading] = useState(true)
 
   const onSubmit = async (values) => {
-    const response = await apiRequest(() => apiUpdatePermission(values))
+    const response = await apiRequest(() => apiUpdateRestriction(id, values))
 
     if (response.ok) {
-      openNotification('success', 'Permiso editado', 'El permiso ha sido editado correctamente')
+      openNotification('success', 'Restricción editado', 'La restricción ha sido editado correctamente')
       navigate(-1)
     } else {
       openNotification('danger', 'Error', response.message)
@@ -27,10 +27,10 @@ export default function EditPermission() {
   }
 
   const onDelete = async () => {
-    const response = await apiRequest(() => apiDeletePermission(id))
+    const response = await apiRequest(() => apiDeleteRestriction(id))
 
     if (response.ok) {
-      openNotification('success', 'Permiso eliminado', 'El permiso ha sido eliminado correctamente')
+      openNotification('success', 'Restricción eliminado', 'La restricción ha sido eliminado correctamente')
       navigate(-1)
     } else {
       openNotification('danger', 'Error', response.message)
@@ -43,11 +43,11 @@ export default function EditPermission() {
   }
 
   useEffect(() => {
-    const fetchPermission = async () => {
+    const fetchRestriction = async () => {
       setLoading(true)
-      const resp = await apiRequest(() => apiGetPermissionById(id))
+      const resp = await apiRequest(() => apiGetRestrictionById(id))
       if (resp.ok) {
-        setPermission(resp.data)
+        setRestriction(resp.data)
       }
 
       if (!resp.ok) {
@@ -57,17 +57,17 @@ export default function EditPermission() {
       setLoading(false)
     }
 
-    fetchPermission()
+    fetchRestriction()
   }, [apiRequest, id])
 
   return (
     <>
       <div className="flex justify-between mb-6">
-        <ViewTitle title="Editar Permiso" showBackPage />
+        <ViewTitle title="Editar Restricción" showBackPage />
       </div>
 
       <Loading loading={loading} type="cover" >
-        {permission && <PermissionsForm initialValues={permission} onSubmit={onSubmit} onCancel={onCancel} onDelete={onDelete} />}
+        {restriction && <RestrictionForm initialValues={restriction} onSubmit={onSubmit} onCancel={onCancel} onDelete={onDelete} />}
       </Loading>
     </>
   )

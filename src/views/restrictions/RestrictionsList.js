@@ -5,24 +5,25 @@ import openNotification from "utils/openNotification"
 import { HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
 import { Link, useLocation } from "react-router-dom"
-import { apiDeletePermission, apiGetPermissions } from "services/PermissionService"
 import { AppCode } from "views/apps/AppsList"
+import { apiDeleteRestriction, apiGetRestrictions } from "services/RestrictionService"
+import { TextEllipsis } from "components/shared"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
-export default function PermissionsList() {
+export default function RestrictionsList() {
   const apiRequest = useRequest()
-  const [permissions, setPermissions] = useState([])
+  const [restrictions, setRestrictions] = useState([])
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const search = searchParams.get('search') || '';
 
-  const deletePermission = async (id) => {
-    const resp = await apiRequest(() => apiDeletePermission(id))
+  const deleteRestriction = async (id) => {
+    const resp = await apiRequest(() => apiDeleteRestriction(id))
 
     if (resp.ok) {
-      openNotification('success', 'Permiso eliminado', 'El permiso ha sido eliminado correctamente')
-      setPermissions(permissions.filter(role => role.id !== id))
+      openNotification('success', 'Restricción eliminada', 'La resctricción ha sido eliminado correctamente')
+      setRestrictions(restrictions.filter(role => role.id !== id))
     }
 
     if (!resp.ok) {
@@ -33,10 +34,10 @@ export default function PermissionsList() {
 
   useEffect(() => {
     const fetchRoles = async (search) => {
-      const resp = await apiRequest(() => apiGetPermissions(search))
+      const resp = await apiRequest(() => apiGetRestrictions(search))
 
       if (resp.ok) {
-        setPermissions(resp.data)
+        setRestrictions(resp.data)
       }
 
       if (!resp.ok) {
@@ -61,23 +62,26 @@ export default function PermissionsList() {
           </Tr>
         </THead>
         <TBody>
-          {permissions.map((permission, index) => (
-            <Tr key={permission.id}>
+          {restrictions.map((restriction, index) => (
+            <Tr key={restriction.id}>
               <Td>{index + 1}</Td>
-              <Td>{permission.name}</Td>
-              <Td>{permission.normalizedName}</Td>
+              <Td>{restriction.name}</Td>
+              <Td>{restriction.normalizedName}</Td>
               <Td>
-                {permission.app && <AppCode code={permission.app.code} />}
+                <TextEllipsis text={restriction.description} maxTextCount={40} />
+              </Td>
+              <Td>
+                {restriction.app && <AppCode code={restriction.app.code} />}
               </Td>
               <Td>
                 <div className="flex justify-end gap-2 min-w-max">
-                  <Confirm onConfirm={() => deletePermission(permission.id)} type='danger'>
+                  <Confirm onConfirm={() => deleteRestriction(restriction.id)} type='danger'>
                     <Tooltip title='Eliminar'>
                       <Button size='sm' color='gray-600' icon={<HiTrash />} variant="twoTone" />
                     </Tooltip>
                   </Confirm>
                   <Tooltip title='Editar'>
-                    <Link to={`/permissions/${permission.id}`}>
+                    <Link to={`/restrictions/${restriction.id}`}>
                       <Button size='sm' color='gray-600' icon={<HiPencilAlt />} variant="twoTone" />
                     </Link>
                   </Tooltip>

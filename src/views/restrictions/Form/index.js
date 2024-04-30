@@ -4,11 +4,11 @@ import { Button, Card, FormContainer, FormItem, Input } from "components/ui"
 import { Field, Form, Formik } from "formik"
 import { HiSave, HiTrash } from "react-icons/hi"
 import SelectApps from "./SelectApps"
-import { permissionConfig } from "configs/form.config"
+import { restrictionConfig } from "configs/form.config"
 
-const { validationSchema, defaultValues } = permissionConfig
+const { validationSchema, defaultValues } = restrictionConfig
 
-export default function PermissionsForm({ initialValues: propsValues, onSubmit, onDelete, onCancel }) {
+export default function RestrictionForm({ initialValues: propsValues, onSubmit, onDelete, onCancel }) {
   const initialValues = propsValues || defaultValues
 
   const onChangeName = (name, form) => {
@@ -36,7 +36,7 @@ export default function PermissionsForm({ initialValues: propsValues, onSubmit, 
                 <FormContainer>
                   <Card className='mb-6'>
                     <div className='mb-4'>
-                      <h5>Formulario de permisos</h5>
+                      <h5>Formulario de restricciones</h5>
                     </div>
                     <FormItem
                       label='Nombre'
@@ -88,6 +88,21 @@ export default function PermissionsForm({ initialValues: propsValues, onSubmit, 
                       )}
                       </Field>
                     </FormItem>
+
+                    <FormItem
+                      label='Descripción'
+                      invalid={errors.description && touched.description}
+                      errorMessage={errors.description}
+                    >
+                      <Field
+                        name='description'
+                        type='text'
+                        placeholder='Descripción'
+                        component={Input}
+                        textArea
+                      />
+                    </FormItem>
+
                   </Card>
                   <StickyFooter
                     className='-mx-8 px-8 flex items-center justify-between py-4'

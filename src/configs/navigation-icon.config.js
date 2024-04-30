@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaUserShield, FaUsers, FaUsersCog } from 'react-icons/fa'
+import { FaUsers, FaUsersCog, FaUsersSlash } from 'react-icons/fa'
 import {
   HiHome,
   HiViewGridAdd,
@@ -10,7 +10,7 @@ const navigationIcon = {
   users: <FaUsers />,
   roles: <FaUsersCog />,
   apps: <HiViewGridAdd />,
-  permissions: <FaUserShield />,
+  restrictions: <FaUsersSlash />,
 }
 
 export default navigationIcon
