@@ -5,6 +5,7 @@ import { Field, Form, Formik } from "formik"
 import { HiSave, HiTrash } from "react-icons/hi"
 import { restrictionConfig } from "configs/form.config"
 import AppsAsyncSelect from "components/custom/AppsAsyncSelect"
+import RolesAsyncSelect from "components/custom/RolesAsyncSelect"
 
 const { validationSchema, defaultValues } = restrictionConfig
 
@@ -84,6 +85,25 @@ export default function RestrictionForm({ initialValues: propsValues, onSubmit, 
                           form={form}
                           value={values.app}
                           onChange={(app) => form.setFieldValue('app', app?.value)}
+                          placeholder={'Seleccione una aplicación'}
+                        />
+                      )}
+                      </Field>
+                    </FormItem>
+
+                    <FormItem
+                      label='Rol'
+                      invalid={errors.role && touched.role}
+                      errorMessage={errors.role}
+                    >
+                      <Field name='role'>
+                      {({ field, form }) => (
+                        <RolesAsyncSelect
+                          field={field}
+                          form={form}
+                          value={values.role}
+                          onChange={(role) => form.setFieldValue('role', role?.value)}
+                          placeholder={'Seleccione un rol'}
                         />
                       )}
                       </Field>

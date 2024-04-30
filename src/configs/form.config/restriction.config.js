@@ -9,8 +9,8 @@ const validationSchema = Yup.object().shape({
     .min(3, 'El nombre normalizado debe tener al menos 3 caracteres')
     .required('El nombre normalizado es requerido'),
   description: Yup.string(),
-  app: Yup.string()
-    .required('La aplicación es requerida')
+  app: Yup.string(),
+  role: Yup.string(),
 });
 
 const defaultValues = {

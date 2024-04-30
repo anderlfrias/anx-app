@@ -49,6 +49,8 @@ export default function RestrictionsList() {
     fetchRoles(search)
   }, [apiRequest, search])
 
+  console.log('restrictions', restrictions)
+
   return (
     <Card>
       <Table>
@@ -59,6 +61,7 @@ export default function RestrictionsList() {
             <Th>Nombre normalizado</Th>
             <Th>Descripción</Th>
             <Th>Aplicación</Th>
+            <Th>Role</Th>
             <Th />
           </Tr>
         </THead>
@@ -74,6 +77,7 @@ export default function RestrictionsList() {
               <Td>
                 {restriction.app && <AppCode code={restriction.app.code} />}
               </Td>
+              <Td>{restriction.role?.name}</Td>
               <Td>
                 <div className="flex justify-end gap-2 min-w-max">
                   <Confirm onConfirm={() => deleteRestriction(restriction.id)} type='danger'>

@@ -9,7 +9,7 @@ export default function Roles() {
   return (
     <>
       <div className="flex justify-between mb-6">
-        <ViewTitle title="Permisos" />
+        <ViewTitle title="Restricciones" />
 
         <div className="flex justify-end gap-2 w-full">
           <Filter />
