@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Tooltip } from 'components/ui'
 
 const TextEllipsis = props => {
 
@@ -7,7 +8,15 @@ const TextEllipsis = props => {
 
 	return (
 		<>
-			{(text && text.length) > maxTextCount ? text.substring(0, (maxTextCount - 3)) + '...' : text}
+			{(text && text.length) > maxTextCount ?
+				<>
+					{text.substring(0, (maxTextCount - 3))}
+					<Tooltip title={text} placement='bottom'>
+						<span>...</span>
+					</Tooltip>
+				</> :
+				text
+			}
 		</>
 	)
 }
