@@ -28,44 +28,54 @@ export default function AppsAsyncSelect({ value, className, placeholder, noOptio
   useEffect(() => {
     async function fetchApps() {
       const resp = await apiRequest(() => apiGetApps())
-      console.log('fetchApps', resp)
+
       if (resp.ok) {
-        let appsOptions = resp.data.map(app => ({
+        setApps(resp.data.map(app => ({
           label: `${app.code} | ${app.name}`,
           value: app.id,
-        }))
-
-        if (value) {
-          const app = appsOptions.find(app => app.value === value)
-          if (app) {
-            setDefaultValue(app)
-          }
-
-          // If the app is not in the list, we fetch it by id
-          if (!app) {
-            const {ok, data:app} = await apiRequest(() => apiGetAppById(value))
-            console.log('app', app)
-            if (ok) {
-              appsOptions = [ ...appsOptions, {
-                label: `${app.code} | ${app.name}`,
-                value: app.id,
-              }]
-
-              setDefaultValue({
-                label: `${app.code} | ${app.name}`,
-                value: app.id,
-              })
-            }
-          }
-        }
-
-        setApps(appsOptions)
+        })))
         setLoading(false)
       }
     }
 
     fetchApps()
-  }, [apiRequest, value])
+  }, [apiRequest])
+
+  useEffect(() => {
+    // If the value changes, we set the default value
+    if (value) {
+      let appsOptions = apps;
+      const app = appsOptions.find(app => app.value === value)
+      if (app) {
+        setDefaultValue(app)
+      }
+
+      // If the role is not in the list, we fetch it by id
+      if (!app) {
+        async function fetchApp() {
+          const { ok, data: app } = await apiRequest(() => apiGetAppById(value))
+          console.log('app', app)
+          if (ok) {
+            appsOptions = [...appsOptions, {
+              label: `${app.name}`,
+              value: app.id,
+            }]
+
+            setDefaultValue({
+              label: `${app.name}`,
+              value: app.id,
+            })
+          }
+        }
+
+        fetchApp()
+      }
+    }
+
+    if (!value) {
+      setDefaultValue(null)
+    }
+  }, [apiRequest, value, apps])
 
   return (
     <div>
