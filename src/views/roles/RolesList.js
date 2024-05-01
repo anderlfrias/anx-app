@@ -64,7 +64,6 @@ export default function RolesList() {
           {roles.map((role, index) => (
             <Tr key={role.id}>
               <Td>{index + 1}</Td>
-              <Td>{role.id}</Td>
               <Td>{role.name}</Td>
               <Td>{role.normalizedName}</Td>
               <Td>

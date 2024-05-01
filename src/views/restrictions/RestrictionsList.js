@@ -49,8 +49,6 @@ export default function RestrictionsList() {
     fetchRoles(search)
   }, [apiRequest, search])
 
-  console.log('restrictions', restrictions)
-
   return (
     <Card>
       <Table>
