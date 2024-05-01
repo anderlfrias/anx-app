@@ -5,9 +5,9 @@ import openNotification from "utils/openNotification"
 import { HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
 import { Link, useLocation } from "react-router-dom"
-import { AppCode } from "views/apps/AppsList"
 import { apiDeleteRestriction, apiGetRestrictions } from "services/RestrictionService"
 import { TextEllipsis } from "components/shared"
+import CustomizedTag from "components/custom/CustomizedTag"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -73,9 +73,11 @@ export default function RestrictionsList() {
                 <TextEllipsis text={restriction.description} maxTextCount={40} />
               </Td>
               <Td>
-                {restriction.app && <AppCode code={restriction.app.code} />}
+                {restriction.app && <CustomizedTag text={restriction.app.code.toUpperCase()} />}
               </Td>
-              <Td>{restriction.role?.name}</Td>
+              <Td>
+                {restriction.role && <CustomizedTag text={restriction.role.normalizedName.toUpperCase()} />}
+              </Td>
               <Td>
                 <div className="flex justify-end gap-2 min-w-max">
                   <Confirm onConfirm={() => deleteRestriction(restriction.id)} type='danger'>

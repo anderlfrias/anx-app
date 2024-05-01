@@ -14,7 +14,8 @@ export default function RestrictionForm({ initialValues: propsValues, onSubmit, 
 
   const onChangeName = (name, form) => {
     if (!propsValues) {
-      const normalizedName = name.replace(/\s/g, '').toLowerCase()
+      let normalizedName = name.replace(/\s/g, '').toLowerCase()
+      if (normalizedName.length > 20) normalizedName = normalizedName.slice(0, 20)
       form.setFieldValue('normalizedName', normalizedName)
     }
     form.setFieldValue('name', name)
@@ -84,7 +85,7 @@ export default function RestrictionForm({ initialValues: propsValues, onSubmit, 
                           field={field}
                           form={form}
                           value={values.app}
-                          onChange={(app) => form.setFieldValue('app', app?.value)}
+                          onChange={(app) => form.setFieldValue('app', app?.value || null)}
                           placeholder={'Seleccione una aplicación'}
                         />
                       )}
@@ -102,7 +103,7 @@ export default function RestrictionForm({ initialValues: propsValues, onSubmit, 
                           field={field}
                           form={form}
                           value={values.role}
-                          onChange={(role) => form.setFieldValue('role', role?.value)}
+                          onChange={(role) => form.setFieldValue('role', role?.value || null)}
                           placeholder={'Seleccione un rol'}
                         />
                       )}
