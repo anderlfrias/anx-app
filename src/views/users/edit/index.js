@@ -2,11 +2,12 @@ import ViewTitle from "components/custom/ViewTitle"
 import { useNavigate, useParams } from "react-router-dom"
 import React, { useEffect, useState } from "react"
 import useRequest from "utils/hooks/useRequest"
-import { apiGetUserById, apiUpdateUser } from "services/UserService"
+import { apiUpdateUser } from "services/UserService"
 import openNotification from "utils/openNotification"
 import { Loading } from "components/shared"
 import EditUserForm from "./EditUserForm"
 import { UserContextProvider } from "./UserContext"
+import { apiGetUserPermissions } from "services/UserPermissionServices"
 
 export default function EditUser() {
   const { id } = useParams()
@@ -15,11 +16,43 @@ export default function EditUser() {
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(true)
 
+  const addRole = (role, appId) => {
+    const newUser = {
+      ...user,
+      apps: user.apps.map(userapps => {
+        if (userapps.app === appId) {
+          return {
+            ...userapps,
+            roles: [...userapps.roles, role]
+          }
+        }
+        return userapps
+      })
+    }
+
+    setUser(newUser)
+  }
+
+  const deleteRole = (roleId, appId) => {
+    const newUser = {
+      ...user,
+      apps: user.apps.map(userapps => {
+        if (userapps.app === appId) {
+          return {
+            ...userapps,
+            roles: userapps.roles.filter(uarole => uarole.role !== roleId)
+          }
+        }
+        return userapps
+      })
+    }
+
+    setUser(newUser)
+  }
+
   const onSubmit = async (values) => {
-    console.log(values)
 
     const resp = await apiRequest(() => apiUpdateUser(id, values))
-    console.log(resp)
     if (resp.ok) {
       openNotification('success', 'Usuario actualizado', 'El usuario ha sido actualizado correctamente')
       navigate('/users')
@@ -37,12 +70,11 @@ export default function EditUser() {
   useEffect(() => {
     async function fetchUser() {
       setLoading(true)
-      const response = await apiRequest(() => apiGetUserById(id))
-      console.log(response)
+      const response = await apiRequest(() => apiGetUserPermissions(id))
       setLoading(false)
       if (response.ok) {
         setUser({
-          ...response.data.user,
+          ...response.data,
           password: '',
           passwordConfirmation: ''
         })
@@ -58,7 +90,7 @@ export default function EditUser() {
   }, [apiRequest, id, navigate])
 
   return (
-    <UserContextProvider value={{ user, setUser }}>
+    <UserContextProvider value={{ user, setUser, addRole, deleteRole }}>
       <div className="flex justify-between mb-6">
         <ViewTitle title="Editar usuario" backPath={'/users'} showBackPage />
       </div>

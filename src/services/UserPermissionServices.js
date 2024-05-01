@@ -37,3 +37,10 @@ export async function apiDeleteRoleOfUserInApp (userId, appId, roleId) {
     method: 'delete'
   })
 }
+
+export async function apiGetUserPermissions (userId) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${userId}/permissions`,
+    method: 'get'
+  })
+}
