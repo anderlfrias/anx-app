@@ -1,4 +1,4 @@
-import { Button, Card, Table, Tag, Tooltip } from "components/ui"
+import { Button, Card, Table, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
 import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
@@ -7,14 +7,9 @@ import Confirm from "components/custom/Confirm"
 import { Link, useLocation } from "react-router-dom"
 import { apiDeleteApp, apiGetApps } from "services/AppService"
 import copy from "utils/lib/copy"
+import CustomizedTag from "components/custom/CustomizedTag"
 
 const { Tr, Th, Td, THead, TBody } = Table
-
-export const AppCode = ({ code }) => (
-  <Tag className="bg-slate-100 text-slate-600 dark:bg-slate-500/20 dark:text-slate-100 border-0 rounded">
-    {code}
-  </Tag>
-)
 
 const AppUrl = ({ url }) => {
 
@@ -22,6 +17,10 @@ const AppUrl = ({ url }) => {
     copy(url)
     openNotification('success', 'Copiado', 'Enlace copiado al portapapeles')
   }
+
+  if (!url) return (
+    <span className='text-gray-500 italic min-w-max'>Sin URL</span>
+  )
 
   return (
     <div className="flex gap-2">
@@ -96,7 +95,7 @@ export default function AppsList() {
           {apps.map((app, index) => (
             <Tr key={app.id}>
               <Td>{index + 1}</Td>
-              <Td><AppCode code={app.code} /></Td>
+              <Td><CustomizedTag text={app.code} /></Td>
               <Td>{app.name}</Td>
               <Td>{app.description}</Td>
               <Td><AppUrl url={app.url} /></Td>

@@ -6,7 +6,7 @@ import openNotification from "utils/openNotification"
 import { HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
 import { Link, useLocation } from "react-router-dom"
-import { AppCode } from "views/apps/AppsList"
+import CustomizedTag from "components/custom/CustomizedTag"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -65,9 +65,11 @@ export default function RolesList() {
             <Tr key={role.id}>
               <Td>{index + 1}</Td>
               <Td>{role.name}</Td>
-              <Td>{role.normalizedName}</Td>
               <Td>
-                {role.app && <AppCode code={role.app.code} />}
+                <CustomizedTag text={role.normalizedName} />
+              </Td>
+              <Td>
+                {role.app && <CustomizedTag text={role.app.code} description={role.app.name} />}
               </Td>
               <Td>
                 <div className="flex justify-end gap-2 min-w-max">

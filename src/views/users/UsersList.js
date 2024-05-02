@@ -1,6 +1,7 @@
 import ChangePasswordSvg from "assets/svg/ChangePasswordSvg"
 import ResetPasswordSvg from "assets/svg/ResetPasswordSvg"
 import Confirm from "components/custom/Confirm"
+import CustomizedTag from "components/custom/CustomizedTag"
 import { Loading } from "components/shared"
 import { Button, Card, Table, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
@@ -56,7 +57,7 @@ export default function UsersList() {
               <Tr key={user.id}>
                 <Td>{index + 1}</Td>
                 <Td>{`${user.name} ${user.firstSurname} ${user.secondSurname}`}</Td>
-                <Td>{user.username}</Td>
+                <Td><CustomizedTag text={user.username} /></Td>
                 <Td>{user.email}</Td>
                 <Td>
                   <div className="flex gap-2 justify-end min-w-max">

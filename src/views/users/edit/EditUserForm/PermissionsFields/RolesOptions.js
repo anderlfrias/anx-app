@@ -29,7 +29,6 @@ export default function RolesOptions({ role, rolesOfUser, onChangeRole, app }) {
   const addRestrictionToUser = async (restriction) => {
     setLoading(true)
     const resp = await apiRequest(() => apiPostRestrictionToUserInApp(user.id, app.id, role.id, { restrictionId: restriction.id }))
-    console.log('RESP', resp)
     if (resp.ok) {
       setRestrictionsOfUser((prev) => [...prev, resp.data.restriction])
       addRestriction(resp.data, app.id, role.id)
@@ -45,7 +44,6 @@ export default function RolesOptions({ role, rolesOfUser, onChangeRole, app }) {
   const deleteRestrictionOfUser = async (restriction) => {
     setLoading(true)
     const resp = await apiRequest(() => apiDeleteRestrictionOfUserInApp(user.id, app.id, role.id, restriction.id))
-    console.log('RESP', resp)
     if (resp.ok) {
       setRestrictionsOfUser((prev) => prev.filter(restrictionId => restrictionId !== restriction.id))
       deleteRestriction(restriction.id, app.id, role.id)

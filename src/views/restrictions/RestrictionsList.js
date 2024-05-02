@@ -68,15 +68,17 @@ export default function RestrictionsList() {
             <Tr key={restriction.id}>
               <Td>{index + 1}</Td>
               <Td>{restriction.name}</Td>
-              <Td>{restriction.normalizedName}</Td>
+              <Td>
+                <CustomizedTag text={restriction.normalizedName} />
+              </Td>
               <Td>
                 <TextEllipsis text={restriction.description} maxTextCount={40} />
               </Td>
               <Td>
-                {restriction.app && <CustomizedTag text={restriction.app.code.toUpperCase()} />}
+                {restriction.app && <CustomizedTag text={restriction.app.code} description={restriction.app.name} />}
               </Td>
               <Td>
-                {restriction.role && <CustomizedTag text={restriction.role.normalizedName.toUpperCase()} />}
+                {restriction.role && <CustomizedTag text={restriction.role.normalizedName} description={restriction.role.name} />}
               </Td>
               <Td>
                 <div className="flex justify-end gap-2 min-w-max">
