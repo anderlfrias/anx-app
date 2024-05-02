@@ -1,11 +1,12 @@
 import { Loading } from "components/shared";
-import { Button, Checkbox, Drawer } from "components/ui";
+import { Button, Drawer } from "components/ui";
 import { useContext, useState } from "react";
 import { apiGetRolesByAppId } from "services/RoleService";
 import useRequest from "utils/hooks/useRequest";
 import UserContext from "../../UserContext";
 import openNotification from "utils/openNotification";
 import { apiDeleteRoleOfUserInApp, apiPostRoleToUserInApp } from "services/UserPermissionServices";
+import RolesOptions from "./RolesOptions";
 
 export default function RoleModal({ app }) {
   const apiRequest = useRequest();
@@ -31,16 +32,15 @@ export default function RoleModal({ app }) {
   }
 
   const mapRolesOfUser = (user) => {
-    return user?.apps.find(userApp => userApp.app === app.id)?.roles?.map(({role}) => role) || []
+    return user?.apps.find(userApp => userApp.app === app.id)?.roles || []
   }
 
   const onChangeRole = async(checked, roleId) => {
-    console.log(checked, roleId)
-    if (!checked) {
+    if (checked) {
       return await addRoleToUser(roleId)
     }
 
-    if (checked) {
+    if (!checked) {
       return await deleteRoleOfUser(roleId)
     }
   }
@@ -48,7 +48,7 @@ export default function RoleModal({ app }) {
   const addRoleToUser = async (roleId) => {
     const resp = await apiRequest(() => apiPostRoleToUserInApp(user.id, app.id, { roleId }))
     if (resp.ok) {
-      setRolesOfUser((prev) => [...prev, resp.data.role])
+      setRolesOfUser((prev) => [...prev, resp.data])
       addRole(resp.data, app.id)
       openNotification('success', 'Success', 'Rol asignado correctamente')
     }
@@ -61,7 +61,7 @@ export default function RoleModal({ app }) {
   const deleteRoleOfUser = async (roleId) => {
     const resp = await apiRequest(() => apiDeleteRoleOfUserInApp(user.id, app.id, roleId))
     if (resp.ok) {
-      setRolesOfUser((prev) => prev.filter(role => role !== roleId))
+      setRolesOfUser((prev) => prev.filter(({ role }) => role !== roleId))
       deleteRole(roleId, app.id)
       openNotification('success', 'Success', 'Rol eliminado correctamente')
     }
@@ -115,15 +115,15 @@ export default function RoleModal({ app }) {
         onClose={onDrawerClose}
         onRequestClose={onDrawerClose}
       >
-        <Loading loading={loadingRoles}>
+        <Loading loading={loadingRoles} type='cover'>
           {roles.map(role => (
             <div key={role.id}>
-              <Checkbox
-                onChange={() => onChangeRole(rolesOfUser.includes(role.id), role.id)}
-                checked={rolesOfUser.includes(role.id)}
-              >
-                {role.name}
-              </Checkbox>
+              <RolesOptions
+                role={role}
+                app={app}
+                rolesOfUser={rolesOfUser}
+                onChangeRole={onChangeRole}
+              />
             </div>
           ))}
         </Loading>

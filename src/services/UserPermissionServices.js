@@ -44,3 +44,19 @@ export async function apiGetUserPermissions (userId) {
     method: 'get'
   })
 }
+
+// /api/v1/users/:userId/apps/:appId/roles/:roleId/restrictions
+export async function apiPostRestrictionToUserInApp (userId, appId, roleId, data) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${userId}/apps/${appId}/roles/${roleId}/restrictions`,
+    method: 'post',
+    data
+  })
+}
+
+export async function apiDeleteRestrictionOfUserInApp (userId, appId, roleId, restrictionId) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${userId}/apps/${appId}/roles/${roleId}/restrictions/${restrictionId}`,
+    method: 'delete'
+  })
+}

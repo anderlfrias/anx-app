@@ -23,7 +23,7 @@ export default function EditUser() {
         if (userapps.app === appId) {
           return {
             ...userapps,
-            roles: [...userapps.roles, role]
+            roles: userapps?.roles ? [...userapps?.roles, role] : [role]
           }
         }
         return userapps
@@ -40,7 +40,7 @@ export default function EditUser() {
         if (userapps.app === appId) {
           return {
             ...userapps,
-            roles: userapps.roles.filter(uarole => uarole.role !== roleId)
+            roles: userapps?.roles.filter(uarole => uarole?.role !== roleId)
           }
         }
         return userapps
@@ -50,8 +50,56 @@ export default function EditUser() {
     setUser(newUser)
   }
 
-  const onSubmit = async (values) => {
+  const addRestriction = (restriction, appId, roleId) => {
+    const newUser = {
+      ...user,
+      apps: user.apps.map(userapps => {
+        if (userapps.app === appId) {
+          return {
+            ...userapps,
+            roles: userapps?.roles.map(uarole => {
+              if (uarole.role === roleId) {
+                return {
+                  ...uarole,
+                  restrictions: uarole?.restrictions ? [...uarole?.restrictions, restriction] : [restriction]
+                }
+              }
+              return uarole
+            })
+          }
+        }
+        return userapps
+      })
+    }
 
+    setUser(newUser)
+  }
+
+  const deleteRestriction = (restrictionId, appId, roleId) => {
+    const newUser = {
+      ...user,
+      apps: user.apps.map(userapps => {
+        if (userapps.app === appId) {
+          return {
+            ...userapps,
+            roles: userapps?.roles.map(uarole => {
+              if (uarole.role === roleId) {
+                return {
+                  ...uarole,
+                  restrictions: uarole?.restrictions.filter(uarrestriction => uarrestriction.restriction !== restrictionId)
+                }
+              }
+              return uarole
+            })
+          }
+        }
+        return userapps
+      })
+    }
+
+    setUser(newUser)
+  }
+  const onSubmit = async (values) => {
     const resp = await apiRequest(() => apiUpdateUser(id, values))
     if (resp.ok) {
       openNotification('success', 'Usuario actualizado', 'El usuario ha sido actualizado correctamente')
@@ -90,7 +138,7 @@ export default function EditUser() {
   }, [apiRequest, id, navigate])
 
   return (
-    <UserContextProvider value={{ user, setUser, addRole, deleteRole }}>
+    <UserContextProvider value={{ user, setUser, addRole, deleteRole, addRestriction, deleteRestriction }}>
       <div className="flex justify-between mb-6">
         <ViewTitle title="Editar usuario" backPath={'/users'} showBackPage />
       </div>

@@ -15,6 +15,13 @@ export async function apiGetRestrictionById (id) {
   })
 }
 
+export async function apiGetRestrictionsByAppIdAndRoleId (appId, roleId) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/restrictions/app/${appId}/role/${roleId}`,
+    method: 'get'
+  })
+}
+
 export async function apiCreateRestriction (data) {
   return ApiService.fetchData({
     url: `${URL_API}/v1/restrictions`,
