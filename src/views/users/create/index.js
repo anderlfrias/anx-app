@@ -10,7 +10,6 @@ export default function Create() {
   const apiRequest = useRequest()
 
   const onSubmit = async (values) => {
-    console.log(values)
 
     if (values.password !== values.confirmPassword) {
       openNotification('error', 'Error!', 'Las contraseñas no coinciden')
@@ -21,7 +20,7 @@ export default function Create() {
 
     if (response.ok) {
       openNotification('success', 'Completado!', 'Usuario creado exitosamente')
-      navigate('/users')
+      navigate(`/users/${response.data.id}#permission`)
     } else {
       console.log(response)
       openNotification('error', 'Error!', response.message)

@@ -55,19 +55,19 @@ export default function UsersList() {
             {users.map((user) => (
               <Tr key={user.id}>
                 <Td>
-                  <div className='flex items-center'>
-                    <Avatar
-                      shape='circle'
-                      size={28}
-                      src={user.profilePicture}
-                      alt={`${user.name} ${user.firstSurname || ''}`}
-                      icon={<FaUser />}
-                    />
+                  <div className='flex'>
                     <Link
                       to={`/users/${user.id}`}
-                      className='hover:text-sky-800 ml-2 font-semibold'
+                      className='flex gap-2 items-center hover:text-sky-800 ml-2 font-semibold'
                     >
-                      {user.username}
+                      <Avatar
+                        shape='circle'
+                        size={28}
+                        src={user.profilePicture}
+                        alt={`${user.name} ${user.firstSurname || ''}`}
+                        icon={<FaUser />}
+                      />
+                      <span>{user.username}</span>
                     </Link>
                   </div>
                 </Td>
