@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-const validationSchema = Yup.object().shape({
+const createValidationSchema = Yup.object().shape({
   name: Yup.string()
     .min(3, 'El nombre debe tener al menos 3 caracteres')
     .max(20, 'El nombre debe tener como máximo 20 caracteres')
@@ -26,6 +26,26 @@ const validationSchema = Yup.object().shape({
   profilePicture: Yup.string()
 });
 
+const editValidationSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(3, 'El nombre debe tener al menos 3 caracteres')
+    .max(20, 'El nombre debe tener como máximo 20 caracteres')
+    .required('El nombre es requerido'),
+  employeeCode: Yup.string(),
+  firstSurname: Yup.string()
+    .min(3, 'El apellido debe tener al menos 3 caracteres')
+    .max(20, 'El apellido debe tener como máximo 20 caracteres'),
+  secondSurname: Yup.string()
+    .min(3, 'El apellido debe tener al menos 3 caracteres')
+    .max(20, 'El apellido debe tener como máximo 20 caracteres'),
+  phoneNumber: Yup.string(),
+  profilePicture: Yup.string(),
+  password: Yup.string()
+    .min(8, 'La contraseña debe tener al menos 8 caracteres'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Las contraseñas no coinciden'),
+});
+
 const defaultValues = {
   name: '',
   email: '',
@@ -39,6 +59,6 @@ const defaultValues = {
   profilePicture: ''
 };
 
-const userConfig = { validationSchema, defaultValues };
+const userConfig = { createValidationSchema, editValidationSchema, defaultValues };
 
 export default userConfig;

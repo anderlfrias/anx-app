@@ -12,7 +12,7 @@ import { useEffect } from "react"
 import PermissionsFields from "./PermissionsFields"
 
 const { TabNav, TabList, TabContent } = Tabs
-const { validationSchema } = userConfig
+const { editValidationSchema: validationSchema } = userConfig
 
 export default function EditUserForm({ initialValues, onSubmit, onCancel }) {
   const location = useLocation();
@@ -37,6 +37,10 @@ export default function EditUserForm({ initialValues, onSubmit, onCancel }) {
         }}
       >
         {({ touched, errors, values, isSubmitting,  }) => {
+          
+          console.log('values', values)
+          console.log('errors', errors)
+          console.log('touched', touched)
           return (
             <Form>
               <FormContainer>

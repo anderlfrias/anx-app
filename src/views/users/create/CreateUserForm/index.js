@@ -11,7 +11,7 @@ import { FaRegUserCircle } from "react-icons/fa"
 import { useEffect } from "react"
 
 const { TabNav, TabList, TabContent } = Tabs
-const { validationSchema, defaultValues } = userConfig
+const { createValidationSchema:validationSchema, defaultValues } = userConfig
 
 export default function CreateUserForm({ onSubmit, onCancel }) {
   const location = useLocation();
