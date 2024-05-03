@@ -83,5 +83,11 @@ export const protectedRoutes = [
     path: '/restrictions/:id',
     component: React.lazy(() => import('views/restrictions/edit')),
     authority: [],
-  }
+  },
+  {
+    key: 'log',
+    path: '/logs',
+    component: React.lazy(() => import('views/logs')),
+    authority: [],
+  },
 ]

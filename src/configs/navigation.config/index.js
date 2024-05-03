@@ -49,6 +49,15 @@ const navigationConfig = [
 		authority: [],
 		subMenu: []
 	},
+	{
+		key: 'log',
+		path: '/logs',
+		title: 'Historial de actividad',
+		icon: 'log',
+		type: NAV_ITEM_TYPE_ITEM,
+		authority: [],
+		subMenu: []
+	}
 	/** Example purpose only, please remove */
 	// {
 	// 	key: 'singleMenuItem',

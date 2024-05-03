@@ -4,6 +4,7 @@ import {
   HiHome,
   HiViewGridAdd,
 } from 'react-icons/hi'
+import { BiGitMerge } from "react-icons/bi";
 
 const navigationIcon = {
   home: <HiHome />,
@@ -11,6 +12,7 @@ const navigationIcon = {
   roles: <FaUsersCog />,
   apps: <HiViewGridAdd />,
   restrictions: <FaUsersSlash />,
+  log: <BiGitMerge />,
 }
 
 export default navigationIcon

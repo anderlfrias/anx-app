@@ -25,7 +25,7 @@ export default function UsersList() {
     const fetchUsers = async (search) => {
       setLoading(true)
       const resp = await apiRequest(() => apiGetUsers(search))
-      console.log(resp)
+
       if (resp.ok) {
         setUsers(resp.data)
       } else {
