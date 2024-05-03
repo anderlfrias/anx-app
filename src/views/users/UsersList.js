@@ -1,10 +1,10 @@
 import ChangePasswordSvg from "assets/svg/ChangePasswordSvg"
 import ResetPasswordSvg from "assets/svg/ResetPasswordSvg"
 import Confirm from "components/custom/Confirm"
-import CustomizedTag from "components/custom/CustomizedTag"
 import { Loading } from "components/shared"
-import { Button, Card, Table, Tooltip } from "components/ui"
+import { Avatar, Button, Card, Table, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
+import { FaUser } from "react-icons/fa"
 import { HiPaperAirplane, HiTrash } from "react-icons/hi"
 import { Link, useLocation } from "react-router-dom"
 import { apiGetUsers } from "services/UserService"
@@ -44,7 +44,6 @@ export default function UsersList() {
         <Table>
           <THead>
             <Tr>
-              <Th>#</Th>
               <Th>Nombre</Th>
               <Th>Username</Th>
               <Th>Email</Th>
@@ -53,11 +52,26 @@ export default function UsersList() {
             </Tr>
           </THead>
           <TBody>
-            {users.map((user, index) => (
+            {users.map((user) => (
               <Tr key={user.id}>
-                <Td>{index + 1}</Td>
+                <Td>
+                  <div className='flex items-center'>
+                    <Avatar
+                      shape='circle'
+                      size={28}
+                      src={user.profilePicture}
+                      alt={`${user.name} ${user.firstSurname || ''}`}
+                      icon={<FaUser />}
+                    />
+                    <Link
+                      to={`/users/${user.id}`}
+                      className='hover:text-sky-800 ml-2 font-semibold'
+                    >
+                      {user.username}
+                    </Link>
+                  </div>
+                </Td>
                 <Td>{`${user.name} ${user.firstSurname} ${user.secondSurname}`}</Td>
-                <Td><CustomizedTag text={user.username} /></Td>
                 <Td>{user.email}</Td>
                 <Td>
                   <div className="flex gap-2 justify-end min-w-max">

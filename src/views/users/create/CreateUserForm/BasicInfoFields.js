@@ -1,4 +1,5 @@
 import classNames from "classnames"
+import AvatarUpload from "components/custom/AvatarUpload"
 import { FormItem, Input } from "components/ui"
 import { Field } from "formik"
 
@@ -34,6 +35,26 @@ export default function BasicInfoFields({ touched, errors, values, className }) 
               Por defecto, el usuario no tiene un rol asignado. Para asignar un rol, diríjase a la sección de edición de usuario.
             </p>
           </div>
+
+          <FormItem
+            label="Foto de perfil"
+            invalid={errors.profilePicture && touched.profilePicture}
+            errorMessage={errors.profilePicture}
+          >
+            <Field name='profilePicture'>
+              {({ field, form }) => (
+                <AvatarUpload
+                  field={field}
+                  form={form}
+                  value={values.profilePicture}
+                  onChange={(value) =>  {
+                    console.log('value', value)
+                    form.setFieldValue('profilePicture', value || '')
+                  }}
+                />
+              )}
+            </Field>
+          </FormItem>
 
           <FormItem
             label="Nombre"

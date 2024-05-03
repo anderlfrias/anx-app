@@ -1,4 +1,5 @@
 import classNames from "classnames"
+import AvatarUpload from "components/custom/AvatarUpload"
 import { FormItem, Input } from "components/ui"
 import { Field } from "formik"
 
@@ -18,11 +19,31 @@ export default function BasicInfoFields({ touched, errors, values, className }) 
     <>
       <div className={classNames(className)}>
         <div>
-          <div className="mb-4">
-            <h5>Información básica</h5>
-            <p>
-              Sesión para configurar la información básica del usuario.
-            </p>
+          <FormItem
+            className='mb-4'
+            label="Foto de perfil"
+            invalid={errors.profilePicture && touched.profilePicture}
+            errorMessage={errors.profilePicture}
+          >
+            <Field name='profilePicture'>
+              {({ field, form }) => (
+                <AvatarUpload
+                  field={field}
+                  form={form}
+                  value={values.profilePicture}
+                  onChange={(value) =>  {
+                    console.log('value', value)
+                    form.setFieldValue('profilePicture', value || '')
+                  }}
+                />
+              )}
+            </Field>
+          </FormItem>
+          <div className='mb-6'>
+            <h5>{`${values.name} ${values.firstSurname} ${values.secondSurname}`}</h5>
+            <div className='grid'>
+            <span className='text-gray-500'>{values.username} | {values.email}</span>
+            </div>
           </div>
 
           {Fields.map((field, index) => (

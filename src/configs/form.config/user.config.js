@@ -22,7 +22,8 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(8, 'La contraseña debe tener al menos 8 caracteres'),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Las contraseñas no coinciden')
+    .oneOf([Yup.ref('password'), null], 'Las contraseñas no coinciden'),
+  profilePicture: Yup.string()
 });
 
 const defaultValues = {
@@ -34,7 +35,8 @@ const defaultValues = {
   secondSurname: '',
   phoneNumber: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  profilePicture: ''
 };
 
 const userConfig = { validationSchema, defaultValues };
