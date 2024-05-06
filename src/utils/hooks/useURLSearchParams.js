@@ -6,10 +6,9 @@ export default function useURLSearchParams() {
   const params = new URLSearchParams(location.search);
 
   const setParams = (key, value) => {
-    if (!value) {
+    if (value === '') {
       params.delete(key);
       return navigate(`?${params.toString()}`);
-      
     }
 
     params.set(key, value);

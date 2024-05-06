@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import UsersAsyncSelect from "components/custom/UsersAsyncSelect";
 import { Button, DatePicker, Input, Select } from "components/ui";
-import { useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { getDateWithEndDay } from "utils/date";
 import useURLSearchParams from "utils/hooks/useURLSearchParams";
@@ -21,13 +20,19 @@ const STATUS_OPTIONS = [
 export default function LogFilter({ className }) {
   const params = useURLSearchParams();
 
+  const onChangeParams = (key, value) => {
+    params.set(key, value);
+    params.set('page', 0);
+  }
   const onChangeInput = useDebouncedCallback((key, value) => {
     params.set(key, value);
+    params.set('page', 0);
   }, 500);
 
   const onChangeActions = (selected) => {
     const actions = selected.map((action) => action.value);
     params.set('actions', actions);
+    params.set('page', 0);
   }
 
   const currentActions = params.get('actions')?.split(',') || [];
@@ -35,10 +40,6 @@ export default function LogFilter({ className }) {
   const onClearFilter = () => {
     params.clear();
   }
-
-  useEffect(() => {
-    console.log('params', params.query)
-  }, [params])
 
   return (
     <div className={classNames('', className)}>
@@ -48,7 +49,7 @@ export default function LogFilter({ className }) {
           className='w-full'
           placeholder='-Todos los usuarios-'
           value={params.get('author')}
-          onChange={(selected) => params.set('author', selected?.value)}
+          onChange={(selected) => onChangeParams('author', selected?.value)}
           hideLabel
         />
 
@@ -81,14 +82,14 @@ export default function LogFilter({ className }) {
           size='sm'
           placeholder='Fecha inicio'
           value={params.get('startDate') ? new Date(params.get('startDate')) : null}
-          onChange={(d) => params.set('startDate', d ? new Date(d).toISOString() : '')}
+          onChange={(d) => onChangeParams('startDate', d ? new Date(d).toISOString() : '')}
         />
 
         <DatePicker
           size='sm'
           placeholder='Fecha fin'
           value={params.get('endDate') ? new Date(params.get('endDate')) : null}
-          onChange={(d) => params.set('endDate', d ? getDateWithEndDay(d) : '')}
+          onChange={(d) => onChangeParams('endDate', d ? getDateWithEndDay(d) : '')}
         />
 
         <Select
@@ -96,7 +97,7 @@ export default function LogFilter({ className }) {
           placeholder='Estado'
           options={STATUS_OPTIONS}
           value={STATUS_OPTIONS.find((estado) => estado.value === params.get('status'))}
-          onChange={(selected) => params.set('status', selected?.value)}
+          onChange={(selected) => onChangeParams('status', selected?.value)}
           isClearable
         />
 

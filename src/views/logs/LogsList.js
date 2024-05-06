@@ -1,3 +1,4 @@
+import CustomizedPagination from "components/custom/CustomizedPagination"
 import CustomizedTag from "components/custom/CustomizedTag"
 import TextToCopy from "components/custom/TextToCopy"
 import { Button, Card, Table, Tag, Tooltip } from "components/ui"
@@ -29,13 +30,14 @@ export default function LogsList() {
   const apiRequest = useRequest()
   const [logs, setLogs] = useState([])
   const params = useURLSearchParams()
+  const [total, setTotal] = useState(0)
 
   useEffect(() => {
     async function fetchData(query) {
-      console.log('query', query)
       const res = await apiRequest(() => apiGetLogs(query))
       if (res.ok) {
-        setLogs(res.data)
+        setLogs(res.data.logs)
+        setTotal(res.data.total)
       }
 
       if (!res.ok) {
@@ -102,6 +104,8 @@ export default function LogsList() {
             ))}
           </TBody>
         </Table>
+
+        <CustomizedPagination className='mt-4' total={total} />
       </Card>
     </div>
   )
