@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { Loading } from "components/shared";
-import { Avatar, Upload } from "components/ui";
+import { Upload } from "components/ui";
 import { useState } from "react";
-import { FaUser } from "react-icons/fa";
 import { imageToBase64, resizeImage } from "utils/image";
+import UserImage from "./UserImage";
 
 export default function AvatarUpload({ value, onChange: onChangeProp }) {
   const [loading, setLoading] = useState(false);
@@ -32,12 +32,10 @@ export default function AvatarUpload({ value, onChange: onChangeProp }) {
         disabled={loading}
       >
       <Loading loading={loading} type='cover'>
-        <Avatar
+        <UserImage
           className='border-2 border-white dark:border-gray-800 shadow-lg'
-          shape='circle'
-          size={120}
           src={value}
-          icon={<FaUser />}
+          size={120}
         />
       </Loading>
       </Upload>

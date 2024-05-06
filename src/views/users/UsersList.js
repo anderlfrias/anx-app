@@ -1,10 +1,10 @@
 import ChangePasswordSvg from "assets/svg/ChangePasswordSvg"
 import ResetPasswordSvg from "assets/svg/ResetPasswordSvg"
 import Confirm from "components/custom/Confirm"
+import UserImage from "components/custom/UserImage"
 import { Loading } from "components/shared"
-import { Avatar, Button, Card, Table, Tooltip } from "components/ui"
+import { Button, Card, Table, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
-import { FaUser } from "react-icons/fa"
 import { HiPaperAirplane, HiTrash } from "react-icons/hi"
 import { Link, useLocation } from "react-router-dom"
 import { apiGetUsers } from "services/UserService"
@@ -60,13 +60,7 @@ export default function UsersList() {
                       to={`/users/${user.id}`}
                       className='flex gap-2 items-center hover:text-sky-800 ml-2 font-semibold'
                     >
-                      <Avatar
-                        shape='circle'
-                        size={28}
-                        src={user.profilePicture}
-                        alt={`${user.name} ${user.firstSurname || ''}`}
-                        icon={<FaUser />}
-                      />
+                      <UserImage src={user.profilePicture} size={28} alt={`${user.name} ${user.firstSurname || ''}`} />
                       <span>{user.username}</span>
                     </Link>
                   </div>
