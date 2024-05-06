@@ -6,6 +6,7 @@ import { HiPaperAirplane } from "react-icons/hi"
 import { Link } from "react-router-dom"
 import { apiGetLogs } from "services/LogService"
 import useRequest from "utils/hooks/useRequest"
+import useURLSearchParams from "utils/hooks/useURLSearchParams"
 import openNotification from "utils/openNotification"
 
 const { Tr, Th, Td, THead, TBody } = Table
@@ -27,10 +28,12 @@ const LogStatus = ({ success }) => {
 export default function LogsList() {
   const apiRequest = useRequest()
   const [logs, setLogs] = useState([])
+  const params = useURLSearchParams()
 
   useEffect(() => {
-    async function fetchData() {
-      const res = await apiRequest(() => apiGetLogs())
+    async function fetchData(query) {
+      console.log('query', query)
+      const res = await apiRequest(() => apiGetLogs(query))
       if (res.ok) {
         setLogs(res.data)
       }
@@ -41,12 +44,13 @@ export default function LogsList() {
       }
     }
 
-    fetchData()
-  }, [apiRequest])
+    fetchData(params.query)
+  }, [apiRequest, params.query])
+
   return (
     <div>
       <Card>
-        <Table>
+        <Table compact>
           <THead>
             <Tr>
               <Th>#</Th>

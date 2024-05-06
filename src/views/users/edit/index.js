@@ -101,7 +101,6 @@ export default function EditUser() {
   }
   const onSubmit = async (values) => {
     const resp = await apiRequest(() => apiUpdateUser(id, values))
-    console.log(resp)
     if (resp.ok) {
       openNotification('success', 'Usuario actualizado', 'El usuario ha sido actualizado correctamente')
       navigate('/users')

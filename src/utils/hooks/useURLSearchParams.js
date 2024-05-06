@@ -6,9 +6,10 @@ export default function useURLSearchParams() {
   const params = new URLSearchParams(location.search);
 
   const setParams = (key, value) => {
-    if (value === '') {
+    if (!value) {
       params.delete(key);
       return navigate(`?${params.toString()}`);
+      
     }
 
     params.set(key, value);
@@ -26,10 +27,15 @@ export default function useURLSearchParams() {
     return params.get(key) || undefined;
   }
 
+  const clearParams = () => {
+    navigate('');
+  }
+
   return {
     query: params.toString(),
     set: setParams,
     delete: deleteParams,
     get: getParams,
+    clear: clearParams,
   }
 }

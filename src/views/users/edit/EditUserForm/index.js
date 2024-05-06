@@ -37,10 +37,6 @@ export default function EditUserForm({ initialValues, onSubmit, onCancel }) {
         }}
       >
         {({ touched, errors, values, isSubmitting,  }) => {
-          
-          console.log('values', values)
-          console.log('errors', errors)
-          console.log('touched', touched)
           return (
             <Form>
               <FormContainer>
