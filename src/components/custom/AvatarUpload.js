@@ -33,7 +33,7 @@ export default function AvatarUpload({ value, onChange: onChangeProp }) {
       >
       <Loading loading={loading} type='cover'>
         <UserImage
-          className='border-2 border-white dark:border-gray-800 shadow-lg'
+          className='border-2 border-white dark:border-gray-800 shadow-md hover:shadow-lg'
           src={value}
           size={120}
         />

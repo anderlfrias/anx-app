@@ -1,10 +1,9 @@
-import ChangePasswordSvg from "assets/svg/ChangePasswordSvg"
-import ResetPasswordSvg from "assets/svg/ResetPasswordSvg"
 import Confirm from "components/custom/Confirm"
 import UserImage from "components/custom/UserImage"
 import { Loading } from "components/shared"
 import { Button, Card, Table, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
+import { FaUserEdit } from "react-icons/fa"
 import { HiPaperAirplane, HiTrash } from "react-icons/hi"
 import { Link, useLocation } from "react-router-dom"
 import { apiGetUsers } from "services/UserService"
@@ -47,7 +46,7 @@ export default function UsersList() {
               <Th>Nombre</Th>
               <Th>Username</Th>
               <Th>Email</Th>
-              <Th />
+              {/* <Th /> */}
               <Th />
             </Tr>
           </THead>
@@ -68,22 +67,17 @@ export default function UsersList() {
                 <Td>{`${user.name} ${user.firstSurname} ${user.secondSurname}`}</Td>
                 <Td>{user.email}</Td>
                 <Td>
-                  <div className="flex gap-2 justify-end min-w-max">
-                    <Tooltip title='Cambiar Contraseña'>
-                      <Button size='sm' color='gray-600' icon={<ChangePasswordSvg />} variant="twoTone" />
-                    </Tooltip>
-                    <Tooltip title='Resetear Contraseña'>
-                      <Button size='sm' color='gray-600' icon={<ResetPasswordSvg />} variant="twoTone" />
-                    </Tooltip>
-                  </div>
-                </Td>
-                <Td>
-                  <div className="flex gap-2 justify-end min-w-max">
+                  <div className="flex gap-1 justify-end min-w-max">
                     <Confirm onConfirm={() => console.log('delete')} type='danger'>
                       <Tooltip title='Eliminar'>
-                        <Button size='sm' color='gray-600' icon={<HiTrash />} variant="twoTone" />
+                        <Button size='sm' icon={<HiTrash />} variant="plain" />
                       </Tooltip>
                     </Confirm>
+                    <Tooltip title='Editar'>
+                      <Link to={`/users/${user.id}`}>
+                        <Button size='sm' icon={<FaUserEdit />} variant="plain" />
+                      </Link>
+                    </Tooltip>
                     <Tooltip title='Ver perfil'>
                       <Link to={`/users/${user.id}`}>
                         <Button size='sm' icon={<HiPaperAirplane className='text-lg rotate-90' />} variant="solid" />

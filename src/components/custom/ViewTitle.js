@@ -8,7 +8,7 @@ export default function ViewTitle (props) {
     <div className='flex items-center'>
       {showBackPage && (
         <Link to={backPath}>
-          <HiOutlineChevronLeft className='text-3xl font-bold text-gray-900 cursor-pointer' />
+          <HiOutlineChevronLeft className='text-3xl font-bold text-gray-900 cursor-pointer dark:text-gray-50' />
         </Link>
       )}
       <div>
