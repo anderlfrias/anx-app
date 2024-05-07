@@ -11,14 +11,14 @@ import useURLSearchParams from "utils/hooks/useURLSearchParams"
 import openNotification from "utils/openNotification"
 
 const { Tr, Th, Td, THead, TBody } = Table
-const ACCTIONS_COLORS = {
+export const ACCTIONS_COLORS = {
   GET: 'emerald',
   POST: 'blue',
   PUT: 'amber',
   DELETE: 'red',
 }
 
-const LogStatus = ({ success }) => {
+export const LogStatus = ({ success }) => {
   return (
     <Tag prefix className={`border-0 font-semibold text-sm ${success ? 'text-emerald-500' : 'text-red-500'}`} prefixClass={success ? 'bg-emerald-500' : 'bg-red-500'}>
       {success ? 'Exitoso' : 'Fallido'}

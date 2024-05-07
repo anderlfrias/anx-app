@@ -7,3 +7,10 @@ export async function apiGetLogs (q = '') {
     method: 'get'
   })
 }
+
+export async function apiGetLogById (id) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/activity-log/${id}`,
+    method: 'get'
+  })
+}

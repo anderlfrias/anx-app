@@ -13,6 +13,7 @@ export default function CustomizedPagination({ className, total }) {
 
   const onPageSelect = (value) => {
     params.set('top', value);
+    params.set('page', 0);
   };
 
   const onPaginationChange = (page) => {
