@@ -3,7 +3,7 @@ import { StickyFooter } from "components/shared"
 import { Button, Card, FormContainer, Tabs } from "components/ui"
 import { userConfig } from "configs/form.config"
 import { Form, Formik } from "formik"
-import { HiOutlineKey, HiOutlineShieldCheck, HiSave } from "react-icons/hi"
+import { HiOutlineKey, HiOutlineShieldCheck, HiSave, HiTrash } from "react-icons/hi"
 import BasicInfoFields from "./BasicInfoFields"
 import ChangePasswordFields from "./ChangePasswordFields"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -14,7 +14,7 @@ import PermissionsFields from "./PermissionsFields"
 const { TabNav, TabList, TabContent } = Tabs
 const { editValidationSchema: validationSchema } = userConfig
 
-export default function EditUserForm({ initialValues, onSubmit, onCancel }) {
+export default function EditUserForm({ initialValues, onSubmit, onCancel, onDelete }) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ export default function EditUserForm({ initialValues, onSubmit, onCancel }) {
           setSubmitting(false)
         }}
       >
-        {({ touched, errors, values, isSubmitting,  }) => {
+        {({ touched, errors, values, isSubmitting, }) => {
           return (
             <Form>
               <FormContainer>
@@ -67,6 +67,17 @@ export default function EditUserForm({ initialValues, onSubmit, onCancel }) {
                   className='-mx-8 px-8 flex items-center justify-between py-4'
                   stickyClass='border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
                 >
+                  <Confirm type="danger" onConfirm={onDelete} >
+                    <Button
+                      type='button'
+                      variant='twoTone'
+                      color='red-500'
+                      icon={<HiTrash />}
+                    >
+                      Eliminar
+                    </Button>
+                  </Confirm>
+                  <div className="flex gap-2">
                     <Confirm type="warning" onConfirm={onCancel} subtitle={'Se perderán los cambios realizados'}>
                       <Button
                         type='button'
@@ -83,6 +94,7 @@ export default function EditUserForm({ initialValues, onSubmit, onCancel }) {
                     >
                       {isSubmitting ? 'Guardando...' : 'Guardar'}
                     </Button>
+                  </div>
                 </StickyFooter>
               </FormContainer>
             </Form>

@@ -52,6 +52,7 @@ const ConfirmDialog = props => {
 		cancelText,
 		confirmText,
 		confirmButtonColor,
+		loading,
 		...rest
 	} = props
 
@@ -93,6 +94,7 @@ const ConfirmDialog = props => {
 					variant="solid"
 					onClick={handleConfirm}
 					color={confirmButtonColor}
+					loading={loading}
 				>
 					{confirmText}
 				</Button>

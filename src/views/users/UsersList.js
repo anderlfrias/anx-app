@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { FaUserEdit } from "react-icons/fa"
 import { HiPaperAirplane, HiTrash } from "react-icons/hi"
 import { Link, useLocation } from "react-router-dom"
-import { apiGetUsers } from "services/UserService"
+import { apiDeleteUser, apiGetUsers } from "services/UserService"
 import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 
@@ -16,9 +16,23 @@ export default function UsersList() {
   const apiRequest = useRequest()
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const search = searchParams.get('search') || '';
+
+  const onDelete = async (id) => {
+    setDeleting(true)
+    const resp = await apiRequest(() => apiDeleteUser(id))
+    if (resp.ok) {
+      setUsers(users.filter((user) => user.id !== id))
+      openNotification('success', 'Usuario eliminado', 'El usuario ha sido eliminado correctamente')
+    } else {
+      openNotification('error', 'Error', resp.message)
+      console.error(resp)
+    }
+    setDeleting(false)
+  }
 
   useEffect(() => {
     const fetchUsers = async (search) => {
@@ -68,7 +82,12 @@ export default function UsersList() {
                 <Td>{user.email}</Td>
                 <Td>
                   <div className="flex gap-1 justify-end min-w-max">
-                    <Confirm onConfirm={() => console.log('delete')} type='danger'>
+                    <Confirm
+                      loading={deleting}
+                      onConfirm={async() => await onDelete(user.id)}
+                      type='danger'
+                      subtitle='¿Estás seguro de eliminar este usuario?'
+                    >
                       <Tooltip title='Eliminar'>
                         <Button size='sm' icon={<HiTrash />} variant="plain" />
                       </Tooltip>

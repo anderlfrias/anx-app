@@ -2,7 +2,7 @@ import ViewTitle from "components/custom/ViewTitle"
 import { useNavigate, useParams } from "react-router-dom"
 import React, { useEffect, useState } from "react"
 import useRequest from "utils/hooks/useRequest"
-import { apiUpdateUser } from "services/UserService"
+import { apiDeleteUser, apiUpdateUser } from "services/UserService"
 import openNotification from "utils/openNotification"
 import { Loading } from "components/shared"
 import EditUserForm from "./EditUserForm"
@@ -111,6 +111,18 @@ export default function EditUser() {
     }
   }
 
+  const onDelete = async () => {
+    const resp = await apiRequest(() => apiDeleteUser(id))
+    if (resp.ok) {
+      openNotification('success', 'Usuario eliminado', 'El usuario ha sido eliminado correctamente')
+      navigate('/users')
+    }
+
+    if (!resp.ok) {
+      openNotification('error', 'Error', resp.message)
+    }
+  }
+
   const onCancel = () => {
     navigate('/users')
   }
@@ -147,7 +159,7 @@ export default function EditUser() {
         <EditUserForm
           initialValues={user}
           onSubmit={onSubmit}
-          onDelete={() => console.log('deleted')}
+          onDelete={onDelete}
           onCancel={onCancel}
         />
       </Loading>
