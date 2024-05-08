@@ -2,44 +2,48 @@ import React, { useEffect, useState } from 'react'
 import UserOverview from './Overview'
 import useRequest from 'utils/hooks/useRequest'
 import openNotification from 'utils/openNotification'
-import { apiGetUserById } from 'services/UserService'
 import { Loading } from 'components/shared'
-import { Card } from 'components/ui'
+import AppsOfUser from './AppsOfUser'
+import { useNavigate } from 'react-router-dom'
+import { apiGetUserPermissions } from 'services/UserPermissionServices'
 
 export default function UserDetails({ id }) {
   const apiRequest = useRequest()
+  const navigate = useNavigate()
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchUser = async () => {
       setLoading(true)
-      const resp = await apiRequest(() => apiGetUserById(id))
+      const resp = await apiRequest(() => apiGetUserPermissions(id, { populated: true }))
 
       if (resp.ok) {
         setUser(resp.data)
       } else {
         openNotification('error', 'Error', resp.message)
         console.error(resp)
+        navigate(-1)
       }
       setLoading(false)
     }
 
     fetchUser()
-  }, [apiRequest, id])
+  }, [apiRequest, navigate, id])
+  console.log('user', user)
+
   return (
     <Loading loading={loading}>
       <div className='container mx-auto h-full'>
-        <div className='flex flex-col lg:flex-row gap-4'>
-          <UserOverview className='col-span-2' user={user} />
-          <div className='w-full'>
-            <Card>
-              <div>
-                Something here
-              </div>
-            </Card>
+        {user && (
+          <div className='flex flex-col lg:flex-row gap-4'>
+            <UserOverview className='col-span-2' user={user} />
+            <div className='w-full'>
+              <h4 className='mb-4'>Aplicaciones</h4>
+              <AppsOfUser apps={user.apps} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </Loading>
   )

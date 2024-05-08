@@ -38,9 +38,11 @@ export async function apiDeleteRoleOfUserInApp (userId, appId, roleId) {
   })
 }
 
-export async function apiGetUserPermissions (userId) {
+export async function apiGetUserPermissions (userId, params = {}) {
+  const query = new URLSearchParams(params).toString()
+  console.log('query', query)
   return ApiService.fetchData({
-    url: `${URL_API}/v1/users/${userId}/permissions`,
+    url: `${URL_API}/v1/users/${userId}/permissions?${query}`,
     method: 'get'
   })
 }

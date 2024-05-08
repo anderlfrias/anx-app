@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import Confirm from "components/custom/Confirm";
 import UserImage from "components/custom/UserImage"
 import { Button, Card } from "components/ui"
 import { useState } from "react";
@@ -9,13 +10,13 @@ import { apiDeleteUser } from "services/UserService";
 import useRequest from "utils/hooks/useRequest";
 import openNotification from "utils/openNotification";
 
-const Item = ({ label, value }) => (
+const UserInfoField = ({ label, value }) => (
   <div>
     <span>{label}</span>
     <div>
       <span
         className={classNames(
-          { 'text-gray-700 dark:text-gray-200 font-semibold': value},
+          { 'text-gray-700 dark:text-gray-200 font-semibold': value },
           { 'text-gray-400 dark:text-gray-500 italic': !value }
         )}
       >
@@ -60,7 +61,7 @@ export default function UserOverview({ className, user }) {
     { label: 'Número de teléfono', value: phoneNumber },
     { label: 'Código de empleado', value: employeeCode }
   ]
-  console.log('user', user)
+
   return (
     <div className={className}>
       <Card>
@@ -72,14 +73,21 @@ export default function UserOverview({ className, user }) {
 
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-y-7 gap-x-4 mt-8'>
             {DATA_LIST.map((item, index) => (
-              <Item key={index} label={item.label} value={item.value} />
+              <UserInfoField key={index} label={item.label} value={item.value} />
             ))}
           </div>
 
           <div className='mt-7 flex flex-col lg:flex-row gap-2'>
-            <Button icon={<HiTrash />} onClick={onDelete} loading={deleting} >Eliminar</Button>
+            <Confirm
+              loading={deleting}
+              onConfirm={onDelete}
+              type='danger'
+              subtitle='¿Estás seguro de eliminar este usuario?'
+            >
+              <Button className='w-full' icon={<HiTrash />} >Eliminar</Button>
+            </Confirm>
             <Link to={`/users/${user.id}`}>
-              <Button variant='solid' icon={<FaUserEdit />} >Editar</Button>
+              <Button className='w-full' variant='solid' icon={<FaUserEdit />} >Editar</Button>
             </Link>
           </div>
         </div>
