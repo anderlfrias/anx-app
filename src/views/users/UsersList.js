@@ -60,7 +60,6 @@ export default function UsersList() {
               <Th>Nombre</Th>
               <Th>Username</Th>
               <Th>Email</Th>
-              {/* <Th /> */}
               <Th />
             </Tr>
           </THead>
@@ -70,7 +69,7 @@ export default function UsersList() {
                 <Td>
                   <div className='flex'>
                     <Link
-                      to={`/users/${user.id}`}
+                      to={`/users/${user.id}/profile`}
                       className='flex gap-2 items-center hover:text-sky-800 ml-2 font-semibold'
                     >
                       <UserImage src={user.profilePicture} size={28} alt={`${user.name} ${user.firstSurname || ''}`} />
@@ -98,7 +97,7 @@ export default function UsersList() {
                       </Link>
                     </Tooltip>
                     <Tooltip title='Ver perfil'>
-                      <Link to={`/users/${user.id}`}>
+                      <Link to={`/users/${user.id}/profile`}>
                         <Button size='sm' icon={<HiPaperAirplane className='text-lg rotate-90' />} variant="solid" />
                       </Link>
                     </Tooltip>
