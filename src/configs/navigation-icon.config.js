@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaUsers, FaUsersCog, FaUsersSlash } from 'react-icons/fa'
+import { FaUserShield, FaUsers, FaUsersCog, FaUsersSlash } from 'react-icons/fa'
 import {
   HiHome,
   HiViewGridAdd,
@@ -13,8 +13,7 @@ const navigationIcon = {
   apps: <HiViewGridAdd />,
   restrictions: <FaUsersSlash />,
   log: <BiGitMerge />,
-  // log: <FaHistory />,
-  // log: <FaProjectDiagram />,
+  access: <FaUserShield />,
 }
 
 export default navigationIcon

@@ -25,7 +25,7 @@ const navigationConfig = [
 	{
 		key: 'apps',
 		path: '/apps',
-		title: 'Apliaciones',
+		title: 'Aplicaciones',
 		icon: 'apps',
 		type: NAV_ITEM_TYPE_ITEM,
 		authority: [],
@@ -45,6 +45,15 @@ const navigationConfig = [
 		path: '/restrictions',
 		title: 'Restricciones',
 		icon: 'restrictions',
+		type: NAV_ITEM_TYPE_ITEM,
+		authority: [],
+		subMenu: []
+	},
+	{
+		key: 'access',
+		path: '/users-access',
+		title: 'Accesos de usuario',
+		icon: 'access',
 		type: NAV_ITEM_TYPE_ITEM,
 		authority: [],
 		subMenu: []
