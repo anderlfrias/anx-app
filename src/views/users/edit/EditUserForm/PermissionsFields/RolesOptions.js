@@ -96,6 +96,7 @@ export default function RolesOptions({ role, rolesOfUser, onChangeRole, app }) {
         </Checkbox>
       </div>
       <div className='ml-7'>
+        {(rolesIds.includes(role.id) && restrictions.length > 0) && <span className='block text-gray-900 dark:text-gray-50 font-semibold'>Restricciones</span>}
         {restrictions.map(restriction => (
           <Checkbox
             key={restriction.id}

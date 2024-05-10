@@ -4,7 +4,6 @@ import React from 'react'
 import { GiPlainCircle } from "react-icons/gi";
 
 export default function AppsOfUser({ className, apps }) {
-  console.log('apps', apps)
   return (
     <div className={classNames('grid xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4', className)}>
       {apps.map(userapp => (

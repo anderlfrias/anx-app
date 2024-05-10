@@ -13,6 +13,8 @@ const navigationIcon = {
   apps: <HiViewGridAdd />,
   restrictions: <FaUsersSlash />,
   log: <BiGitMerge />,
+  // log: <FaHistory />,
+  // log: <FaProjectDiagram />,
 }
 
 export default navigationIcon

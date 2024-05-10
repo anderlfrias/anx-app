@@ -1,9 +1,11 @@
 import UserImage from "components/custom/UserImage";
 import { Button, Card } from "components/ui";
 import { FaRegUserCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { UserInfoField } from "views/users/profile/UserDetails/Overview";
 
 export default function AuthorDetails({ author }) {
-  const { name, firstSurname, secondSurname, username, email, phoneNumber, profilePicture } = author;
+  const { name, firstSurname, secondSurname, username, email, phoneNumber, profilePicture, employeeCode } = author;
 
   return (
     <Card>
@@ -14,41 +16,20 @@ export default function AuthorDetails({ author }) {
         />
         <div>
           <h5 className='mt-2'>{`${name} ${firstSurname} ${secondSurname}`}</h5>
-          {/* <span>{username} | {email}</span> */}
-        </div>
-      </div>
-      <div className='mb-2'>
-        <span>Nombre de usuario</span>
-        <p className="text-gray-700 dark:text-gray-200 font-semibold">
-          {username}
-        </p>
-      </div>
-      <div className='mb-2'>
-        <span>Correo electrónico</span>
-        <div>
-          <a
-            href={`mailto:${email}`}
-            className="text-gray-700 dark:text-gray-200 font-semibold hover:text-sky-800 active:text-sky-900"
-          >
-            {email}
-          </a>
         </div>
       </div>
 
-      <div className='mb-2'>
-        <span>Número de teléfono</span>
-        <div>
-          <a
-            href={`tel:${phoneNumber}`}
-            className="text-gray-700 dark:text-gray-200 font-semibold hover:text-sky-800 active:text-sky-900"
-          >
-            {phoneNumber}
-          </a>
-        </div>
+      <div className='grid grid-cols-1 gap-y-7 gap-x-4 mt-8'>
+        <UserInfoField label='Nombre de usuario' value={username} />
+        <UserInfoField label='Correo electrónico' value={email} />
+        <UserInfoField label='Número de teléfono' value={phoneNumber} />
+        <UserInfoField label='Código de empleado' value={employeeCode} />
       </div>
 
-      <div className='flex justify-center mt-6'>
-        <Button className='w-full' variant='outline' icon={<FaRegUserCircle />}>Ver pérfil</Button>
+      <div className='mt-6'>
+        <Link to={`/users/${author.id}/profile`}>
+          <Button className='w-full' variant='outline' icon={<FaRegUserCircle />}>Ver pérfil</Button>
+        </Link>
       </div>
     </Card>
   )

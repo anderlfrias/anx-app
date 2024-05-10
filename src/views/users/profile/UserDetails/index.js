@@ -16,7 +16,8 @@ export default function UserDetails({ id }) {
   useEffect(() => {
     const fetchUser = async () => {
       setLoading(true)
-      const resp = await apiRequest(() => apiGetUserPermissions(id, { populated: true }))
+      const query = new URLSearchParams({ populated: true }).toString()
+      const resp = await apiRequest(() => apiGetUserPermissions(id, query))
 
       if (resp.ok) {
         setUser(resp.data)
@@ -30,7 +31,6 @@ export default function UserDetails({ id }) {
 
     fetchUser()
   }, [apiRequest, navigate, id])
-  console.log('user', user)
 
   return (
     <Loading loading={loading}>

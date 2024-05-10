@@ -13,8 +13,8 @@ const ACTIONS_OPTIONS = [
 ]
 
 const STATUS_OPTIONS = [
-  { label: 'Exitoso', value: 'success' },
-  { label: 'Fallido', value: 'failed' },
+  { label: 'Exitoso', value: 'true' },
+  { label: 'Fallido', value: 'false' },
 ]
 
 export default function LogFilter({ className }) {
@@ -96,8 +96,8 @@ export default function LogFilter({ className }) {
           size='sm'
           placeholder='Estado'
           options={STATUS_OPTIONS}
-          value={STATUS_OPTIONS.find((estado) => estado.value === params.get('status'))}
-          onChange={(selected) => onChangeParams('status', selected?.value)}
+          value={STATUS_OPTIONS.find((estado) => estado.value === params.get('success'))}
+          onChange={(selected) => onChangeParams('success', selected?.value || '')}
           isClearable
         />
 

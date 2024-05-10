@@ -10,7 +10,7 @@ import { apiDeleteUser } from "services/UserService";
 import useRequest from "utils/hooks/useRequest";
 import openNotification from "utils/openNotification";
 
-const UserInfoField = ({ label, value }) => (
+export const UserInfoField = ({ label, value }) => (
   <div>
     <span>{label}</span>
     <div>
