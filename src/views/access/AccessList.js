@@ -1,9 +1,8 @@
-import Confirm from 'components/custom/Confirm'
 import CustomizedTag from 'components/custom/CustomizedTag'
-import { Button, Card, Switcher, Table, Tooltip } from 'components/ui'
+import { Card, Switcher, Table } from 'components/ui'
 import { useEffect, useState } from 'react'
-import { HiLockClosed, HiLockOpen, HiTrash } from 'react-icons/hi'
-import { apiGetUsersAccess } from 'services/AccessService'
+import { HiLockClosed, HiLockOpen } from 'react-icons/hi'
+import { apiGetUsersAccess, apiLockoutUserAccess, apiUnlockUserAccess } from 'services/AccessService'
 import useRequest from 'utils/hooks/useRequest'
 import openNotification from 'utils/openNotification'
 
@@ -12,15 +11,66 @@ const { Tr, Th, Td, THead, TBody } = Table
 export default function UsersAccessList() {
   const apiRequest = useRequest()
   const [usersAccess, setUsersAccess] = useState([])
+  const [changinfAccess, setChangingAccess] = useState({})
 
-  const deleteAccess = async (id) => {
-    console.log('delete', id)
+  const onChangeAccess = async (id, checked) => {
+    if (checked) {
+      return lockoutUserAccess(id)
+    }
+
+    if (!checked) {
+      return unlockUserAccess(id)
+    }
+  }
+
+  const lockoutUserAccess = async (id) => {
+    setChangingAccess({ ...changinfAccess, [id]: true })
+    const resp = await apiRequest(() => apiLockoutUserAccess(id))
+
+    if (resp.ok) {
+      setUsersAccess(usersAccess.map(userAccess => {
+        if (userAccess.id === id) {
+          return { ...userAccess, lockoutEnabled: true }
+        }
+
+        return userAccess
+      }))
+      openNotification('success', 'Bloqueado', 'El acceso ha sido bloqueado exitosamente')
+    }
+
+    if (!resp.ok) {
+      openNotification('danger', 'Error', resp.message)
+      console.error('Error:', resp.error)
+    }
+    setChangingAccess({ ...changinfAccess, [id]: false })
+  }
+
+  const unlockUserAccess = async (id) => {
+    setChangingAccess({ ...changinfAccess, [id]: true })
+    const resp = await apiRequest(() => apiUnlockUserAccess(id))
+
+    if (resp.ok) {
+      setUsersAccess(usersAccess.map(userAccess => {
+        if (userAccess.id === id) {
+          return { ...userAccess, lockoutEnabled: false }
+        }
+
+        return userAccess
+      }))
+      openNotification('success', 'Desbloqueado', 'El acceso ha sido desbloqueado exitosamente')
+    }
+
+    if (!resp.ok) {
+      openNotification('danger', 'Error', resp.message)
+      console.error('Error:', resp.error)
+    }
+    setChangingAccess({ ...changinfAccess, [id]: false })
   }
 
   useEffect(() => {
     async function fetchUsersAccess() {
       const resp = await apiRequest(apiGetUsersAccess)
-      console.log(resp)
+
       if (resp.ok) {
         setUsersAccess(resp.data)
       }
@@ -33,6 +83,7 @@ export default function UsersAccessList() {
 
     fetchUsersAccess()
   }, [apiRequest])
+
   return (
     <Card>
       <Table>
@@ -44,7 +95,6 @@ export default function UsersAccessList() {
             <Th>Aplicación</Th>
             <Th>Intentos Fallidos</Th>
             <Th>Bloqueado</Th>
-            <Th />
           </Tr>
         </THead>
         <TBody>
@@ -72,18 +122,13 @@ export default function UsersAccessList() {
               <Td>{userAccess.accessFailedCount}</Td>
               <Td>
                 <Switcher
+                  isLoading={changinfAccess[userAccess.id]}
                   size='sm'
                   unCheckedContent={<HiLockOpen />}
                   checkedContent={<HiLockClosed />}
-                  checked={userAccess.blocked}
+                  checked={userAccess.lockoutEnabled}
+                  onChange={() => onChangeAccess(userAccess.id, !userAccess.lockoutEnabled)}
                 />
-              </Td>
-              <Td>
-                <Confirm onConfirm={() => deleteAccess(userAccess.id)} type='danger'>
-                  <Tooltip title='Eliminar'>
-                    <Button size='sm' color='gray-600' icon={<HiTrash />} variant="twoTone" />
-                  </Tooltip>
-                </Confirm>
               </Td>
             </Tr>
           ))}
