@@ -49,7 +49,7 @@ export default function LogFilter({ className }) {
           className='w-full'
           placeholder='-Todos los usuarios-'
           value={params.get('author')}
-          onChange={(selected) => onChangeParams('author', selected?.value)}
+          onChange={(selected) => onChangeParams('author', selected?.value || '')}
           hideLabel
         />
 

@@ -54,7 +54,6 @@ export default function UsersAsyncSelect({ value, className, placeholder, noOpti
         async function fetchUser() {
           const { ok, data: user } = await apiRequest(() => apiGetUserById(value))
 
-          console.log('user', user)
           if (ok) {
             usersOptions = [...usersOptions, {
               label: `${user.name}`,

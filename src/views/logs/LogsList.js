@@ -112,7 +112,7 @@ export default function LogsList() {
 
               {logs.length === 0 && (
                 <Tr>
-                  <Td colSpan={7} className='text-center'>
+                  <Td colSpan={8} className='text-center'>
                     No se encontraron registros
                   </Td>
                 </Tr>
