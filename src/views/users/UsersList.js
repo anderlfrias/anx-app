@@ -1,6 +1,6 @@
 import Confirm from "components/custom/Confirm"
 import UserImage from "components/custom/UserImage"
-import { Loading } from "components/shared"
+import { TableRowSkeleton } from "components/shared"
 import { Button, Card, Table, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
 import { FaUserEdit } from "react-icons/fa"
@@ -53,16 +53,23 @@ export default function UsersList() {
 
   return (
     <Card>
-      <Loading loading={loading} type="cover" >
-        <Table>
-          <THead>
-            <Tr>
-              <Th>Nombre</Th>
-              <Th>Username</Th>
-              <Th>Email</Th>
-              <Th />
-            </Tr>
-          </THead>
+      <Table>
+        <THead>
+          <Tr>
+            <Th>Nombre</Th>
+            <Th>Username</Th>
+            <Th>Email</Th>
+            <Th />
+          </Tr>
+        </THead>
+        {loading ? (
+          <TableRowSkeleton
+            avatarInColumns={[0]}
+            columns={4}
+            rows={5}
+            avatarProps={{ width: 28, height: 28 }}
+          />
+        ) : (
           <TBody>
             {users.map((user) => (
               <Tr key={user.id}>
@@ -83,7 +90,7 @@ export default function UsersList() {
                   <div className="flex gap-1 justify-end min-w-max">
                     <Confirm
                       loading={deleting}
-                      onConfirm={async() => await onDelete(user.id)}
+                      onConfirm={async () => await onDelete(user.id)}
                       type='danger'
                       subtitle='¿Estás seguro de eliminar este usuario?'
                     >
@@ -105,9 +112,16 @@ export default function UsersList() {
                 </Td>
               </Tr>
             ))}
+            {users.length === 0 && (
+              <Tr>
+                <Td colSpan={4} className='text-center'>
+                  No se encontraron usuarios
+                </Td>
+              </Tr>
+            )}
           </TBody>
-        </Table>
-      </Loading>
+        )}
+      </Table>
     </Card>
   )
 }

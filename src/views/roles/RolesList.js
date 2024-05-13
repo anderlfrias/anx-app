@@ -7,12 +7,14 @@ import { HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
 import { Link, useLocation } from "react-router-dom"
 import CustomizedTag from "components/custom/CustomizedTag"
+import { TableRowSkeleton } from "components/shared"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
 export default function RolesList() {
   const apiRequest = useRequest()
   const [roles, setRoles] = useState([])
+  const [loading, setLoading] = useState(false)
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const search = searchParams.get('search') || '';
@@ -33,6 +35,7 @@ export default function RolesList() {
 
   useEffect(() => {
     const fetchRoles = async (search) => {
+      setLoading(true)
       const resp = await apiRequest(() => apiGetRoles(search))
 
       if (resp.ok) {
@@ -43,6 +46,7 @@ export default function RolesList() {
         openNotification('danger', 'Error', 'Error al obtener los roles')
         console.error('Error:', resp.error)
       }
+      setLoading(false)
     }
 
     fetchRoles(search)
@@ -60,34 +64,45 @@ export default function RolesList() {
             <Th />
           </Tr>
         </THead>
-        <TBody>
-          {roles.map((role, index) => (
-            <Tr key={role.id}>
-              <Td>{index + 1}</Td>
-              <Td>{role.name}</Td>
-              <Td>
-                <CustomizedTag text={role.normalizedName} />
-              </Td>
-              <Td>
-                {role.app && <CustomizedTag text={role.app.code} description={role.app.name} />}
-              </Td>
-              <Td>
-                <div className="flex justify-end gap-2 min-w-max">
-                  <Confirm onConfirm={() => deleteRole(role.id)} type='danger'>
-                    <Tooltip title='Eliminar'>
-                      <Button size='sm' color='gray-600' icon={<HiTrash />} variant="twoTone" />
+        {loading ? (
+          <TableRowSkeleton columns={5} rows={5} />
+        ) : (
+          <TBody>
+            {roles.map((role, index) => (
+              <Tr key={role.id}>
+                <Td>{index + 1}</Td>
+                <Td>{role.name}</Td>
+                <Td>
+                  <CustomizedTag text={role.normalizedName} />
+                </Td>
+                <Td>
+                  {role.app && <CustomizedTag text={role.app.code} description={role.app.name} />}
+                </Td>
+                <Td>
+                  <div className="flex justify-end gap-2 min-w-max">
+                    <Confirm onConfirm={() => deleteRole(role.id)} type='danger'>
+                      <Tooltip title='Eliminar'>
+                        <Button size='sm' color='gray-600' icon={<HiTrash />} variant="twoTone" />
+                      </Tooltip>
+                    </Confirm>
+                    <Tooltip title='Editar'>
+                      <Link to={`/roles/${role.id}`}>
+                        <Button size='sm' color='gray-600' icon={<HiPencilAlt />} variant="twoTone" />
+                      </Link>
                     </Tooltip>
-                  </Confirm>
-                  <Tooltip title='Editar'>
-                    <Link to={`/roles/${role.id}`}>
-                      <Button size='sm' color='gray-600' icon={<HiPencilAlt />} variant="twoTone" />
-                    </Link>
-                  </Tooltip>
-                </div>
-              </Td>
-            </Tr>
-          ))}
-        </TBody>
+                  </div>
+                </Td>
+              </Tr>
+            ))}
+            {roles.length === 0 && (
+              <Tr>
+                <Td colSpan={5} className='text-center'>
+                  No se encontraron roles
+                </Td>
+              </Tr>
+            )}
+          </TBody>
+        )}
       </Table>
     </Card>
   )

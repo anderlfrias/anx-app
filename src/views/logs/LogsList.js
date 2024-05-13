@@ -1,6 +1,7 @@
 import CustomizedPagination from "components/custom/CustomizedPagination"
 import CustomizedTag from "components/custom/CustomizedTag"
 import TextToCopy from "components/custom/TextToCopy"
+import { TableRowSkeleton } from "components/shared"
 import { Button, Card, Table, Tag, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
 import { HiPaperAirplane } from "react-icons/hi"
@@ -31,9 +32,11 @@ export default function LogsList() {
   const [logs, setLogs] = useState([])
   const params = useURLSearchParams()
   const [total, setTotal] = useState(0)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     async function fetchData(query) {
+      setLoading(true)
       const res = await apiRequest(() => apiGetLogs(query))
       if (res.ok) {
         setLogs(res.data.logs)
@@ -44,6 +47,7 @@ export default function LogsList() {
         openNotification('danger', 'Error', res.message)
         console.error('Error:', res.error)
       }
+      setLoading(false)
     }
 
     fetchData(params.query)
@@ -65,44 +69,56 @@ export default function LogsList() {
               <Th />
             </Tr>
           </THead>
-          <TBody>
-            {logs.map((log, index) => (
-              <Tr key={log.id}>
-                <Td>{index + 1}</Td>
-                <Td>
-                  <CustomizedTag color={ACCTIONS_COLORS[log.action]} text={log.action} />
-                </Td>
-                <Td>{new Date(log.date).toLocaleString('es-DO')}</Td>
-                <Td>
-                  {log.author ?
-                    <CustomizedTag text={log.author.username} />
-                    :
-                    <span className='text-gray-500 italic'>Sin autor</span>
-                  }
-                </Td>
-                <Td>{log.origin}</Td>
-                <Td>
-                  {log.elementId ?
-                    <TextToCopy text={log.elementId} className='cursor-pointer'>
-                      #{log.elementId.slice(0, 6)}
-                    </TextToCopy>
-                    :
-                    <span className='text-gray-500 italic'>Sin elemento</span>
-                  }
-                </Td>
-                <Td>
-                  <LogStatus success={log.success} />
-                </Td>
-                <Td>
-                  <Tooltip title='Ver detalles'>
-                    <Link to={`/logs/${log.id}`}>
-                      <Button size='sm' icon={<HiPaperAirplane className='text-lg rotate-90' />} variant='solid' />
-                    </Link>
-                  </Tooltip>
-                </Td>
-              </Tr>
-            ))}
-          </TBody>
+          {loading ? (
+            <TableRowSkeleton columns={8} rows={10} />
+          ) : (
+            <TBody>
+              {logs.map((log, index) => (
+                <Tr key={log.id}>
+                  <Td>{index + 1}</Td>
+                  <Td>
+                    <CustomizedTag color={ACCTIONS_COLORS[log.action]} text={log.action} />
+                  </Td>
+                  <Td>{new Date(log.date).toLocaleString('es-DO')}</Td>
+                  <Td>
+                    {log.author ?
+                      <CustomizedTag text={log.author.username} />
+                      :
+                      <span className='text-gray-500 italic'>Sin autor</span>
+                    }
+                  </Td>
+                  <Td>{log.origin}</Td>
+                  <Td>
+                    {log.elementId ?
+                      <TextToCopy text={log.elementId} className='cursor-pointer'>
+                        #{log.elementId.slice(0, 6)}
+                      </TextToCopy>
+                      :
+                      <span className='text-gray-500 italic'>Sin elemento</span>
+                    }
+                  </Td>
+                  <Td>
+                    <LogStatus success={log.success} />
+                  </Td>
+                  <Td>
+                    <Tooltip title='Ver detalles'>
+                      <Link to={`/logs/${log.id}`}>
+                        <Button size='sm' icon={<HiPaperAirplane className='text-lg rotate-90' />} variant='solid' />
+                      </Link>
+                    </Tooltip>
+                  </Td>
+                </Tr>
+              ))}
+
+              {logs.length === 0 && (
+                <Tr>
+                  <Td colSpan={7} className='text-center'>
+                    No se encontraron registros
+                  </Td>
+                </Tr>
+              )}
+            </TBody>
+          )}
         </Table>
 
         <CustomizedPagination className='mt-4' total={total} />

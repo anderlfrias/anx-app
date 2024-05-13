@@ -8,6 +8,7 @@ import { Link, useLocation } from "react-router-dom"
 import { apiDeleteApp, apiGetApps } from "services/AppService"
 import copy from "utils/lib/copy"
 import CustomizedTag from "components/custom/CustomizedTag"
+import { TableRowSkeleton } from "components/shared"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -43,6 +44,7 @@ const AppUrl = ({ url }) => {
 export default function AppsList() {
   const apiRequest = useRequest()
   const [apps, setApps] = useState([])
+  const [loading, setLoading] = useState(false)
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const search = searchParams.get('search') || '';
@@ -63,6 +65,7 @@ export default function AppsList() {
 
   useEffect(() => {
     const fetchRoles = async (search) => {
+      setLoading(true)
       const resp = await apiRequest(() => apiGetApps(search))
 
       if (resp.ok) {
@@ -73,6 +76,7 @@ export default function AppsList() {
         openNotification('danger', 'Error', 'Error al obtener las aplicaciones')
         console.error('Error:', resp.error)
       }
+      setLoading(false)
     }
 
     fetchRoles(search)
@@ -91,31 +95,42 @@ export default function AppsList() {
             <Th />
           </Tr>
         </THead>
-        <TBody>
-          {apps.map((app, index) => (
-            <Tr key={app.id}>
-              <Td>{index + 1}</Td>
-              <Td><CustomizedTag text={app.code} /></Td>
-              <Td>{app.name}</Td>
-              <Td>{app.description}</Td>
-              <Td><AppUrl url={app.url} /></Td>
-              <Td>
-                <div className="flex justify-end gap-2 min-w-max">
-                  <Confirm onConfirm={() => deleteApp(app.id)} type='danger'>
-                    <Tooltip title='Eliminar'>
-                      <Button size='sm' color='gray-600' icon={<HiTrash />} variant="twoTone" />
+        {loading ? (
+          <TableRowSkeleton columns={6} rows={5} />
+        ) : (
+          <TBody>
+            {apps.map((app, index) => (
+              <Tr key={app.id}>
+                <Td>{index + 1}</Td>
+                <Td><CustomizedTag text={app.code} /></Td>
+                <Td>{app.name}</Td>
+                <Td>{app.description}</Td>
+                <Td><AppUrl url={app.url} /></Td>
+                <Td>
+                  <div className="flex justify-end gap-2 min-w-max">
+                    <Confirm onConfirm={() => deleteApp(app.id)} type='danger'>
+                      <Tooltip title='Eliminar'>
+                        <Button size='sm' color='gray-600' icon={<HiTrash />} variant="twoTone" />
+                      </Tooltip>
+                    </Confirm>
+                    <Tooltip title='Editar'>
+                      <Link to={`/apps/${app.id}`}>
+                        <Button size='sm' color='gray-600' icon={<HiPencilAlt />} variant="twoTone" />
+                      </Link>
                     </Tooltip>
-                  </Confirm>
-                  <Tooltip title='Editar'>
-                    <Link to={`/apps/${app.id}`}>
-                      <Button size='sm' color='gray-600' icon={<HiPencilAlt />} variant="twoTone" />
-                    </Link>
-                  </Tooltip>
-                </div>
-              </Td>
-            </Tr>
-          ))}
-        </TBody>
+                  </div>
+                </Td>
+              </Tr>
+            ))}
+            {apps.length === 0 && (
+              <Tr>
+                <Td colSpan={6} className='text-center'>
+                  No se encontraron aplicaciones
+                </Td>
+              </Tr>
+            )}
+          </TBody>
+        )}
       </Table>
     </Card>
   )

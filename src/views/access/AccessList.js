@@ -1,4 +1,5 @@
 import CustomizedTag from 'components/custom/CustomizedTag'
+import { TableRowSkeleton } from 'components/shared'
 import { Card, Switcher, Table } from 'components/ui'
 import { useEffect, useState } from 'react'
 import { HiLockClosed, HiLockOpen } from 'react-icons/hi'
@@ -12,6 +13,7 @@ export default function UsersAccessList() {
   const apiRequest = useRequest()
   const [usersAccess, setUsersAccess] = useState([])
   const [changinfAccess, setChangingAccess] = useState({})
+  const [loading, setLoading] = useState(false)
 
   const onChangeAccess = async (id, checked) => {
     if (checked) {
@@ -69,6 +71,7 @@ export default function UsersAccessList() {
 
   useEffect(() => {
     async function fetchUsersAccess() {
+      setLoading(true)
       const resp = await apiRequest(apiGetUsersAccess)
 
       if (resp.ok) {
@@ -79,6 +82,7 @@ export default function UsersAccessList() {
         openNotification('danger', 'Error', resp.message)
         console.error('Error:', resp.error)
       }
+      setLoading(false)
     }
 
     fetchUsersAccess()
@@ -97,6 +101,9 @@ export default function UsersAccessList() {
             <Th>Bloqueado</Th>
           </Tr>
         </THead>
+        {loading ? (
+          <TableRowSkeleton columns={6} rows={5} />
+        ) : (
         <TBody>
           {usersAccess.map((userAccess, index) => (
             <Tr key={userAccess.id}>
@@ -132,7 +139,15 @@ export default function UsersAccessList() {
               </Td>
             </Tr>
           ))}
+          {usersAccess.length === 0 && (
+            <Tr>
+              <Td colSpan={6} className='text-center'>
+                No se encontraron accesos
+              </Td>
+            </Tr>
+          )}
         </TBody>
+        )}
       </Table>
     </Card>
   )
