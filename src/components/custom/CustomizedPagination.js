@@ -1,4 +1,4 @@
-import { Pagination, Select } from "components/ui";
+import { Dropdown, Pagination } from "components/ui";
 import useURLSearchParams from "utils/hooks/useURLSearchParams";
 
 const PAGE_OPTIONS = [
@@ -24,13 +24,21 @@ export default function CustomizedPagination({ className, total }) {
     <div className={className}>
       <div className='flex justify-between mt-4'>
         <div style={{ minWidth: 180 }}>
-          <Select
-            size="sm"
-            isSearchable={false}
-            value={PAGE_OPTIONS.find(x => x.value === parseInt(params.get('top') || 10))}
-            options={PAGE_OPTIONS}
-            onChange={selected => onPageSelect(selected.value)}
-          />
+          <Dropdown
+            placement="top-center"
+            title={`${parseInt(params.get('top') || 10)} / página`}
+            activeKey={params.get('top') || '10'}
+          >
+            {PAGE_OPTIONS.map(({ label, value }) => (
+              <Dropdown.Item
+                key={value}
+                eventKey={value.toString()}
+                onClick={() => onPageSelect(value)}
+              >
+                {label}
+              </Dropdown.Item>
+            ))}
+          </Dropdown>
         </div>
         <Pagination className='flex justify-end w-full '
           onChange={onPaginationChange}
