@@ -2,8 +2,8 @@ import ViewTitle from "components/custom/ViewTitle";
 import { Link } from "react-router-dom";
 import { Button } from "components/ui";
 import { HiPlusCircle } from "react-icons/hi";
-import Filter from "components/custom/Filter";
 import RestrictionsList from "./RestrictionsList";
+import InputSearch from "components/custom/InputSearch";
 
 export default function Roles() {
   return (
@@ -12,7 +12,7 @@ export default function Roles() {
         <ViewTitle title="Restricciones" />
 
         <div className="flex justify-end gap-2 w-full">
-          <Filter />
+          <InputSearch />
           <Link to="/restrictions/create">
             <Button size="sm" variant='solid' icon={<HiPlusCircle />} >Crear Restricción</Button>
           </Link>

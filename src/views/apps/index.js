@@ -3,7 +3,7 @@ import { Button } from "components/ui";
 import { HiPlusCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import AppsList from "./AppsList";
-import Filter from "components/custom/Filter";
+import InputSearch from "components/custom/InputSearch";
 
 export default function Apps() {
   return (
@@ -12,7 +12,7 @@ export default function Apps() {
         <ViewTitle title="Aplicaciones" />
         
         <div className="flex justify-end gap-2 w-full">
-          <Filter />
+          <InputSearch />
           <Link to="/apps/create">
             <Button size="sm" variant='solid' icon={<HiPlusCircle />} >Crear Aplicacion</Button>
           </Link>

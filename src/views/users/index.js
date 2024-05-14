@@ -3,7 +3,7 @@ import UsersList from "./UsersList";
 import { Button } from "components/ui";
 import { Link } from "react-router-dom";
 import { FaUserPlus } from "react-icons/fa";
-import Filter from "components/custom/Filter";
+import InputSearch from "components/custom/InputSearch";
 
 export default function Users() {
   return (
@@ -12,7 +12,9 @@ export default function Users() {
         <ViewTitle title="Usuarios" />
 
         <div className="flex justify-end gap-2 w-full">
-          <Filter />
+          <InputSearch
+            placeholder="Nombre, email, username, codigo..."
+          />
           <Link to="/users/create">
             <Button size="sm" variant='solid' icon={<FaUserPlus />} >Crear Usuario</Button>
           </Link>
