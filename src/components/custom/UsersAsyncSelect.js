@@ -16,7 +16,7 @@ export default function UsersAsyncSelect({ value, className, placeholder, noOpti
 
     if (resp.ok) {
       callback(
-        resp.data.map(role => ({
+        resp.data.users.map(role => ({
           label: `${role.name}`,
           value: role.id,
         }))
@@ -29,7 +29,7 @@ export default function UsersAsyncSelect({ value, className, placeholder, noOpti
     async function fetchUsers() {
       const resp = await apiRequest(() => apiGetUsers())
       if (resp.ok) {
-        setUsers(resp.data.map(role => ({
+        setUsers(resp.data.users.map(role => ({
           label: `${role.name}`,
           value: role.id,
         })))
