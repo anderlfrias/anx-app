@@ -4,11 +4,13 @@ import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 import { HiExternalLink, HiLink, HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { apiDeleteApp, apiGetApps } from "services/AppService"
 import copy from "utils/lib/copy"
 import CustomizedTag from "components/custom/CustomizedTag"
 import { TableRowSkeleton } from "components/shared"
+import CustomizedPagination from "components/custom/CustomizedPagination"
+import useURLSearchParams from "utils/hooks/useURLSearchParams"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -20,7 +22,7 @@ const AppUrl = ({ url }) => {
   }
 
   if (!url) return (
-    <span className='text-gray-500 italic min-w-max'>Sin URL</span>
+    <span className='text-gray-400 dark:text-gray-600 italic min-w-max'>Sin URL</span>
   )
 
   return (
@@ -45,9 +47,8 @@ export default function AppsList() {
   const apiRequest = useRequest()
   const [apps, setApps] = useState([])
   const [loading, setLoading] = useState(false)
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const search = searchParams.get('search') || '';
+  const [total, setTotal] = useState(0)
+  const params = useURLSearchParams()
 
   const deleteApp = async (id) => {
     const resp = await apiRequest(() => apiDeleteApp(id))
@@ -64,12 +65,13 @@ export default function AppsList() {
   }
 
   useEffect(() => {
-    const fetchRoles = async (search) => {
+    const fetchRoles = async (query) => {
       setLoading(true)
-      const resp = await apiRequest(() => apiGetApps(search))
+      const resp = await apiRequest(() => apiGetApps(query))
 
       if (resp.ok) {
-        setApps(resp.data)
+        setApps(resp.data.apps)
+        setTotal(resp.data.total)
       }
 
       if (!resp.ok) {
@@ -79,8 +81,8 @@ export default function AppsList() {
       setLoading(false)
     }
 
-    fetchRoles(search)
-  }, [apiRequest, search])
+    fetchRoles(params.query)
+  }, [apiRequest, params.query])
 
   return (
     <Card>
@@ -132,6 +134,7 @@ export default function AppsList() {
           </TBody>
         )}
       </Table>
+      <CustomizedPagination className='mt-4' total={total} />
     </Card>
   )
 }

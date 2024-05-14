@@ -1,3 +1,4 @@
+import CustomizedPagination from 'components/custom/CustomizedPagination'
 import CustomizedTag from 'components/custom/CustomizedTag'
 import { TableRowSkeleton } from 'components/shared'
 import { Card, Switcher, Table } from 'components/ui'
@@ -5,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { HiLockClosed, HiLockOpen } from 'react-icons/hi'
 import { apiGetUsersAccess, apiLockoutUserAccess, apiUnlockUserAccess } from 'services/AccessService'
 import useRequest from 'utils/hooks/useRequest'
+import useURLSearchParams from 'utils/hooks/useURLSearchParams'
 import openNotification from 'utils/openNotification'
 
 const { Tr, Th, Td, THead, TBody } = Table
@@ -12,8 +14,10 @@ const { Tr, Th, Td, THead, TBody } = Table
 export default function UsersAccessList() {
   const apiRequest = useRequest()
   const [usersAccess, setUsersAccess] = useState([])
-  const [changinfAccess, setChangingAccess] = useState({})
+  const [total, setTotal] = useState(0)
+  const [changingAccess, setChangingAccess] = useState({})
   const [loading, setLoading] = useState(false)
+  const params = useURLSearchParams()
 
   const onChangeAccess = async (id, checked) => {
     if (checked) {
@@ -26,7 +30,7 @@ export default function UsersAccessList() {
   }
 
   const lockoutUserAccess = async (id) => {
-    setChangingAccess({ ...changinfAccess, [id]: true })
+    setChangingAccess({ ...changingAccess, [id]: true })
     const resp = await apiRequest(() => apiLockoutUserAccess(id))
 
     if (resp.ok) {
@@ -44,11 +48,11 @@ export default function UsersAccessList() {
       openNotification('danger', 'Error', resp.message)
       console.error('Error:', resp.error)
     }
-    setChangingAccess({ ...changinfAccess, [id]: false })
+    setChangingAccess({ ...changingAccess, [id]: false })
   }
 
   const unlockUserAccess = async (id) => {
-    setChangingAccess({ ...changinfAccess, [id]: true })
+    setChangingAccess({ ...changingAccess, [id]: true })
     const resp = await apiRequest(() => apiUnlockUserAccess(id))
 
     if (resp.ok) {
@@ -66,16 +70,17 @@ export default function UsersAccessList() {
       openNotification('danger', 'Error', resp.message)
       console.error('Error:', resp.error)
     }
-    setChangingAccess({ ...changinfAccess, [id]: false })
+    setChangingAccess({ ...changingAccess, [id]: false })
   }
 
   useEffect(() => {
-    async function fetchUsersAccess() {
+    async function fetchUsersAccess(query) {
       setLoading(true)
-      const resp = await apiRequest(apiGetUsersAccess)
+      const resp = await apiRequest(() => apiGetUsersAccess(query))
 
       if (resp.ok) {
-        setUsersAccess(resp.data)
+        setUsersAccess(resp.data.appAccessFlow)
+        setTotal(resp.data.total)
       }
 
       if (!resp.ok) {
@@ -85,8 +90,8 @@ export default function UsersAccessList() {
       setLoading(false)
     }
 
-    fetchUsersAccess()
-  }, [apiRequest])
+    fetchUsersAccess(params.query)
+  }, [apiRequest, params.query])
 
   return (
     <Card>
@@ -129,7 +134,7 @@ export default function UsersAccessList() {
               <Td>{userAccess.accessFailedCount}</Td>
               <Td>
                 <Switcher
-                  isLoading={changinfAccess[userAccess.id]}
+                  isLoading={changingAccess[userAccess.id]}
                   size='sm'
                   unCheckedContent={<HiLockOpen />}
                   checkedContent={<HiLockClosed />}
@@ -149,6 +154,7 @@ export default function UsersAccessList() {
         </TBody>
         )}
       </Table>
+      <CustomizedPagination className='mt-4' total={total} />
     </Card>
   )
 }

@@ -1,9 +1,9 @@
 import { URL_API } from 'constants/api.constant'
 import ApiService from 'services/ApiService'
 
-export async function apiGetRestrictions (search = '') {
+export async function apiGetRestrictions (q = '') {
   return ApiService.fetchData({
-    url: `${URL_API}/v1/restrictions?search=${search}`,
+    url: `${URL_API}/v1/restrictions?${q}`,
     method: 'get'
   })
 }

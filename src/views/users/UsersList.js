@@ -1,13 +1,15 @@
 import Confirm from "components/custom/Confirm"
+import CustomizedPagination from "components/custom/CustomizedPagination"
 import UserImage from "components/custom/UserImage"
 import { TableRowSkeleton } from "components/shared"
 import { Button, Card, Table, Tooltip } from "components/ui"
 import { useEffect, useState } from "react"
 import { FaUserEdit } from "react-icons/fa"
 import { HiPaperAirplane, HiTrash } from "react-icons/hi"
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { apiDeleteUser, apiGetUsers } from "services/UserService"
 import useRequest from "utils/hooks/useRequest"
+import useURLSearchParams from "utils/hooks/useURLSearchParams"
 import openNotification from "utils/openNotification"
 
 const { Tr, Th, Td, THead, TBody } = Table
@@ -15,11 +17,10 @@ const { Tr, Th, Td, THead, TBody } = Table
 export default function UsersList() {
   const apiRequest = useRequest()
   const [users, setUsers] = useState([])
+  const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const [deleting, setDeleting] = useState(false)
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const search = searchParams.get('search') || '';
+  const params = useURLSearchParams()
 
   const onDelete = async (id) => {
     setDeleting(true)
@@ -35,12 +36,13 @@ export default function UsersList() {
   }
 
   useEffect(() => {
-    const fetchUsers = async (search) => {
+    const fetchUsers = async (query) => {
       setLoading(true)
-      const resp = await apiRequest(() => apiGetUsers(search))
+      const resp = await apiRequest(() => apiGetUsers(query))
 
       if (resp.ok) {
-        setUsers(resp.data)
+        setUsers(resp.data.users)
+        setTotal(resp.data.total)
       } else {
         openNotification('error', 'Error', resp.message)
         console.error(resp)
@@ -48,8 +50,8 @@ export default function UsersList() {
       setLoading(false)
     }
 
-    fetchUsers(search)
-  }, [apiRequest, search])
+    fetchUsers(params.query)
+  }, [apiRequest, params.query])
 
   return (
     <Card>
@@ -122,6 +124,7 @@ export default function UsersList() {
           </TBody>
         )}
       </Table>
+      <CustomizedPagination className='mt-4' total={total} />
     </Card>
   )
 }

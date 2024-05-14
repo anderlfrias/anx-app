@@ -4,20 +4,21 @@ import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 import { HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { apiDeleteRestriction, apiGetRestrictions } from "services/RestrictionService"
 import { TableRowSkeleton, TextEllipsis } from "components/shared"
 import CustomizedTag from "components/custom/CustomizedTag"
+import CustomizedPagination from "components/custom/CustomizedPagination"
+import useURLSearchParams from "utils/hooks/useURLSearchParams"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
 export default function RestrictionsList() {
   const apiRequest = useRequest()
   const [restrictions, setRestrictions] = useState([])
+  const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const search = searchParams.get('search') || '';
+  const params = useURLSearchParams()
 
   const deleteRestriction = async (id) => {
     const resp = await apiRequest(() => apiDeleteRestriction(id))
@@ -34,12 +35,13 @@ export default function RestrictionsList() {
   }
 
   useEffect(() => {
-    const fetchRoles = async (search) => {
+    const fetchRestrictions = async (query) => {
       setLoading(true)
-      const resp = await apiRequest(() => apiGetRestrictions(search))
+      const resp = await apiRequest(() => apiGetRestrictions(query))
 
       if (resp.ok) {
-        setRestrictions(resp.data)
+        setRestrictions(resp.data.restrictions)
+        setTotal(resp.data.total)
       }
 
       if (!resp.ok) {
@@ -49,8 +51,8 @@ export default function RestrictionsList() {
       setLoading(false)
     }
 
-    fetchRoles(search)
-  }, [apiRequest, search])
+    fetchRestrictions(params.query)
+  }, [apiRequest, params.query])
 
   return (
     <Card>
@@ -112,6 +114,7 @@ export default function RestrictionsList() {
           </TBody>
         )}
       </Table>
+      <CustomizedPagination className='mt-4' total={total} />
     </Card>
   )
 }

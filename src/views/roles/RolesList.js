@@ -5,9 +5,11 @@ import useRequest from "utils/hooks/useRequest"
 import openNotification from "utils/openNotification"
 import { HiPencilAlt, HiTrash } from "react-icons/hi"
 import Confirm from "components/custom/Confirm"
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 import CustomizedTag from "components/custom/CustomizedTag"
 import { TableRowSkeleton } from "components/shared"
+import CustomizedPagination from "components/custom/CustomizedPagination"
+import useURLSearchParams from "utils/hooks/useURLSearchParams"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -15,9 +17,8 @@ export default function RolesList() {
   const apiRequest = useRequest()
   const [roles, setRoles] = useState([])
   const [loading, setLoading] = useState(false)
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const search = searchParams.get('search') || '';
+  const [total, setTotal] = useState(0)
+  const params = useURLSearchParams()
 
   const deleteRole = async (id) => {
     const resp = await apiRequest(() => apiDeleteRole(id))
@@ -34,12 +35,13 @@ export default function RolesList() {
   }
 
   useEffect(() => {
-    const fetchRoles = async (search) => {
+    const fetchRoles = async (query) => {
       setLoading(true)
-      const resp = await apiRequest(() => apiGetRoles(search))
+      const resp = await apiRequest(() => apiGetRoles(query))
 
       if (resp.ok) {
-        setRoles(resp.data)
+        setRoles(resp.data.roles)
+        setTotal(resp.data.total)
       }
 
       if (!resp.ok) {
@@ -49,8 +51,8 @@ export default function RolesList() {
       setLoading(false)
     }
 
-    fetchRoles(search)
-  }, [apiRequest, search])
+    fetchRoles(params.query)
+  }, [apiRequest, params.query])
 
   return (
     <Card>
@@ -76,7 +78,9 @@ export default function RolesList() {
                   <CustomizedTag text={role.normalizedName} />
                 </Td>
                 <Td>
-                  {role.app && <CustomizedTag text={role.app.code} description={role.app.name} />}
+                  {role.app ? (<CustomizedTag text={role.app.code} description={role.app.name} />) :
+                    (<span className='text-gray-400 italic dark:text-gray-600 min-w-max'>Sin aplicación</span>)
+                  }
                 </Td>
                 <Td>
                   <div className="flex justify-end gap-2 min-w-max">
@@ -104,6 +108,7 @@ export default function RolesList() {
           </TBody>
         )}
       </Table>
+      <CustomizedPagination className='mt-4' total={total} />
     </Card>
   )
 }
