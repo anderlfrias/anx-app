@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import Confirm from "components/custom/Confirm";
+import TextToCopy from "components/custom/TextToCopy";
 import UserImage from "components/custom/UserImage"
 import { Button, Card } from "components/ui"
 import { useState } from "react";
@@ -38,7 +39,8 @@ export default function UserOverview({ className, user }) {
     profilePicture,
     firstSurname,
     secondSurname,
-    employeeCode
+    employeeCode,
+    externalCode = '6629054c94d787fa79ec22cc',
   } = user;
 
   const onDelete = async () => {
@@ -59,7 +61,10 @@ export default function UserOverview({ className, user }) {
     { label: 'Nombre de usuario', value: username },
     { label: 'Correo electrónico', value: email },
     { label: 'Número de teléfono', value: phoneNumber },
-    { label: 'Código de empleado', value: employeeCode }
+    { label: 'Código de empleado', value: employeeCode },
+    { label: 'Código externo', value: externalCode && (
+      <TextToCopy text={externalCode}>{externalCode.substring(18, 24).toUpperCase()}</TextToCopy>
+    )},
   ]
 
   return (

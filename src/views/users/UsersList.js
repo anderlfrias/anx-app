@@ -60,7 +60,7 @@ export default function UsersList() {
           <Tr>
             <Th>Nombre</Th>
             <Th>Username</Th>
-            <Th>Email</Th>
+            <Th>Correo electrónico</Th>
             <Th />
           </Tr>
         </THead>

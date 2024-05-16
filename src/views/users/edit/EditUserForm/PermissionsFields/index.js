@@ -6,16 +6,31 @@ import AppsOptions from "./AppsOptions"
 import { apiDeleteAppOfUser, apiPostAppToUser } from "services/UserPermissionServices"
 import { useParams } from "react-router-dom"
 import UserContext from "../../UserContext"
+import { Skeleton } from "components/ui"
+
+const AppsSkeleton = () => (
+  <>
+    <Skeleton height={150} />
+    <Skeleton height={150} />
+    <Skeleton height={150} />
+    <Skeleton height={150} />
+    <Skeleton height={150} />
+    <Skeleton height={150} />
+    <Skeleton height={150} />
+    <Skeleton height={150} />
+  </>
+)
 
 export default function PermissionsFields({ className }) {
-  const { id:userId } = useParams()
+  const { id: userId } = useParams()
   const apiRequest = useRequest()
   const [apps, setApps] = useState([])
   const [loading, setLoading] = useState(null)
+  const [loadingApps, setLoadingApps] = useState(false)
   const { user, setUser } = useContext(UserContext)
   const [appsOfUser, setAppsOfUser] = useState(user.apps.map(userApp => userApp.app))
 
-  const onChangeApp = async(checked, app) => {
+  const onChangeApp = async (checked, app) => {
     setLoading({
       ...loading,
       [app]: true
@@ -62,16 +77,18 @@ export default function PermissionsFields({ className }) {
 
   useEffect(() => {
     const fetchPermissions = async () => {
+      setLoadingApps(true)
       const resp = await apiRequest(() => apiGetApps())
-
+      console.log('resp', resp)
       if (resp.ok) {
-        setApps(resp.data)
+        setApps(resp.data.apps)
       }
 
       if (!resp.ok) {
         console.error(resp)
         openNotification('error', 'Error', resp.message)
       }
+      setLoadingApps(false)
     }
 
     fetchPermissions()
@@ -89,14 +106,15 @@ export default function PermissionsFields({ className }) {
       </div>
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-        {apps.map(app => (
-            <AppsOptions
-              key={app.id}
-              app={app}
-              onChange={onChangeApp}
-              loading={loading?.[app.id]}
-              active={appsOfUser.includes(app.id)}
-            />
+        {loadingApps && <AppsSkeleton />}
+        {apps.length > 0 && apps.map(app => (
+          <AppsOptions
+            key={app.id}
+            app={app}
+            onChange={onChangeApp}
+            loading={loading?.[app.id]}
+            active={appsOfUser.includes(app.id)}
+          />
         ))}
       </div>
     </div>

@@ -91,10 +91,10 @@ export default function LogsList() {
                   <Td>
                     {log.elementId ?
                       <TextToCopy text={log.elementId} className='cursor-pointer'>
-                        #{log.elementId.slice(0, 6)}
+                        #{log.elementId.substring(18, 24)}
                       </TextToCopy>
                       :
-                      <span className='text-gray-500 italic'>Sin elemento</span>
+                      <span className='text-gray-400 dark:text-gray-500 italic min-w-max'>Sin elemento</span>
                     }
                   </Td>
                   <Td>
