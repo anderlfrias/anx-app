@@ -7,7 +7,7 @@ import UserContext from "../../UserContext";
 import { apiDeleteRestrictionOfUserInApp, apiPostRestrictionToUserInApp } from "services/UserPermissionServices";
 import { Loading } from "components/shared";
 
-export default function RolesOptions({ role, rolesOfUser, onChangeRole, app }) {
+export default function RolesOptions({ role, rolesOfUser, onChangeRole: onChangeRoleFromProps, app }) {
   const apiRequest = useRequest()
   const { user, addRestriction, deleteRestriction } = useContext(UserContext)
   const [rolesIds, setRolesIds] = useState([]) // [roleId, roleId, roleId
@@ -24,6 +24,12 @@ export default function RolesOptions({ role, rolesOfUser, onChangeRole, app }) {
       return deleteRestrictionOfUser(restriction)
     }
 
+  }
+
+  const onChangeRole = async (checked, roleId) => {
+    setLoading(true)
+    await onChangeRoleFromProps(checked, roleId)
+    setLoading(false)
   }
 
   const addRestrictionToUser = async (restriction) => {
