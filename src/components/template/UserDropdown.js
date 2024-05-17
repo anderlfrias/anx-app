@@ -8,8 +8,12 @@ import classNames from 'classnames'
 import { HiOutlineUser, HiOutlineLogout } from 'react-icons/hi'
 import { useSelector } from 'react-redux'
 import { displayRole } from 'utils/role'
+import ChangePasswordSvg from 'assets/svg/ChangePasswordSvg'
+import { FaUser } from 'react-icons/fa'
 
 const dropdownItemList = [
+	{ label: 'Mi Perfil', path: '/profile', icon: <HiOutlineUser /> },
+	{ label: 'Cambiar Contraseña', path: '/change-password', icon: <ChangePasswordSvg /> },
 ]
 
 export const UserDropdown = ({ className }) => {
@@ -21,7 +25,7 @@ export const UserDropdown = ({ className }) => {
 
 	const UserAvatar = (
 		<div className={classNames(className, 'flex items-center gap-2')}>
-			<Avatar size={32} shape="circle" icon={<HiOutlineUser />} />
+			<Avatar size={32} shape="circle" icon={<FaUser />} />
 			<div className="hidden md:block">
 				<div className="text-xs capitalize">{displayRole(userInfo.authority)}</div>
 				<div className="font-bold">{userInfo.username}</div>
@@ -34,7 +38,7 @@ export const UserDropdown = ({ className }) => {
 			<Dropdown menuStyle={{minWidth: 240}} renderTitle={UserAvatar} placement="bottom-end">
 				<Dropdown.Item variant="header">
 					<div className="py-2 px-3 flex items-center gap-2">
-						<Avatar shape="circle" icon={<HiOutlineUser />} />
+						<Avatar shape="circle" icon={<FaUser />} />
 						<div>
 							<div className="font-bold text-gray-900 dark:text-gray-100">{`${userInfo.name} ${userInfo.firstSurname} ${userInfo.secondSurname}`}</div>
 							<div className="text-xs">{userInfo.email}</div>
@@ -50,7 +54,7 @@ export const UserDropdown = ({ className }) => {
 						</Link>
 					</Dropdown.Item>
 				))}
-				{/* <Dropdown.Item variant="divider" /> */}
+				<Dropdown.Item variant="divider" />
 				<Dropdown.Item onClick={signOut} eventKey="Sign Out" className="gap-2">
 					<span className="text-xl opacity-50">
 						<HiOutlineLogout />

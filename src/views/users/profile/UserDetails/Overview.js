@@ -11,6 +11,9 @@ import { apiDeleteUser } from "services/UserService";
 import useRequest from "utils/hooks/useRequest";
 import openNotification from "utils/openNotification";
 
+// TODO: mover a un archivo separado. /src/utils/string.js
+const reverseString = (str) => str.split('').reverse().join('')
+
 export const UserInfoField = ({ label, value }) => (
   <div>
     <span>{label}</span>
@@ -63,7 +66,7 @@ export default function UserOverview({ className, user }) {
     { label: 'Número de teléfono', value: phoneNumber },
     { label: 'Código de empleado', value: employeeCode },
     { label: 'Código externo', value: externalCode && (
-      <TextToCopy text={externalCode}>{externalCode.substring(18, 24).toUpperCase()}</TextToCopy>
+      <TextToCopy text={externalCode}>{reverseString(reverseString(externalCode).slice(0, 6)).toUpperCase()}</TextToCopy>
     )},
   ]
 

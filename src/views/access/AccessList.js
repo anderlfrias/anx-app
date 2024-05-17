@@ -93,6 +93,8 @@ export default function UsersAccessList() {
     fetchUsersAccess(params.query)
   }, [apiRequest, params.query])
 
+  console.log('usersAccess', usersAccess)
+
   return (
     <Card>
       <Table>
@@ -120,10 +122,12 @@ export default function UsersAccessList() {
                 />
               </Td>
               <Td>
-                <CustomizedTag
-                  text={userAccess.user.username}
-                  description={`${userAccess.user.name} ${userAccess.user.firstSurname} ${userAccess.user.secondSurname}`}
-                />
+                {userAccess.user && (
+                  <CustomizedTag
+                    text={userAccess.user.username}
+                    description={`${userAccess.user.name} ${userAccess.user.firstSurname} ${userAccess.user.secondSurname}`}
+                  />
+                )}
               </Td>
               <Td>
                 <CustomizedTag

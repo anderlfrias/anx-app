@@ -108,4 +108,10 @@ export const protectedRoutes = [
     component: React.lazy(() => import('views/logs/details')),
     authority: [],
   },
+  {
+    key: 'change-password',
+    path: '/change-password',
+    component: React.lazy(() => import('views/change-password')),
+    authority: [],
+  },
 ]

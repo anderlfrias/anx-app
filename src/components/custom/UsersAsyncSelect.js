@@ -12,13 +12,15 @@ export default function UsersAsyncSelect({ value, className, placeholder, noOpti
 
   const loadOptions = async (inputValue, callback) => {
     setLoading(true)
-    const resp = await apiRequest(() => apiGetUsers(inputValue))
-
+    const query = inputValue ? `search=${inputValue}` : ''
+    console.log('inputValue', query)
+    const resp = await apiRequest(() => apiGetUsers(query))
+    console.log('resp', resp)
     if (resp.ok) {
       callback(
-        resp.data.users.map(role => ({
-          label: `${role.name}`,
-          value: role.id,
+        resp.data.users.map(user => ({
+          label: `${user.name} ${user.firstSurname} ${user.secondSurname} | ${user.username}`,
+          value: user.id,
         }))
       )
     }
@@ -29,9 +31,9 @@ export default function UsersAsyncSelect({ value, className, placeholder, noOpti
     async function fetchUsers() {
       const resp = await apiRequest(() => apiGetUsers())
       if (resp.ok) {
-        setUsers(resp.data.users.map(role => ({
-          label: `${role.name}`,
-          value: role.id,
+        setUsers(resp.data.users.map(user => ({
+          label: `${user.name} ${user.firstSurname} ${user.secondSurname} | ${user.username}`,
+          value: user.id,
         })))
         setLoading(false)
       }
@@ -56,12 +58,12 @@ export default function UsersAsyncSelect({ value, className, placeholder, noOpti
 
           if (ok) {
             usersOptions = [...usersOptions, {
-              label: `${user.name}`,
+              label: `${user.name} ${user.firstSurname} ${user.secondSurname} | ${user.username}`,
               value: user.id,
             }]
 
             setDefaultValue({
-              label: `${user.name}`,
+              label: `${user.name} ${user.firstSurname} ${user.secondSurname} | ${user.username}`,
               value: user.id,
             })
           }
