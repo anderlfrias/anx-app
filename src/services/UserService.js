@@ -37,3 +37,11 @@ export async function apiDeleteUser (id) {
     method: 'delete'
   })
 }
+
+export async function apiChangePassword (id, data) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${id}/change-password`,
+    method: 'put',
+    data
+  })
+}

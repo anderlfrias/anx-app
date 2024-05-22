@@ -58,8 +58,8 @@ export default function UsersList() {
       <Table>
         <THead>
           <Tr>
-            <Th>Nombre</Th>
             <Th>Username</Th>
+            <Th>Nombre</Th>
             <Th>Correo electrónico</Th>
             <Th />
           </Tr>
