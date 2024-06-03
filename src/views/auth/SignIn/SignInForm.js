@@ -40,7 +40,7 @@ const SignInForm = props => {
 
 	return (
 		<div className={className}>
-			{message && <Alert className="uppercase mb-4 max-w-96" type="danger" showIcon>{message}</Alert>}
+			{message && <Alert className="uppercase mb-4 max-w-sm" type="danger" showIcon>{message}</Alert>}
 			<Formik
 				initialValues={{
 					email: '', 

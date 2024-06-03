@@ -34,6 +34,14 @@ function useAuth() {
 				}
 			}
 		} catch (errors) {
+
+			console.log('errors', errors)
+			if (errors?.response?.status === 403) {
+				return {
+					status: 'failed',
+					message: 'Credenciales de acceso incorrectas'
+				}
+			}
 			return {
 				status: 'failed',
 				message: errors?.response?.data?.message || errors.toString()

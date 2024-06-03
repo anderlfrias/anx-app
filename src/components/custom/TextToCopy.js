@@ -1,7 +1,7 @@
 import React from 'react'
-import copy from 'clipboard-copy'
 import openNotification from 'utils/openNotification'
 import { HiOutlineDuplicate } from 'react-icons/hi'
+import copy from 'utils/lib/copy'
 
 // text : string to copy
 // children : text to show
