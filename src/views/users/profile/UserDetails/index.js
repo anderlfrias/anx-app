@@ -40,6 +40,9 @@ export default function UserDetails({ id }) {
             <UserOverview className='col-span-2' user={user} />
             <div className='w-full'>
               <h4 className='mb-4'>Aplicaciones</h4>
+              {user.apps.length === 0 && <p className='text-gray-500 dark:text-gray-400 italic w-full text-center'>
+                Este usuario no tiene aplicaciones asignadas
+              </p>}
               <AppsOfUser apps={user.apps} />
             </div>
           </div>

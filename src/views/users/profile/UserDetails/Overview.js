@@ -10,9 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { apiDeleteUser } from "services/UserService";
 import useRequest from "utils/hooks/useRequest";
 import openNotification from "utils/openNotification";
-
-// TODO: mover a un archivo separado. /src/utils/string.js
-const reverseString = (str) => str.split('').reverse().join('')
+import { lastChars } from "utils/string";
 
 export const UserInfoField = ({ label, value }) => (
   <div>
@@ -66,7 +64,7 @@ export default function UserOverview({ className, user }) {
     { label: 'Número de teléfono', value: phoneNumber },
     { label: 'Código de empleado', value: employeeCode },
     { label: 'Código externo', value: externalCode && (
-      <TextToCopy text={externalCode}>{reverseString(reverseString(externalCode).slice(0, 6)).toUpperCase()}</TextToCopy>
+      <TextToCopy text={externalCode}>{lastChars(externalCode, 6).toUpperCase()}</TextToCopy>
     )},
   ]
 
@@ -74,7 +72,7 @@ export default function UserOverview({ className, user }) {
     <div className={className}>
       <Card>
         <div className='flex flex-col lg:justify-between h-full 2xl:min-w-[360px] mx-auto'>
-          <div className='flex lg:flex-col items-center gap-4'>
+          <div className='flex lg:flex-col items-center text-center gap-4'>
             <UserImage size={90} src={profilePicture} />
             <h4>{name} {firstSurname} {secondSurname}</h4>
           </div>
