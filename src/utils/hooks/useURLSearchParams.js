@@ -36,5 +36,7 @@ export default function useURLSearchParams() {
     delete: deleteParams,
     get: getParams,
     clear: clearParams,
+    currentPath: location.pathname,
+    fullPath: `${location.pathname}${location.search}`
   }
 }

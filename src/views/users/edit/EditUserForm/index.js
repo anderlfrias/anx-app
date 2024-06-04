@@ -19,11 +19,11 @@ export default function EditUserForm({ initialValues, onSubmit, onCancel, onDele
   const navigate = useNavigate();
 
   const onChangeTab = (tab) => {
-    navigate(`#${tab}`)
+    navigate(`${location.pathname}${location.search}#${tab}`)
   }
 
   useEffect(() => {
-    if (location.hash === '') navigate('#basic-info')
+    if (location.hash === '') navigate(`${location.pathname}${location.search}#basic-info`)
   }, [location, navigate])
 
   return (

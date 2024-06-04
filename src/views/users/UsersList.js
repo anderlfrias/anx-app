@@ -3,6 +3,7 @@ import CustomizedPagination from "components/custom/CustomizedPagination"
 import UserImage from "components/custom/UserImage"
 import { TableRowSkeleton } from "components/shared"
 import { Button, Card, Table, Tooltip } from "components/ui"
+import { REDIRECT_URL_KEY } from "constants/app.constant"
 import { useEffect, useState } from "react"
 import { FaUserEdit } from "react-icons/fa"
 import { HiPaperAirplane, HiTrash } from "react-icons/hi"
@@ -101,12 +102,12 @@ export default function UsersList() {
                       </Tooltip>
                     </Confirm>
                     <Tooltip title='Editar'>
-                      <Link to={`/users/${user.id}`}>
+                      <Link to={`/users/${user.id}?${REDIRECT_URL_KEY}=${params.fullPath}`}>
                         <Button size='sm' icon={<FaUserEdit />} variant="plain" />
                       </Link>
                     </Tooltip>
                     <Tooltip title='Ver perfil'>
-                      <Link to={`/users/${user.id}/profile`}>
+                      <Link to={`/users/${user.id}/profile?${REDIRECT_URL_KEY}=${params.fullPath}`}>
                         <Button size='sm' icon={<HiPaperAirplane className='text-lg rotate-90' />} variant="solid" />
                       </Link>
                     </Tooltip>

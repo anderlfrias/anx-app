@@ -3,12 +3,14 @@ import Confirm from "components/custom/Confirm";
 import TextToCopy from "components/custom/TextToCopy";
 import UserImage from "components/custom/UserImage"
 import { Button, Card } from "components/ui"
+import { REDIRECT_URL_KEY } from "constants/app.constant";
 import { useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { HiTrash } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import { apiDeleteUser } from "services/UserService";
 import useRequest from "utils/hooks/useRequest";
+import useURLSearchParams from "utils/hooks/useURLSearchParams";
 import openNotification from "utils/openNotification";
 import { lastChars } from "utils/string";
 
@@ -32,6 +34,7 @@ export default function UserOverview({ className, user }) {
   const apiRequest = useRequest()
   const navigate = useNavigate()
   const [deleting, setDeleting] = useState(false)
+  const { fullPath } = useURLSearchParams()
   const {
     username,
     name,
@@ -92,7 +95,7 @@ export default function UserOverview({ className, user }) {
             >
               <Button className='w-full' icon={<HiTrash />} >Eliminar</Button>
             </Confirm>
-            <Link to={`/users/${user.id}`}>
+            <Link to={`/users/${user.id}?${REDIRECT_URL_KEY}=${fullPath}`}>
               <Button className='w-full' variant='solid' icon={<FaUserEdit />} >Editar</Button>
             </Link>
           </div>
