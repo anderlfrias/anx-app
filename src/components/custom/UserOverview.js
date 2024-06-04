@@ -1,17 +1,7 @@
 import classNames from "classnames";
-import Confirm from "components/custom/Confirm";
 import TextToCopy from "components/custom/TextToCopy";
 import UserImage from "components/custom/UserImage"
-import { Button, Card } from "components/ui"
-import { REDIRECT_URL_KEY } from "constants/app.constant";
-import { useState } from "react";
-import { FaUserEdit } from "react-icons/fa";
-import { HiTrash } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
-import { apiDeleteUser } from "services/UserService";
-import useRequest from "utils/hooks/useRequest";
-import useURLSearchParams from "utils/hooks/useURLSearchParams";
-import openNotification from "utils/openNotification";
+import { Card } from "components/ui"
 import { lastChars } from "utils/string";
 
 export const UserInfoField = ({ label, value }) => (
@@ -30,11 +20,7 @@ export const UserInfoField = ({ label, value }) => (
   </div>
 )
 
-export default function UserOverview({ className, user }) {
-  const apiRequest = useRequest()
-  const navigate = useNavigate()
-  const [deleting, setDeleting] = useState(false)
-  const { fullPath } = useURLSearchParams()
+export default function UserOverview({ className, user, actions:ActionsComponent }) {
   const {
     username,
     name,
@@ -44,22 +30,8 @@ export default function UserOverview({ className, user }) {
     firstSurname,
     secondSurname,
     employeeCode,
-    externalCode = '6629054c94d787fa79ec22cc',
+    externalCode,
   } = user;
-
-  const onDelete = async () => {
-    setDeleting(true)
-    const resp = await apiRequest(() => apiDeleteUser(user.id))
-    if (resp.ok) {
-      openNotification('success', 'Usuario eliminado', 'El usuario ha sido eliminado correctamente')
-      navigate(-1)
-    }
-
-    if (!resp.ok) {
-      openNotification('error', 'Error', resp.message)
-    }
-    setDeleting(false)
-  }
 
   const DATA_LIST = [
     { label: 'Nombre de usuario', value: username },
@@ -85,20 +57,7 @@ export default function UserOverview({ className, user }) {
               <UserInfoField key={index} label={item.label} value={item.value} />
             ))}
           </div>
-
-          <div className='mt-7 flex flex-col lg:flex-row gap-2'>
-            <Confirm
-              loading={deleting}
-              onConfirm={onDelete}
-              type='danger'
-              subtitle='¿Estás seguro de eliminar este usuario?'
-            >
-              <Button className='w-full' icon={<HiTrash />} >Eliminar</Button>
-            </Confirm>
-            <Link to={`/users/${user.id}?${REDIRECT_URL_KEY}=${fullPath}`}>
-              <Button className='w-full' variant='solid' icon={<FaUserEdit />} >Editar</Button>
-            </Link>
-          </div>
+          {ActionsComponent && <ActionsComponent />}
         </div>
       </Card>
     </div>
