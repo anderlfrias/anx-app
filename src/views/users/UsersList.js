@@ -12,6 +12,7 @@ import { apiDeleteUser, apiGetUsers } from "services/UserService"
 import useRequest from "utils/hooks/useRequest"
 import useURLSearchParams from "utils/hooks/useURLSearchParams"
 import openNotification from "utils/openNotification"
+import UserOptionsDropdown from "./UserOptionsDropdown"
 
 const { Tr, Th, Td, THead, TBody } = Table
 
@@ -90,7 +91,8 @@ export default function UsersList() {
                 <Td>{`${user.name} ${user.firstSurname} ${user.secondSurname}`}</Td>
                 <Td>{user.email}</Td>
                 <Td>
-                  <div className="flex gap-1 justify-end min-w-max">
+                  <div className="flex gap-1 justify-end items-center min-w-max">
+                    <UserOptionsDropdown userId={user.id} />
                     <Confirm
                       loading={deleting}
                       onConfirm={async () => await onDelete(user.id)}

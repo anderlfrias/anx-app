@@ -45,3 +45,10 @@ export async function apiChangePassword (id, data) {
     data
   })
 }
+
+export async function apiResetPassword (id) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${id}/reset-password`,
+    method: 'put'
+  })
+}

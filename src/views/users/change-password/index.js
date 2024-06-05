@@ -1,10 +1,11 @@
 import ChangePasswordForm from "components/custom/ChangePasswordForm";
 import ViewTitle from "components/custom/ViewTitle";
 import { Card } from "components/ui";
-import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-export default function ChangePassword() {
-  const { id } = useSelector((state) => state.auth.user)
+export default function ChangePasswordAdmin() {
+  const { id } = useParams()
+  console.log('id', id)
 
   return (
     <>

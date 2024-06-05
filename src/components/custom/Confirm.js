@@ -7,7 +7,7 @@ const dialogType = {
     title: 'Información',
     children: null,
     cancelText: 'Cancelar',
-    confirmText: 'Okay',
+    confirmText: 'Aceptar',
     confirmButtonColor: 'blue-600',
   },
   success: {
@@ -15,7 +15,7 @@ const dialogType = {
     title: 'Completado!',
     children: 'La acción se ha completado exitosamente.',
     cancelText: 'Cancelar',
-    confirmText: 'Okay',
+    confirmText: 'Aceptar',
     confirmButtonColor: 'emerald-600',
   },
   warning: {
