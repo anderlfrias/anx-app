@@ -8,7 +8,7 @@ import { apiGetLogById } from "services/LogService";
 import useRequest from "utils/hooks/useRequest";
 import { ACCTIONS_COLORS, LogStatus } from "../LogsList";
 import UserOverview from "components/custom/UserOverview";
-import { REDIRECT_URL_KEY } from "constants/app.constant";
+import { PREVIOUS_URL_KEY } from "constants/app.constant";
 import { FaRegUserCircle } from "react-icons/fa";
 import useURLSearchParams from "utils/hooks/useURLSearchParams";
 
@@ -36,7 +36,7 @@ export default function LogsDetails() {
 
   const UserAction = () => (
     <div className='mt-6'>
-      <Link to={`/users/${log.author?.id}/profile?${REDIRECT_URL_KEY}=${fullPath}`}>
+      <Link to={`/users/${log.author?.id}/profile?${PREVIOUS_URL_KEY}=${fullPath}`}>
         <Button className='w-full' variant='outline' icon={<FaRegUserCircle />}>Ver pérfil</Button>
       </Link>
     </div>

@@ -3,7 +3,7 @@ import ChangePasswordSvg from "assets/svg/ChangePasswordSvg"
 import Confirm from "components/custom/Confirm"
 import { EllipsisButton } from "components/shared"
 import { Dropdown } from "components/ui"
-import { REDIRECT_URL_KEY } from "constants/app.constant"
+import { PREVIOUS_URL_KEY } from "constants/app.constant"
 import { Link } from "react-router-dom"
 import { apiResetPassword } from "services/UserService"
 import useRequest from "utils/hooks/useRequest"
@@ -40,7 +40,7 @@ export default function UserOptionsDropdown({ userId, onOpenChange }) {
       <Dropdown.Item
         eventKey='change-password'
       >
-        <Link to={`/users/${userId}/change-password?${REDIRECT_URL_KEY}=${params.fullPath}`} className="flex gap-2 items-center">
+        <Link to={`/users/${userId}/change-password?${PREVIOUS_URL_KEY}=${encodeURIComponent(params.fullPath)}`} className="flex gap-2 items-center">
           <span className="text-xl opacity-50"><ChangePasswordSvg /></span>
           <span>Cambiar Contraseña</span>
         </Link>

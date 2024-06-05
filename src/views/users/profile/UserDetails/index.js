@@ -11,7 +11,7 @@ import { apiDeleteUser } from 'services/UserService'
 import useURLSearchParams from 'utils/hooks/useURLSearchParams'
 import { Button } from 'components/ui'
 import { HiTrash } from 'react-icons/hi'
-import { REDIRECT_URL_KEY } from 'constants/app.constant'
+import { PREVIOUS_URL_KEY } from 'constants/app.constant'
 import { FaUserEdit } from 'react-icons/fa'
 
 export default function UserDetails({ id }) {
@@ -65,7 +65,7 @@ export default function UserDetails({ id }) {
       >
         <Button className='w-full' icon={<HiTrash />} >Eliminar</Button>
       </Confirm>
-      <Link to={`/users/${user.id}?${REDIRECT_URL_KEY}=${fullPath}`}>
+      <Link to={`/users/${user.id}?${PREVIOUS_URL_KEY}=${fullPath}`}>
         <Button className='w-full' variant='solid' icon={<FaUserEdit />} >Editar</Button>
       </Link>
     </div>

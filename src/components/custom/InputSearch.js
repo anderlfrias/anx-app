@@ -2,22 +2,20 @@ import classNames from 'classnames';
 import { Input } from 'components/ui'
 import React from 'react'
 import { FaSearch } from 'react-icons/fa'
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';
+import useURLSearchParams from 'utils/hooks/useURLSearchParams';
 
 export default function InputSearch({ className, placeholder = 'Buscar...', ...rest }) {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const navigate = useNavigate();
+  const params = useURLSearchParams();
 
   const onChange = useDebouncedCallback((search) => {
     if (search === '') {
-      searchParams.delete('search');
-      return navigate(`?${searchParams.toString()}`);
+      params.delete('search');
+      return;
     }
 
-    searchParams.set('search', search);
-    navigate(`?${searchParams.toString()}`);
+    params.set('search', search);
+    params.set('page', 0);
   }, 500);
 
   return (
@@ -28,7 +26,7 @@ export default function InputSearch({ className, placeholder = 'Buscar...', ...r
         size="sm"
         placeholder={placeholder}
         prefix={<FaSearch />}
-        defaultValue={searchParams.get('search')}
+        defaultValue={params.get('search')}
         onChange={(e) => onChange(e.target.value)}
         {...rest}
       />

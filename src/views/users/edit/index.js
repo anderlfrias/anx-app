@@ -8,7 +8,7 @@ import { Loading } from "components/shared"
 import EditUserForm from "./EditUserForm"
 import { UserContextProvider } from "./UserContext"
 import { apiGetUserPermissions } from "services/UserPermissionServices"
-import { REDIRECT_URL_KEY } from "constants/app.constant"
+import { PREVIOUS_URL_KEY } from "constants/app.constant"
 import useQuery from "utils/hooks/useQuery"
 
 export default function EditUser() {
@@ -106,7 +106,7 @@ export default function EditUser() {
     const resp = await apiRequest(() => apiUpdateUser(id, values))
     if (resp.ok) {
       openNotification('success', 'Usuario actualizado', 'El usuario ha sido actualizado correctamente')
-      navigate(query.get(REDIRECT_URL_KEY) || '/users')
+      navigate(decodeURIComponent(query.get(PREVIOUS_URL_KEY)) || '/users')
     }
 
     if (!resp.ok) {
@@ -118,7 +118,7 @@ export default function EditUser() {
     const resp = await apiRequest(() => apiDeleteUser(id))
     if (resp.ok) {
       openNotification('success', 'Usuario eliminado', 'El usuario ha sido eliminado correctamente')
-      navigate(query.get(REDIRECT_URL_KEY) || '/users')
+      navigate(decodeURIComponent(query.get(PREVIOUS_URL_KEY)) || '/users')
     }
 
     if (!resp.ok) {
@@ -127,7 +127,7 @@ export default function EditUser() {
   }
 
   const onCancel = () => {
-    navigate(query.get(REDIRECT_URL_KEY) || '/users')
+    navigate(decodeURIComponent(query.get(PREVIOUS_URL_KEY)) || '/users')
   }
 
   useEffect(() => {
@@ -145,7 +145,7 @@ export default function EditUser() {
 
       if (!response.ok) {
         openNotification('error', 'Error', response.message)
-        navigate(query.get(REDIRECT_URL_KEY) || '/users')
+        navigate(decodeURIComponent(query.get(PREVIOUS_URL_KEY)) || '/users')
       }
     }
 
@@ -155,7 +155,7 @@ export default function EditUser() {
   return (
     <UserContextProvider value={{ user, setUser, addRole, deleteRole, addRestriction, deleteRestriction }}>
       <div className="flex justify-between mb-6">
-        <ViewTitle title="Editar usuario" backPath={query.get(REDIRECT_URL_KEY) || '/users'} showBackPage />
+        <ViewTitle title="Editar usuario" backPath={decodeURIComponent(query.get(PREVIOUS_URL_KEY)) || '/users'} showBackPage />
       </div>
 
       <Loading loading={loading}>
