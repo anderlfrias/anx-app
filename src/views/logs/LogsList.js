@@ -3,6 +3,7 @@ import CustomizedTag from "components/custom/CustomizedTag"
 import TextToCopy from "components/custom/TextToCopy"
 import { TableRowSkeleton } from "components/shared"
 import { Button, Card, Table, Tag, Tooltip } from "components/ui"
+import { PREVIOUS_URL_KEY } from "constants/app.constant"
 import { useEffect, useState } from "react"
 import { HiPaperAirplane } from "react-icons/hi"
 import { Link } from "react-router-dom"
@@ -102,7 +103,7 @@ export default function LogsList() {
                   </Td>
                   <Td>
                     <Tooltip title='Ver detalles'>
-                      <Link to={`/logs/${log.id}`}>
+                      <Link to={`/logs/${log.id}?${PREVIOUS_URL_KEY}=${encodeURIComponent(params.fullPath)}`}>
                         <Button size='sm' icon={<HiPaperAirplane className='text-lg rotate-90' />} variant='solid' />
                       </Link>
                     </Tooltip>

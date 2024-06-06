@@ -66,6 +66,7 @@ export default function UsersAsyncSelect({ value, className, placeholder, noOpti
               label: `${user.name} ${user.firstSurname} ${user.secondSurname} | ${user.username}`,
               value: user.id,
             })
+            setUsers(usersOptions)
           }
         }
 

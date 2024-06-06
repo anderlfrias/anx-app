@@ -17,7 +17,7 @@ export default function LogsDetails() {
   const apiRequest = useRequest();
   const [loading, setLoading] = useState(true);
   const [log, setLog] = useState({});
-  const { fullPath } = useURLSearchParams();
+  const params = useURLSearchParams();
 
   useEffect(() => {
     async function fetchLog() {
@@ -36,7 +36,7 @@ export default function LogsDetails() {
 
   const UserAction = () => (
     <div className='mt-6'>
-      <Link to={`/users/${log.author?.id}/profile?${PREVIOUS_URL_KEY}=${fullPath}`}>
+      <Link to={`/users/${log.author?.id}/profile?${PREVIOUS_URL_KEY}=${params.fullPath}`}>
         <Button className='w-full' variant='outline' icon={<FaRegUserCircle />}>Ver pérfil</Button>
       </Link>
     </div>
@@ -44,7 +44,7 @@ export default function LogsDetails() {
   return (
     <>
       <div className='flex justify-between mb-6'>
-        <ViewTitle title={'Detalles de la actividad'} showBackPage />
+        <ViewTitle title={'Detalles de la actividad'} backPath={decodeURIComponent(params.get(PREVIOUS_URL_KEY))} showBackPage />
       </div>
 
       <Loading loading={loading}>
@@ -56,7 +56,7 @@ export default function LogsDetails() {
                 actions={UserAction}
               />
             ) : (
-              <div className='flex justify-center items-center h-48'>
+              <div className='flex justify-center items-center h-full'>
                 <span className='text-gray-500 italic'>Sin autor</span>
               </div>
             )}
@@ -94,9 +94,9 @@ export default function LogsDetails() {
             <div className='flex gap-3 py-2 bg-slate-50'>
               <p className='w-56 font-bold'>Descripcion:</p>
             </div>
-            <p className='w-full'>
+            <pre className='w-full' style={{ whiteSpace: 'pre-wrap' }} >
               {log.description}
-            </p>
+            </pre>
           </Card>
         </div>
       </Loading>
