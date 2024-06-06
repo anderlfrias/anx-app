@@ -1,11 +1,11 @@
 import React from 'react'
 import Header from 'components/template/Header'
-import SidePanel from 'components/template/SidePanel'
 import UserDropdown from 'components/template/UserDropdown'
 import SideNavToggle from 'components/template/SideNavToggle'
 import MobileNav from 'components/template/MobileNav'
 import SideNav from 'components/template/SideNav'
 import View from 'views'
+import CustomModeSwitcher from 'components/custom/CustomModeSwitcher'
 
 const HeaderActionsStart = () => {
 	return (
@@ -19,7 +19,7 @@ const HeaderActionsStart = () => {
 const HeaderActionsEnd = () => {
 	return (
 		<>
-			<SidePanel />
+			<CustomModeSwitcher />
 			<UserDropdown hoverable={false} />
 		</>
 	)
