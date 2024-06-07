@@ -11,6 +11,7 @@ export default function InputSearch({ className, placeholder = 'Buscar...', ...r
   const onChange = useDebouncedCallback((search) => {
     if (search === '') {
       params.delete('search');
+      params.set('page', 0);
       return;
     }
 

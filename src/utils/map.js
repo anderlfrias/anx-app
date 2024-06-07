@@ -1,10 +1,10 @@
 import { jwtDecode } from 'jwt-decode'
 
 const mapUser = (user) => {
-  const {rolesInApp, ...rest } = user
+  const {roles, ...rest } = user
   return {
     ...rest,
-    authority: rolesInApp || [],
+    authority: roles.map(({ role }) => role),
   }
 }
 

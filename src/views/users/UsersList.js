@@ -81,7 +81,7 @@ export default function UsersList() {
                   <div className='flex'>
                     <Link
                       to={`/users/${user.id}/profile?${PREVIOUS_URL_KEY}=${encodeURIComponent(params.fullPath)}`}
-                      className='flex gap-2 items-center hover:text-sky-800 ml-2 font-semibold'
+                      className='flex gap-2 items-center hover:text-sky-800 dark:hover:text-sky-600 ml-2 font-semibold'
                     >
                       <UserImage src={user.profilePicture} size={28} alt={`${user.name} ${user.firstSurname || ''}`} />
                       <span>{user.username}</span>
