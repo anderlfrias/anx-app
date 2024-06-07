@@ -12,3 +12,13 @@ export const displayRole = (roles) => {
   if (normalisedRoles.length > 0) return normalisedRoles[0]
   return ''
 }
+
+export const getPrimaryRole = (roles) => {
+  if (!roles) return ''
+  const normalisedRoles = getNormalisedRoles(roles)
+  if (normalisedRoles.includes('root')) return 'root'
+  if (normalisedRoles.includes('admin')) return 'admin'
+  if (normalisedRoles.includes('user')) return 'user'
+  if (normalisedRoles.length > 0) return normalisedRoles[0]
+  return ''
+}

@@ -15,6 +15,13 @@ export async function apiGetRoleById (id) {
   })
 }
 
+export async function apiGetRoleByNormalizedName (normalizedName) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/roles/normalized-name/${normalizedName}`,
+    method: 'get'
+  })
+}
+
 export async function apiCreateRole (data) {
   return ApiService.fetchData({
     url: `${URL_API}/v1/roles`,

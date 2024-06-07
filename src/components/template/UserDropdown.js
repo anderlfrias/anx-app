@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Avatar, Dropdown } from 'components/ui'
 import withHeaderItem from 'utils/hoc/withHeaderItem'
 import useAuth from 'utils/hooks/useAuth'
-// import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { HiOutlineUser, HiOutlineLogout } from 'react-icons/hi'
-import { useSelector } from 'react-redux'
-import { displayRole } from 'utils/role'
+import { useDispatch, useSelector } from 'react-redux'
+import { displayRole, getPrimaryRole } from 'utils/role'
 import ChangePasswordSvg from 'assets/svg/ChangePasswordSvg'
 import { FaUser } from 'react-icons/fa'
+import { getToken } from 'services/ApiService'
+import { apiGetRoleByNormalizedName } from 'services/RoleService'
+import { setUser } from 'store/auth/userSlice'
 
 const dropdownItemList = [
 	{ label: 'Mi Perfil', path: '/profile', icon: <HiOutlineUser /> },
@@ -20,14 +22,34 @@ export const UserDropdown = ({ className }) => {
 
 	// bind this 
 	const userInfo = useSelector((state) => state.auth.user)
-
+	const dispatch = useDispatch()
 	const { signOut } = useAuth()
+
+	useEffect(() => {
+		if (!userInfo.primaryRole) {
+			if (getToken()) {
+				async function fetchRole() {
+					try {
+						const resp = await apiGetRoleByNormalizedName(getPrimaryRole(userInfo.authority))
+
+						if (resp.data) {
+							dispatch(setUser({ ...userInfo, primaryRole: resp.data.name }))
+						}
+					} catch (error) {
+						dispatch(setUser({ ...userInfo, primaryRole: displayRole(userInfo.authority) }))
+					}
+				}
+				fetchRole()
+			}
+
+		}
+	}, [userInfo, dispatch])
 
 	const UserAvatar = (
 		<div className={classNames(className, 'flex items-center gap-2')}>
 			<Avatar size={32} shape="circle" icon={<FaUser />} />
 			<div className="hidden md:block">
-				<div className="text-xs capitalize">{displayRole(userInfo.authority)}</div>
+				<div className="text-xs capitalize">{userInfo.primaryRole || displayRole(userInfo.authority)}</div>
 				<div className="font-bold">{userInfo.username}</div>
 			</div>
 		</div>
@@ -35,7 +57,7 @@ export const UserDropdown = ({ className }) => {
 
 	return (
 		<div>
-			<Dropdown menuStyle={{minWidth: 240}} renderTitle={UserAvatar} placement="bottom-end">
+			<Dropdown menuStyle={{ minWidth: 240 }} renderTitle={UserAvatar} placement="bottom-end">
 				<Dropdown.Item variant="header">
 					<div className="py-2 px-3 flex items-center gap-2">
 						<Avatar shape="circle" icon={<FaUser />} />
