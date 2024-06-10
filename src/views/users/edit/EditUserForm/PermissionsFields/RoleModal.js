@@ -50,7 +50,6 @@ export default function RoleModal({ app }) {
     if (resp.ok) {
       setRolesOfUser((prev) => [...prev, resp.data])
       addRole(resp.data, app.id)
-      openNotification('success', 'Success', 'Rol asignado correctamente')
     }
 
     if (!resp.ok) {
@@ -63,7 +62,6 @@ export default function RoleModal({ app }) {
     if (resp.ok) {
       setRolesOfUser((prev) => prev.filter(({ role }) => role !== roleId))
       deleteRole(roleId, app.id)
-      openNotification('success', 'Success', 'Rol eliminado correctamente')
     }
 
     if (!resp.ok) {

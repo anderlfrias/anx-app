@@ -54,7 +54,6 @@ export default function PermissionsFields({ className }) {
     const resp = await apiRequest(() => apiDeleteAppOfUser(userId, appId))
     if (resp.ok) {
       setUser((prev) => ({ ...prev, apps: prev.apps.filter(app => app.app !== appId) }))
-      openNotification('success', 'Success', 'Aplicación eliminada correctamente')
     }
 
     if (!resp.ok) {
@@ -66,7 +65,6 @@ export default function PermissionsFields({ className }) {
     const resp = await apiRequest(() => apiPostAppToUser(userId, data))
     if (resp.ok) {
       setUser((prev) => ({ ...prev, apps: [...prev.apps, resp.data] }))
-      openNotification('success', 'Success', 'Aplicación asignada correctamente')
     }
 
     if (!resp.ok) {
@@ -79,7 +77,6 @@ export default function PermissionsFields({ className }) {
     const fetchPermissions = async () => {
       setLoadingApps(true)
       const resp = await apiRequest(() => apiGetApps())
-      console.log('resp', resp)
       if (resp.ok) {
         setApps(resp.data.apps)
       }
