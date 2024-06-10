@@ -4,6 +4,15 @@ import UserImage from "components/custom/UserImage"
 import { Card } from "components/ui"
 import { lastChars } from "utils/string";
 
+export const maskPhoneNumber = (phone) => {
+  if (!phone) return '';
+  const phoneMask = phone.length === 10 ? phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3'):
+      phone.length === 11 ? phone.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, '+$1 ($2) $3-$4'):
+      phone;
+
+  return phoneMask
+}
+
 export const UserInfoField = ({ label, value }) => (
   <div>
     <span>{label}</span>
@@ -21,7 +30,7 @@ export const UserInfoField = ({ label, value }) => (
   </div>
 )
 
-export default function UserOverview({ className, user, actions:ActionsComponent }) {
+export default function UserOverview({ className, user, actions:ActionsComponent, hideActionsButtons = false }) {
   const {
     username,
     name,
@@ -37,7 +46,7 @@ export default function UserOverview({ className, user, actions:ActionsComponent
   const DATA_LIST = [
     { label: 'Nombre de usuario', value: username },
     { label: 'Correo electrónico', value: email },
-    { label: 'Número de teléfono', value: phoneNumber },
+    { label: 'Número de teléfono', value: maskPhoneNumber(phoneNumber) },
     { label: 'Código de empleado', value: employeeCode },
     { label: 'Código externo', value: externalCode && (
       <TextToCopy text={externalCode}>{lastChars(externalCode, 6).toUpperCase()}</TextToCopy>
@@ -48,9 +57,9 @@ export default function UserOverview({ className, user, actions:ActionsComponent
     <div className={className}>
       <Card>
         <div className='flex flex-col lg:justify-between h-full 2xl:min-w-[360px] mx-auto'>
-          <div className='flex lg:flex-col items-center text-center gap-4'>
+          <div className='sm:flex lg:flex-col items-center text-center gap-4'>
             <UserImage size={90} src={profilePicture} />
-            <h4>{name} {firstSurname} {secondSurname}</h4>
+            <h4 className="">{`${name} ${firstSurname} ${secondSurname}`}</h4>
           </div>
 
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-y-7 gap-x-4 mt-8'>
@@ -58,7 +67,7 @@ export default function UserOverview({ className, user, actions:ActionsComponent
               <UserInfoField key={index} label={item.label} value={item.value} />
             ))}
           </div>
-          {ActionsComponent && <ActionsComponent />}
+          {!hideActionsButtons && ActionsComponent && <ActionsComponent />}
         </div>
       </Card>
     </div>

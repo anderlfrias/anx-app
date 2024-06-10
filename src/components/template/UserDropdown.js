@@ -12,6 +12,8 @@ import { FaUser } from 'react-icons/fa'
 import { getToken } from 'services/ApiService'
 import { apiGetRoleByNormalizedName } from 'services/RoleService'
 import { setUser } from 'store/auth/userSlice'
+import useURLSearchParams from 'utils/hooks/useURLSearchParams'
+import { PREVIOUS_URL_KEY } from 'constants/app.constant'
 
 const dropdownItemList = [
 	{ label: 'Mi Perfil', path: '/profile', icon: <HiOutlineUser /> },
@@ -24,6 +26,7 @@ export const UserDropdown = ({ className }) => {
 	const userInfo = useSelector((state) => state.auth.user)
 	const dispatch = useDispatch()
 	const { signOut } = useAuth()
+	const { fullPath } = useURLSearchParams()
 
 	useEffect(() => {
 		if (!userInfo.primaryRole) {
@@ -70,7 +73,7 @@ export const UserDropdown = ({ className }) => {
 				<Dropdown.Item variant="divider" />
 				{dropdownItemList.map(item => (
 					<Dropdown.Item eventKey={item.label} key={item.label} className="mb-1">
-						<Link className="flex gap-2 items-center" to={item.path}>
+						<Link className="flex gap-2 items-center" to={`${item.path}?${PREVIOUS_URL_KEY}=${fullPath}`}>
 							<span className="text-xl opacity-50">{item.icon}</span>
 							<span>{item.label}</span>
 						</Link>

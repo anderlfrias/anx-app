@@ -15,7 +15,7 @@ import { PREVIOUS_URL_KEY } from 'constants/app.constant'
 import { FaUserEdit } from 'react-icons/fa'
 import AccessOfUser from './AccessOfUser'
 
-export default function UserDetails({ id }) {
+export default function UserDetails({ id, options }) {
   const apiRequest = useRequest()
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
@@ -56,8 +56,6 @@ export default function UserDetails({ id }) {
     fetchUser()
   }, [apiRequest, navigate, id])
 
-  console.log(user)
-
   const UserAction = () => (
     <div className='mt-7 flex flex-col lg:flex-row gap-2'>
       <Confirm
@@ -80,7 +78,8 @@ export default function UserDetails({ id }) {
         {user && (
           <div className='flex flex-col lg:flex-row gap-4'>
             <UserOverview
-              className='col-span-2'
+              hideActionsButtons={options?.hideActionsButtons}
+              className='col-span-2 lg:w-96 lg:col-span-1'
               user={user}
               actions={UserAction}
             />
