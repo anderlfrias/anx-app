@@ -93,8 +93,6 @@ export default function UsersAccessList() {
     fetchUsersAccess(params.query)
   }, [apiRequest, params.query])
 
-  console.log('usersAccess', usersAccess)
-
   return (
     <Card>
       <Table>
@@ -104,7 +102,7 @@ export default function UsersAccessList() {
             <Th>IP</Th>
             <Th>Usuario</Th>
             <Th>Aplicación</Th>
-            <Th>Intentos Fallidos</Th>
+            <Th>Intentos</Th>
             <Th>Bloqueado</Th>
           </Tr>
         </THead>
@@ -135,7 +133,7 @@ export default function UsersAccessList() {
                   description={userAccess.app.name}
                 />
               </Td>
-              <Td>{userAccess.accessFailedCount}</Td>
+              <Td>{userAccess.accessFailedCount || '-'}</Td>
               <Td>
                 <Switcher
                   isLoading={changingAccess[userAccess.id]}

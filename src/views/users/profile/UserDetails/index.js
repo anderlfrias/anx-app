@@ -13,6 +13,7 @@ import { Button } from 'components/ui'
 import { HiTrash } from 'react-icons/hi'
 import { PREVIOUS_URL_KEY } from 'constants/app.constant'
 import { FaUserEdit } from 'react-icons/fa'
+import AccessOfUser from './AccessOfUser'
 
 export default function UserDetails({ id }) {
   const apiRequest = useRequest()
@@ -55,6 +56,8 @@ export default function UserDetails({ id }) {
     fetchUser()
   }, [apiRequest, navigate, id])
 
+  console.log(user)
+
   const UserAction = () => (
     <div className='mt-7 flex flex-col lg:flex-row gap-2'>
       <Confirm
@@ -73,7 +76,7 @@ export default function UserDetails({ id }) {
 
   return (
     <Loading loading={loading}>
-      <div className='container mx-auto h-full'>
+      <div className=''>
         {user && (
           <div className='flex flex-col lg:flex-row gap-4'>
             <UserOverview
@@ -87,6 +90,9 @@ export default function UserDetails({ id }) {
                 Este usuario no tiene aplicaciones asignadas
               </p>}
               <AppsOfUser apps={user.apps} />
+
+              <h4 className='mt-6 mb-4'>Accesos</h4>
+              <AccessOfUser userId={id} />
             </div>
           </div>
         )}

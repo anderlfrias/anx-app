@@ -22,3 +22,10 @@ export async function apiUnlockUserAccess (id, data={}) {
     data
   })
 }
+
+export async function apiGetUserAccessByUserId (userId) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/app-access-flow/user/${userId}`,
+    method: 'get'
+  })
+}

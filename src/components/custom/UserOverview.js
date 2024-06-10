@@ -10,6 +10,7 @@ export const UserInfoField = ({ label, value }) => (
     <div>
       <span
         className={classNames(
+          'min-w-max',
           { 'text-gray-700 dark:text-gray-200 font-semibold': value },
           { 'text-gray-400 dark:text-gray-500 italic': !value }
         )}
