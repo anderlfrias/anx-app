@@ -70,7 +70,7 @@ export default function EditUserForm({ initialValues, onSubmit, onCancel, onDele
                   <Confirm type="danger" onConfirm={onDelete} >
                     <Button
                       type='button'
-                      variant='twoTone'
+                      variant='solid'
                       color='red-500'
                       icon={<HiTrash />}
                     >

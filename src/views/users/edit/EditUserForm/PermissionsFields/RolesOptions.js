@@ -64,7 +64,7 @@ export default function RolesOptions({ role, rolesOfUser, onChangeRole: onChange
   
   useEffect(() => {
     const mapRestrictionsOfUser = (user) => {
-      const thisRoleInUser = user?.apps.find(userApp => userApp.app === app.id)?.roles?.find(uarole => uarole.role === role.id)
+      const thisRoleInUser = user?.apps.find(userApp => userApp.app === app.id)?.roles?.find(uarole => uarole?.role === role.id)
       const resctrictionsOfThisRole = thisRoleInUser?.restrictions || []
       return resctrictionsOfThisRole.map(uarrestriction => uarrestriction.restriction)
     }
@@ -88,7 +88,7 @@ export default function RolesOptions({ role, rolesOfUser, onChangeRole: onChange
     rolesIds.includes(role.id) ? fetchRoles() : setRestrictions([])
   }, [apiRequest, app, role, rolesIds])
 
-  useEffect(() => setRolesIds(rolesOfUser.map(uarole => uarole.role)), [rolesOfUser])
+  useEffect(() => setRolesIds(rolesOfUser.map(uarole => uarole?.role)), [rolesOfUser])
 
   return (
     <Loading loading={loading} type='cover'>

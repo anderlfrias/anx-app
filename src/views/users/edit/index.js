@@ -135,6 +135,7 @@ export default function EditUser() {
       setLoading(true)
       const response = await apiRequest(() => apiGetUserPermissions(id))
       setLoading(false)
+      console.log(response)
       if (response.ok) {
         setUser({
           ...response.data,

@@ -93,6 +93,7 @@ export default function PermissionsFields({ className }) {
 
   useEffect(() => setAppsOfUser(user.apps.map(userApp => userApp.app)), [user.apps])
 
+
   return (
     <div className={className}>
       <div className='mb-6'>
