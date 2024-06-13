@@ -10,7 +10,8 @@ const Fields = [
   // { type: 'text', label: 'Nombre de usuario', name: 'username', placeholder: 'Nombre de usuario' },
   // { type: 'email', label: 'Email', name: 'email', placeholder: 'Email' },
   { type: 'text', label: 'Código de empleado', name: 'employeeCode', placeholder: 'Código de empleado' },
-  { type: 'text', label: 'Número de teléfono', name: 'phoneNumber', placeholder: 'Número de teléfono' }
+  { type: 'text', label: 'Número de teléfono', name: 'phoneNumber', placeholder: 'Número de teléfono' },
+  { type: 'text', label: 'Código externo', name: 'externalCode', placeholder: 'Código externo' }
 ]
 
 export default function BasicInfoFields({ touched, errors, values, className }) {

@@ -12,6 +12,7 @@ const createValidationSchema = Yup.object().shape({
     .matches(/^[a-z]+[a-z0-9/.]*$/, 'El nombre de usuario no es válido')
     .required('El nombre de usuario es requerido'),
   employeeCode: Yup.string(),
+  externalCode: Yup.string(),
   firstSurname: Yup.string()
     .min(3, 'El apellido debe tener al menos 3 caracteres')
     .max(20, 'El apellido debe tener como máximo 20 caracteres'),
@@ -51,6 +52,7 @@ const defaultValues = {
   email: '',
   username: '',
   employeeCode: '',
+  externalCode: '',
   firstSurname: '',
   secondSurname: '',
   phoneNumber: '',
