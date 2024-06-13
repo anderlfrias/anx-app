@@ -73,7 +73,7 @@ export const UserDropdown = ({ className }) => {
 				<Dropdown.Item variant="divider" />
 				{dropdownItemList.map(item => (
 					<Dropdown.Item eventKey={item.label} key={item.label} className="mb-1">
-						<Link className="flex gap-2 items-center" to={`${item.path}?${PREVIOUS_URL_KEY}=${fullPath}`}>
+						<Link className="flex gap-2 items-center w-full" to={`${item.path}?${PREVIOUS_URL_KEY}=${fullPath}`}>
 							<span className="text-xl opacity-50">{item.icon}</span>
 							<span>{item.label}</span>
 						</Link>

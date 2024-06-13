@@ -83,12 +83,17 @@ const SideNav = () => {
 						)
 					}
 				>
-					<div className="side-nav-header">
+					<div className={classNames('side-nav-header flex my-4', { 'justify-center': sideNavCollapse })}>
 						<Logo 
 							mode={logoMode()} 
-							type={sideNavCollapse ? 'streamline' : 'full'} 
+							type={'streamline'} 
 							gutter={sideNavCollapse ? SIDE_NAV_CONTENT_GUTTER : LOGO_X_GUTTER} 
 						/>
+						{!sideNavCollapse && (
+              <div className='text-white grid -ml-3'>
+                <span className='text-2xl font-bold'>XUser 2.0</span>
+              </div>
+            )}
 					</div>
 					{
 						sideNavCollapse ?

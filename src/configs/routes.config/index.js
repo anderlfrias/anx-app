@@ -11,6 +11,12 @@ export const protectedRoutes = [
     path: '/home',
     component: React.lazy(() => import('views/Home')),
     authority: [],
+    // meta: {
+    //   headerContainer: true,
+    //   header: React.lazy(() => import('components/custom/HomeHeader')),
+    //   footer: false,
+    //   layout: 'blank',
+    // },
   },
   {
     key: 'profile',
