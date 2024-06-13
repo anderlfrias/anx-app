@@ -9,7 +9,7 @@ import EditUserForm from "./EditUserForm"
 import { UserContextProvider } from "./UserContext"
 import { apiGetUserPermissions } from "services/UserPermissionServices"
 import { PREVIOUS_URL_KEY } from "constants/app.constant"
-import useQuery from "utils/hooks/useQuery"
+import useURLSearchParams from "utils/hooks/useURLSearchParams"
 
 export default function EditUser() {
   const { id } = useParams()
@@ -17,7 +17,7 @@ export default function EditUser() {
   const apiRequest = useRequest()
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(true)
-  const query = useQuery()
+  const params = useURLSearchParams()
 
   const addRole = (role, appId) => {
     const newUser = {
@@ -106,7 +106,7 @@ export default function EditUser() {
     const resp = await apiRequest(() => apiUpdateUser(id, values))
     if (resp.ok) {
       openNotification('success', 'Usuario actualizado', 'El usuario ha sido actualizado correctamente')
-      navigate(decodeURIComponent(query.get(PREVIOUS_URL_KEY)) || '/users')
+      navigate(decodeURIComponent(params.get(PREVIOUS_URL_KEY) || '/users'))
     }
 
     if (!resp.ok) {
@@ -118,7 +118,7 @@ export default function EditUser() {
     const resp = await apiRequest(() => apiDeleteUser(id))
     if (resp.ok) {
       openNotification('success', 'Usuario eliminado', 'El usuario ha sido eliminado correctamente')
-      navigate(decodeURIComponent(query.get(PREVIOUS_URL_KEY)) || '/users')
+      navigate(decodeURIComponent(params.get(PREVIOUS_URL_KEY) || '/users'))
     }
 
     if (!resp.ok) {
@@ -127,7 +127,7 @@ export default function EditUser() {
   }
 
   const onCancel = () => {
-    navigate(decodeURIComponent(query.get(PREVIOUS_URL_KEY)) || '/users')
+    navigate(decodeURIComponent(params.get(PREVIOUS_URL_KEY) || '/users'))
   }
 
   useEffect(() => {
@@ -146,17 +146,18 @@ export default function EditUser() {
 
       if (!response.ok) {
         openNotification('error', 'Error', response.message)
-        navigate(decodeURIComponent(query.get(PREVIOUS_URL_KEY)) || '/users')
+        navigate(decodeURIComponent(params.get(PREVIOUS_URL_KEY) || '/users'))
       }
     }
 
     fetchUser()
-  }, [apiRequest, id, navigate, query])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiRequest, id, navigate])
 
   return (
     <UserContextProvider value={{ user, setUser, addRole, deleteRole, addRestriction, deleteRestriction }}>
       <div className="flex justify-between mb-6">
-        <ViewTitle title="Editar usuario" backPath={decodeURIComponent(query.get(PREVIOUS_URL_KEY)) || '/users'} showBackPage />
+        <ViewTitle title="Editar usuario" backPath={decodeURIComponent(params.get(PREVIOUS_URL_KEY) || '/users')} showBackPage />
       </div>
 
       <Loading loading={loading}>

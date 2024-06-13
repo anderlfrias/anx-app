@@ -12,11 +12,12 @@ export default function AppsAsyncSelect({ value, className, placeholder, noOptio
 
   const loadOptions = async (inputValue, callback) => {
     setLoading(true)
-    const resp = await apiRequest(() => apiGetApps(inputValue))
+    const query = inputValue ? `search=${inputValue}` : ''
+    const resp = await apiRequest(() => apiGetApps(query))
 
     if (resp.ok) {
       callback(
-        resp.data.map(app => ({
+        resp.data.apps.map(app => ({
           label: `${app.code} | ${app.name}`,
           value: app.id,
         }))
@@ -30,7 +31,7 @@ export default function AppsAsyncSelect({ value, className, placeholder, noOptio
       const resp = await apiRequest(() => apiGetApps())
 
       if (resp.ok) {
-        setApps(resp.data.map(app => ({
+        setApps(resp.data.apps.map(app => ({
           label: `${app.code} | ${app.name}`,
           value: app.id,
         })))
@@ -54,17 +55,17 @@ export default function AppsAsyncSelect({ value, className, placeholder, noOptio
       if (!app) {
         async function fetchApp() {
           const { ok, data: app } = await apiRequest(() => apiGetAppById(value))
-          console.log('app', app)
           if (ok) {
             appsOptions = [...appsOptions, {
-              label: `${app.name}`,
+              label: `${app.code} | ${app.name}`,
               value: app.id,
             }]
 
             setDefaultValue({
-              label: `${app.name}`,
+              label: `${app.code} | ${app.name}`,
               value: app.id,
             })
+            setApps(appsOptions)
           }
         }
 

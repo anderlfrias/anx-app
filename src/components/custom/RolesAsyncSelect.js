@@ -12,11 +12,12 @@ export default function RolesAsyncSelect({ value, className, placeholder, noOpti
 
   const loadOptions = async (inputValue, callback) => {
     setLoading(true)
-    const resp = await apiRequest(() => apiGetRoles(inputValue))
+    const query = inputValue ? `search=${inputValue}` : ''
+    const resp = await apiRequest(() => apiGetRoles(query))
 
     if (resp.ok) {
       callback(
-        resp.data.map(role => ({
+        resp.data.roles.map(role => ({
           label: `${role.name}`,
           value: role.id,
         }))
@@ -28,9 +29,8 @@ export default function RolesAsyncSelect({ value, className, placeholder, noOpti
   useEffect(() => {
     async function fetchRoles() {
       const resp = await apiRequest(() => apiGetRoles())
-      console.log('resp', resp)
       if (resp.ok) {
-        setRoles(resp.data.map(role => ({
+        setRoles(resp.data.roles.map(role => ({
           label: `${role.name}`,
           value: role.id,
         })))
@@ -54,7 +54,6 @@ export default function RolesAsyncSelect({ value, className, placeholder, noOpti
       if (!role) {
         async function fetchRole() {
           const { ok, data: role } = await apiRequest(() => apiGetRoleById(value))
-          console.log('role', role)
           if (ok) {
             rolesOptions = [...rolesOptions, {
               label: `${role.name}`,
@@ -65,6 +64,8 @@ export default function RolesAsyncSelect({ value, className, placeholder, noOpti
               label: `${role.name}`,
               value: role.id,
             })
+
+            setRoles(rolesOptions)
           }
         }
 
