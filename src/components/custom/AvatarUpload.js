@@ -5,7 +5,7 @@ import { useState } from "react";
 import { imageToBase64, resizeImage } from "utils/image";
 import UserImage from "./UserImage";
 
-export default function AvatarUpload({ value, onChange: onChangeProp }) {
+export default function AvatarUpload({ value, onChange: onChangeProp, size = 120 }) {
   const [loading, setLoading] = useState(false);
   const onChange = async(value) => {
     setLoading(true);
@@ -35,7 +35,7 @@ export default function AvatarUpload({ value, onChange: onChangeProp }) {
         <UserImage
           className='border-2 border-white dark:border-gray-800 shadow-md hover:shadow-lg'
           src={value}
-          size={120}
+          size={size}
         />
       </Loading>
       </Upload>

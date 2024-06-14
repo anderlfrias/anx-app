@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { apiGetUserPermissions } from 'services/UserPermissionServices'
 import UserOverview from 'components/custom/UserOverview'
 import Confirm from 'components/custom/Confirm'
-import { apiDeleteUser } from 'services/UserService'
+import { apiDeleteUser, apiUpdateProfilePicture } from 'services/UserService'
 import useURLSearchParams from 'utils/hooks/useURLSearchParams'
 import { Button } from 'components/ui'
 import { HiTrash } from 'react-icons/hi'
@@ -35,6 +35,17 @@ export default function UserDetails({ id, options }) {
       openNotification('error', 'Error', resp.message)
     }
     setDeleting(false)
+  }
+
+  const onChangeProfilePicture = async (value) => {
+    const resp = await apiRequest(() => apiUpdateProfilePicture(id, { profilePicture: value }))
+    if (resp.ok) {
+      setUser({ ...user, profilePicture: value })
+      openNotification('success', 'Imagen actualizada', 'Tu imagen de perfil ha sido actualizada correctamente')
+    }
+    if (!resp.ok) {
+      openNotification('error', 'Error', resp.message)
+    }
   }
 
   useEffect(() => {
@@ -78,6 +89,7 @@ export default function UserDetails({ id, options }) {
         {user && (
           <div className='flex flex-col lg:flex-row gap-4'>
             <UserOverview
+              onChangeProfilePicture={options?.canChangeProfilePicture ? onChangeProfilePicture : null}
               hideActionsButtons={options?.hideActionsButtons}
               className='col-span-2 lg:w-96 lg:col-span-1'
               user={user}

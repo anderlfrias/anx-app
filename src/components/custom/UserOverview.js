@@ -1,13 +1,14 @@
 import classNames from "classnames";
 import TextToCopy from "components/custom/TextToCopy";
-import UserImage from "components/custom/UserImage"
 import { Card } from "components/ui"
 import { lastChars } from "utils/string";
+import AvatarUpload from "./AvatarUpload";
+import UserImage from "./UserImage";
 
 export const maskPhoneNumber = (phone) => {
   if (!phone) return '';
-  const phoneMask = phone.length === 10 ? phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3'):
-      phone.length === 11 ? phone.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, '+$1 ($2) $3-$4'):
+  const phoneMask = phone.length === 10 ? phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3') :
+    phone.length === 11 ? phone.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, '+$1 ($2) $3-$4') :
       phone;
 
   return phoneMask
@@ -30,7 +31,9 @@ export const UserInfoField = ({ label, value }) => (
   </div>
 )
 
-export default function UserOverview({ className, user, actions:ActionsComponent, hideActionsButtons = false }) {
+export default function UserOverview({
+  className, user, actions: ActionsComponent, hideActionsButtons = false, onChangeProfilePicture
+}) {
   const {
     username,
     name,
@@ -48,9 +51,11 @@ export default function UserOverview({ className, user, actions:ActionsComponent
     { label: 'Correo electrónico', value: email },
     { label: 'Número de teléfono', value: maskPhoneNumber(phoneNumber) },
     { label: 'Código de empleado', value: employeeCode },
-    { label: 'Código externo', value: externalCode && (
-      <TextToCopy text={externalCode}>{lastChars(externalCode, 6).toUpperCase()}</TextToCopy>
-    )},
+    {
+      label: 'Código externo', value: externalCode && (
+        <TextToCopy text={externalCode}>{lastChars(externalCode, 6).toUpperCase()}</TextToCopy>
+      )
+    },
   ]
 
   return (
@@ -58,7 +63,18 @@ export default function UserOverview({ className, user, actions:ActionsComponent
       <Card>
         <div className='flex flex-col lg:justify-between h-full 2xl:min-w-[360px] mx-auto'>
           <div className='sm:flex lg:flex-col items-center text-center gap-4'>
-            <UserImage size={90} src={profilePicture} />
+            {onChangeProfilePicture ? (
+              <AvatarUpload
+                value={profilePicture}
+                onChange={onChangeProfilePicture}
+                size={100}
+              />
+            ) : (
+              <UserImage
+                src={profilePicture}
+                size={100}
+              />
+            )}
             <h4 className="">{`${name} ${firstSurname} ${secondSurname}`}</h4>
           </div>
 

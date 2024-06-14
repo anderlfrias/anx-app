@@ -4,7 +4,7 @@ import { URL_API } from 'constants/api.constant'
 
 export async function apiSignIn (data) {
   return ApiService.fetchData({
-    url: `${URL_API}/v1/users/login`,
+    url: `${URL_API}/v1/login`,
     method: 'post',
     data: { ...data, app: APP_CODE }
   })

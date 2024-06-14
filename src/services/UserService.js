@@ -52,3 +52,18 @@ export async function apiResetPassword (id) {
     method: 'put'
   })
 }
+
+export async function apiUpdateProfilePicture (id, data) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${id}/profile-picture`,
+    method: 'put',
+    data
+  })
+}
+
+export async function apiGetProfilePicture (id) {
+  return ApiService.fetchData({
+    url: `${URL_API}/v1/users/${id}/profile-picture`,
+    method: 'get'
+  })
+}
