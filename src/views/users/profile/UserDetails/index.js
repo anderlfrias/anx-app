@@ -14,6 +14,8 @@ import { HiTrash } from 'react-icons/hi'
 import { PREVIOUS_URL_KEY } from 'constants/app.constant'
 import { FaUserEdit } from 'react-icons/fa'
 import AccessOfUser from './AccessOfUser'
+import { setUser as setUserSlice } from 'store/auth/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function UserDetails({ id, options }) {
   const apiRequest = useRequest()
@@ -22,6 +24,8 @@ export default function UserDetails({ id, options }) {
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState(false)
   const { fullPath } = useURLSearchParams()
+  const userInfo = useSelector((state) => state.auth.user)
+  const dispatch = useDispatch()
 
   const onDelete = async () => {
     setDeleting(true)
@@ -41,6 +45,7 @@ export default function UserDetails({ id, options }) {
     const resp = await apiRequest(() => apiUpdateProfilePicture(id, { profilePicture: value }))
     if (resp.ok) {
       setUser({ ...user, profilePicture: value })
+      dispatch(setUserSlice({ ...userInfo, profilePicture: value }))
       openNotification('success', 'Imagen actualizada', 'Tu imagen de perfil ha sido actualizada correctamente')
     }
     if (!resp.ok) {

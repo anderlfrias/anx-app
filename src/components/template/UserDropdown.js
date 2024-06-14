@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Avatar, Dropdown } from 'components/ui'
+import { Dropdown } from 'components/ui'
 import withHeaderItem from 'utils/hoc/withHeaderItem'
 import useAuth from 'utils/hooks/useAuth'
 import { Link } from 'react-router-dom'
@@ -8,12 +8,13 @@ import { HiOutlineUser, HiOutlineLogout } from 'react-icons/hi'
 import { useDispatch, useSelector } from 'react-redux'
 import { displayRole, getPrimaryRole } from 'utils/role'
 import ChangePasswordSvg from 'assets/svg/ChangePasswordSvg'
-import { FaUser } from 'react-icons/fa'
 import { getToken } from 'services/ApiService'
 import { apiGetRoleByNormalizedName } from 'services/RoleService'
 import { setUser } from 'store/auth/userSlice'
 import useURLSearchParams from 'utils/hooks/useURLSearchParams'
 import { PREVIOUS_URL_KEY } from 'constants/app.constant'
+import { apiGetProfilePicture } from 'services/UserService'
+import UserImage from 'components/custom/UserImage'
 
 const dropdownItemList = [
 	{ label: 'Mi Perfil', path: '/profile', icon: <HiOutlineUser /> },
@@ -44,13 +45,31 @@ export const UserDropdown = ({ className }) => {
 				}
 				fetchRole()
 			}
+		}
 
+		if (!userInfo.profilePicture) {
+			if (getToken()) {
+				async function fetchProfilePicture() {
+					try {
+						const resp = await apiGetProfilePicture(userInfo.id)
+
+						if (resp.data) {
+							dispatch(setUser({ ...userInfo, profilePicture: resp.data }))
+						}
+					} catch (error) {
+						console.log(error)
+					}
+				}
+				fetchProfilePicture()
+			}
 		}
 	}, [userInfo, dispatch])
 
+	console.log(userInfo)
+
 	const UserAvatar = (
 		<div className={classNames(className, 'flex items-center gap-2')}>
-			<Avatar size={32} shape="circle" icon={<FaUser />} />
+			<UserImage src={userInfo.profilePicture} size={32} />
 			<div className="hidden md:block">
 				<div className="text-xs capitalize">{userInfo.primaryRole || displayRole(userInfo.authority)}</div>
 				<div className="font-bold">{userInfo.username}</div>
@@ -63,7 +82,7 @@ export const UserDropdown = ({ className }) => {
 			<Dropdown menuStyle={{ minWidth: 240 }} renderTitle={UserAvatar} placement="bottom-end">
 				<Dropdown.Item variant="header">
 					<div className="py-2 px-3 flex items-center gap-2">
-						<Avatar shape="circle" icon={<FaUser />} />
+						<UserImage src={userInfo.profilePicture} size={40} />
 						<div>
 							<div className="font-bold text-gray-900 dark:text-gray-100">{`${userInfo.name} ${userInfo.firstSurname} ${userInfo.secondSurname}`}</div>
 							<div className="text-xs">{userInfo.email}</div>
