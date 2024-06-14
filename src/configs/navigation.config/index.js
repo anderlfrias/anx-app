@@ -1,6 +1,7 @@
 import {
 	NAV_ITEM_TYPE_ITEM
 } from 'constants/navigation.constant'
+import { ADMIN, ROOT } from 'constants/roles.constant'
 
 const navigationConfig = [
 	{
@@ -19,7 +20,7 @@ const navigationConfig = [
 		title: 'Usuarios',
 		icon: 'users',
 		type: NAV_ITEM_TYPE_ITEM,
-		authority: [],
+		authority: [ADMIN, ROOT],
 		subMenu: []
 	},
 	{
@@ -28,7 +29,7 @@ const navigationConfig = [
 		title: 'Aplicaciones',
 		icon: 'apps',
 		type: NAV_ITEM_TYPE_ITEM,
-		authority: [],
+		authority: [ADMIN, ROOT],
 		subMenu: []
 	},
 	{
@@ -37,7 +38,7 @@ const navigationConfig = [
 		title: 'Roles',
 		icon: 'roles',
 		type: NAV_ITEM_TYPE_ITEM,
-		authority: [],
+		authority: [ADMIN, ROOT],
 		subMenu: []
 	},
 	{
@@ -46,7 +47,7 @@ const navigationConfig = [
 		title: 'Restricciones',
 		icon: 'restrictions',
 		type: NAV_ITEM_TYPE_ITEM,
-		authority: [],
+		authority: [ADMIN, ROOT],
 		subMenu: []
 	},
 	{
@@ -55,7 +56,7 @@ const navigationConfig = [
 		title: 'Accesos de usuario',
 		icon: 'access',
 		type: NAV_ITEM_TYPE_ITEM,
-		authority: [],
+		authority: [ADMIN, ROOT],
 		subMenu: []
 	},
 	{
@@ -64,7 +65,7 @@ const navigationConfig = [
 		title: 'Historial de actividad',
 		icon: 'log',
 		type: NAV_ITEM_TYPE_ITEM,
-		authority: [],
+		authority: [ROOT],
 		subMenu: []
 	}
 	/** Example purpose only, please remove */
