@@ -1,7 +1,8 @@
 import classNames from 'classnames'
-import { Card } from 'components/ui'
+import { Card, Tooltip } from 'components/ui'
 import React from 'react'
 import { GiPlainCircle } from "react-icons/gi";
+import { HiExternalLink } from 'react-icons/hi';
 
 export default function AppsOfUser({ className, apps }) {
   return (
@@ -9,7 +10,20 @@ export default function AppsOfUser({ className, apps }) {
       {apps.map(userapp => (
         <Card key={userapp.app.id}>
           <div className='mb-2'>
-            <h5 className='text-xl font-semibold'>{userapp.app.code}</h5>
+            <div className='flex justify-between items-center'>
+              <h5 className='text-xl font-semibold'>{userapp.app.code}</h5>
+              { userapp.app.url && (
+                <a
+                  href={userapp.app.url}
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  <Tooltip title='Abrir aplicación'>
+                    <HiExternalLink className='text-lg hover:text-sky-700 active:text-sky-900' />
+                  </Tooltip>
+                </a>
+              )}
+            </div>
             <p className='text-gray-500 dark:text-gray-400'>{userapp.app.name}</p>
           </div>
           <ul>
