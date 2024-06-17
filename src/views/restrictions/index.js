@@ -8,13 +8,13 @@ import InputSearch from "components/custom/InputSearch";
 export default function Roles() {
   return (
     <>
-      <div className="flex justify-between mb-6">
+      <div className="flex flex-col sm:flex-row justify-between mb-6">
         <ViewTitle title="Restricciones" />
 
-        <div className="flex justify-end gap-2 w-full">
-          <InputSearch />
+        <div className="flex flex-col sm:flex-row justify-end gap-2 w-full">
+          <InputSearch className="w-full sm:w-auto" />
           <Link to="/restrictions/create">
-            <Button size="sm" variant='solid' icon={<HiPlusCircle />} >Crear Restricción</Button>
+            <Button className='w-full' size="sm" variant='solid' icon={<HiPlusCircle />} >Crear Restricción</Button>
           </Link>
         </div>
       </div>

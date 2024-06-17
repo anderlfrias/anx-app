@@ -18,7 +18,7 @@ export default function Log() {
 
   return (
     <div>
-      <div className='flex justify-between mb-6'>
+      <div className='sm:flex justify-between mb-6'>
         <ViewTitle title="Historial de Actividad" />
         <div>
           {isFilterOpen && <Button size='sm' variant='solid' color='red-600' icon={<HiX />} onClick={() => onFilter(false)} >Cerrar</Button>}

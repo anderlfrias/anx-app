@@ -22,7 +22,7 @@ export default function CustomizedPagination({ className, total }) {
 
   return (
     <div className={className}>
-      <div className='flex justify-between mt-4'>
+      <div className='sm:flex justify-between mt-4'>
         <div style={{ minWidth: 180 }}>
           <Dropdown
             placement="top-center"

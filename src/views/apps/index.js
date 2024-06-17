@@ -8,13 +8,13 @@ import InputSearch from "components/custom/InputSearch";
 export default function Apps() {
   return (
     <div>
-      <div className="flex justify-between mb-6">
+      <div className="flex flex-col sm:flex-row  justify-between mb-6">
         <ViewTitle title="Aplicaciones" />
         
-        <div className="flex justify-end gap-2 w-full">
-          <InputSearch />
+        <div className="flex flex-col sm:flex-row  justify-end gap-2 w-full">
+          <InputSearch className="w-full sm:w-auto" />
           <Link to="/apps/create">
-            <Button size="sm" variant='solid' icon={<HiPlusCircle />} >Crear Aplicacion</Button>
+            <Button className='w-full' size="sm" variant='solid' icon={<HiPlusCircle />} >Crear Aplicacion</Button>
           </Link>
         </div>
       </div>
