@@ -47,7 +47,7 @@ export const UserDropdown = ({ className }) => {
 			}
 		}
 
-		if (!userInfo.profilePicture) {
+		if (userInfo.profilePicture === undefined) {
 			if (getToken()) {
 				async function fetchProfilePicture() {
 					try {
@@ -58,6 +58,7 @@ export const UserDropdown = ({ className }) => {
 						}
 					} catch (error) {
 						console.log(error)
+						dispatch(setUser({ ...userInfo, profilePicture: null }))
 					}
 				}
 				fetchProfilePicture()
