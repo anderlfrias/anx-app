@@ -65,8 +65,6 @@ export const UserDropdown = ({ className }) => {
 		}
 	}, [userInfo, dispatch])
 
-	console.log(userInfo)
-
 	const UserAvatar = (
 		<div className={classNames(className, 'flex items-center gap-2')}>
 			<UserImage src={userInfo.profilePicture} size={32} />

@@ -29,7 +29,7 @@ const SignInForm = props => {
 		const { email, password } = values
 		setSubmitting(true)
 		
-		const result = await signIn({ user: email, password })
+		const result = await signIn({ user: email.trim(), password })
 
 		if (result.status === 'failed') {
 			setMessage(result.message)

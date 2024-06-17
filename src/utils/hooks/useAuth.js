@@ -44,7 +44,7 @@ function useAuth() {
 			}
 			return {
 				status: 'failed',
-				message: errors?.response?.data?.message || errors.toString()
+				message: errors?.response?.data?.message || 'Ocurrió un error inesperado. Contacte al administrador del sistema.'
 			}
 		}
 	}
