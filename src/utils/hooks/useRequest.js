@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import useAuth from './useAuth'
 import openNotification from 'utils/openNotification'
 
+const ERRORS_CODE = require('assets/maps/errors-code.json')
 export default function useRequest () {
   const { signOut } = useAuth()
   const apiRequest = useCallback(async (cb) => {
@@ -19,11 +20,10 @@ export default function useRequest () {
         signOut()
       }
 
-      return {
-        ok: false,
-        message: error?.response?.data?.message || error.toString(),
-        error
-      }
+      const message = ERRORS_CODE[error?.response?.data?.code] || 'Ocurrió un error inesperado. Contacte al administrador del sistema.'
+      console.error('Error:', error)
+      console.error('Message:', message)
+      return { ok: false, message, error }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
