@@ -48,17 +48,22 @@ export const UserDropdown = ({ className }) => {
 		}
 
 		if (userInfo.profilePicture === undefined) {
+			if (!getToken()) { // reload the useEffect until token is available
+				dispatch(setUser({ ...userInfo, profilePicture: undefined }))
+			}
 			if (getToken()) {
 				async function fetchProfilePicture() {
 					try {
 						const resp = await apiGetProfilePicture(userInfo.id)
-
+						console.log(resp)
 						if (resp.data) {
 							dispatch(setUser({ ...userInfo, profilePicture: resp.data }))
 						}
 					} catch (error) {
 						console.log(error)
-						dispatch(setUser({ ...userInfo, profilePicture: null }))
+						if (error.response?.data?.code === 'PROFILE_PICTURE_NOT_FOUND') {
+							dispatch(setUser({ ...userInfo, profilePicture: null }))
+						}
 					}
 				}
 				fetchProfilePicture()

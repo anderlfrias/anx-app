@@ -16,6 +16,7 @@ import navigationConfig from 'configs/navigation.config'
 import VerticalMenuContent from 'components/template/VerticalMenuContent'
 import useResponsive from 'utils/hooks/useResponsive'
 import { useSelector } from 'react-redux'
+import { APP_NAME } from 'constants/app.constant'
 
 const sideNavStyle = {
 	width: SIDE_NAV_WIDTH,
@@ -91,7 +92,7 @@ const SideNav = () => {
 						/>
 						{!sideNavCollapse && (
               <div className='text-white grid -ml-3'>
-                <span className='text-2xl font-bold'>XUser 2.0</span>
+                <span className='text-2xl font-bold'>{APP_NAME}</span>
               </div>
             )}
 					</div>

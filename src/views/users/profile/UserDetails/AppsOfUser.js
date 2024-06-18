@@ -28,13 +28,13 @@ export default function AppsOfUser({ className, apps }) {
           </div>
           <ul>
             {userapp.roles.map(uarole => (
-              <li key={uarole.role.id}>
+              <li key={uarole.role?.id}>
                 <div className=''>
-                  <span className='flex items-center'><GiPlainCircle className='text-[.4rem] mr-2 min-w-max' /> {uarole.role.name}</span>
+                  <span className='flex items-center'><GiPlainCircle className='text-[.4rem] mr-2 min-w-max' /> {uarole.role?.name}</span>
                   <ul className='ml-7'>
                     {uarole.restrictions.map(uarrestriction => (
                       <li key={uarrestriction.restriction.id} className='text-sm text-gray-500 dark:text-gray-400'>
-                        <span className='flex'><GiPlainCircle className='text-[.4rem] mt-1 mr-2 min-w-min' />{uarrestriction.restriction.name}</span>
+                        <span className='flex'><GiPlainCircle className='text-[.4rem] mt-1 mr-2 min-w-min' />{uarrestriction.restriction?.name}</span>
                       </li>
                     ))}
                   </ul>

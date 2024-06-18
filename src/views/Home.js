@@ -1,3 +1,4 @@
+import { APP_NAME } from 'constants/app.constant'
 import React from 'react'
 // import { BiGitMerge } from 'react-icons/bi'
 // import { FaUserShield, FaUsers, FaUsersCog, FaUsersSlash } from 'react-icons/fa'
@@ -29,7 +30,7 @@ import React from 'react'
 const Home = () => {
 	return (
 		<div className='container mx-auto'>
-			<h1>Bienvenido a xUser 2.0</h1>
+			<h1>Bienvenido a {APP_NAME}</h1>
 			<span className='text-wrap'>
 				En este panel de control podrás administrar los usuarios, aplicaciones, roles y restricciones de todos los usuarios del Siglo 21.
 			</span>
