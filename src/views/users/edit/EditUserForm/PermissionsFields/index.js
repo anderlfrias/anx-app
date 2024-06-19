@@ -76,7 +76,8 @@ export default function PermissionsFields({ className }) {
   useEffect(() => {
     const fetchPermissions = async () => {
       setLoadingApps(true)
-      const resp = await apiRequest(() => apiGetApps())
+      // top=100 is a query parameter to get the first 100 apps (must be changed to get all apps in the future)
+      const resp = await apiRequest(() => apiGetApps('top=100'))
       if (resp.ok) {
         setApps(resp.data.apps)
       }
