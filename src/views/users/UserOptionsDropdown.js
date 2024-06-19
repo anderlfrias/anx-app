@@ -10,7 +10,7 @@ import useRequest from "utils/hooks/useRequest"
 import useURLSearchParams from "utils/hooks/useURLSearchParams"
 import openNotification from "utils/openNotification"
 
-export default function UserOptionsDropdown({ userId, onOpenChange }) {
+export default function UserOptionsDropdown({ userId, onOpenChange, className }) {
   const apiRequest = useRequest()
   const params = useURLSearchParams()
 
@@ -33,7 +33,7 @@ export default function UserOptionsDropdown({ userId, onOpenChange }) {
   return (
     <Dropdown
       placement="middle-end-top"
-      renderTitle={<EllipsisButton shape='round' className='rotate-90 -mr-2' />}
+      renderTitle={<EllipsisButton shape='round' className={`rotate-90 ${className}`} />}
       onOpen={onDropdownOpen}
       onClose={onDropdownClose}
     >

@@ -5,8 +5,8 @@ import { TableRowSkeleton } from "components/shared"
 import { Button, Card, Table, Tooltip } from "components/ui"
 import { PREVIOUS_URL_KEY } from "constants/app.constant"
 import { useEffect, useState } from "react"
-import { FaUserEdit } from "react-icons/fa"
-import { HiPaperAirplane, HiTrash } from "react-icons/hi"
+import { FaUserCircle, FaUserEdit } from "react-icons/fa"
+import { HiTrash } from "react-icons/hi"
 import { Link } from "react-router-dom"
 import { apiDeleteUser, apiGetUsers } from "services/UserService"
 import useRequest from "utils/hooks/useRequest"
@@ -78,7 +78,7 @@ export default function UsersList() {
             {users.map((user) => (
               <Tr key={user.id}>
                 <Td>
-                  <div className='flex'>
+                  <div className=''>
                     <Link
                       to={`/users/${user.id}/profile?${PREVIOUS_URL_KEY}=${encodeURIComponent(params.fullPath)}`}
                       className='flex gap-2 items-center hover:text-sky-800 dark:hover:text-sky-600 ml-2 font-semibold'
@@ -91,8 +91,8 @@ export default function UsersList() {
                 <Td>{`${user.name} ${user.firstSurname} ${user.secondSurname}`}</Td>
                 <Td>{user.email}</Td>
                 <Td>
-                  <div className="flex gap-1 justify-end items-center min-w-max">
-                    <UserOptionsDropdown userId={user.id} />
+                  <div className="flex justify-end items-center min-w-max">
+                    <UserOptionsDropdown className='-ml-2' userId={user.id} />
                     <Confirm
                       loading={deleting}
                       onConfirm={async () => await onDelete(user.id)}
@@ -100,17 +100,17 @@ export default function UsersList() {
                       subtitle='¿Estás seguro de eliminar este usuario?'
                     >
                       <Tooltip title='Eliminar'>
-                        <Button size='sm' icon={<HiTrash />} variant="plain" />
+                        <Button className='-ml-2' size='sm' icon={<HiTrash />} variant="plain" />
                       </Tooltip>
                     </Confirm>
-                    <Tooltip title='Editar'>
-                      <Link to={`/users/${user.id}?${PREVIOUS_URL_KEY}=${encodeURIComponent(params.fullPath)}`}>
-                        <Button size='sm' icon={<FaUserEdit />} variant="plain" />
-                      </Link>
-                    </Tooltip>
                     <Tooltip title='Ver perfil'>
                       <Link to={`/users/${user.id}/profile?${PREVIOUS_URL_KEY}=${encodeURIComponent(params.fullPath)}`}>
-                        <Button size='sm' icon={<HiPaperAirplane className='text-lg rotate-90' />} variant="solid" />
+                        <Button className='-ml-2' size='sm' icon={<FaUserCircle />} variant="plain" />
+                      </Link>
+                    </Tooltip>
+                    <Tooltip title='Editar'>
+                      <Link className='ml-2' to={`/users/${user.id}?${PREVIOUS_URL_KEY}=${encodeURIComponent(params.fullPath)}`}>
+                        <Button size='sm' icon={<FaUserEdit />} variant="solid" />
                       </Link>
                     </Tooltip>
                   </div>
