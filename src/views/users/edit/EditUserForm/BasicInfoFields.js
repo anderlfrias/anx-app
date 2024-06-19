@@ -2,6 +2,7 @@ import classNames from "classnames"
 import AvatarUpload from "components/custom/AvatarUpload"
 import { FormItem, Input } from "components/ui"
 import { Field } from "formik"
+import { isRoot } from "utils/role"
 
 const Fields = [
   { type: 'text', label: 'Nombre', name: 'name', placeholder: 'Nombre' },
@@ -9,9 +10,8 @@ const Fields = [
   { type: 'text', label: 'Segundo apellido', name: 'secondSurname', placeholder: 'Segundo apellido' },
   // { type: 'text', label: 'Nombre de usuario', name: 'username', placeholder: 'Nombre de usuario' },
   // { type: 'email', label: 'Email', name: 'email', placeholder: 'Email' },
-  { type: 'text', label: 'Código de empleado', name: 'employeeCode', placeholder: 'Código de empleado' },
-  { type: 'text', label: 'Número de teléfono', name: 'phoneNumber', placeholder: 'Número de teléfono' },
-  { type: 'text', label: 'Código externo', name: 'externalCode', placeholder: 'Código externo' }
+  { type: 'text', label: 'Código de empleado', name: 'employeeCode', placeholder: 'Código de empleado', disabled: !isRoot() },
+  { type: 'text', label: 'Número de teléfono', name: 'phoneNumber', placeholder: 'Número de teléfono' }
 ]
 
 export default function BasicInfoFields({ touched, errors, values, className }) {
@@ -47,19 +47,18 @@ export default function BasicInfoFields({ touched, errors, values, className }) 
             </div>
           </div>
 
-          {Fields.map((field, index) => (
+          {Fields.map(({label, name, component, ...rest}, index) => (
             <FormItem
               key={index}
-              label={field.label}
-              invalid={errors[field.name] && touched[field.name]}
-              errorMessage={errors[field.name]}
+              label={label}
+              invalid={errors[name] && touched[name]}
+              errorMessage={errors[name]}
             >
               <Field
-                name={field.name}
-                type={field.type}
-                placeholder={field.placeholder}
-                component={field.component || Input}
+                name={name}
+                component={component || Input}
                 autoFocus={index === 0}
+                {...rest}
               />
             </FormItem>
           ))}
