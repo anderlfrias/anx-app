@@ -21,7 +21,7 @@ const createValidationSchema = Yup.object().shape({
     .max(20, 'El apellido debe tener como máximo 20 caracteres'),
   phoneNumber: Yup.string(),
   password: Yup.string()
-    .min(8, 'La contraseña debe tener al menos 8 caracteres'),
+    .min(5, 'La contraseña debe tener al menos 5 caracteres'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Las contraseñas no coinciden'),
   profilePicture: Yup.string()

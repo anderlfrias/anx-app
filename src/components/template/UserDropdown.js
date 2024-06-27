@@ -55,7 +55,6 @@ export const UserDropdown = ({ className }) => {
 				async function fetchProfilePicture() {
 					try {
 						const resp = await apiGetProfilePicture(userInfo.id)
-						console.log(resp)
 						if (resp.data) {
 							dispatch(setUser({ ...userInfo, profilePicture: resp.data }))
 						}

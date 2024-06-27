@@ -3,9 +3,9 @@ import { StickyFooter } from "components/shared"
 import { Button, Card, FormContainer, Tabs } from "components/ui"
 import { userConfig } from "configs/form.config"
 import { Form, Formik } from "formik"
-import { HiOutlineKey, HiOutlineShieldCheck, HiSave, HiTrash } from "react-icons/hi"
+import { HiOutlineShieldCheck, HiSave, HiTrash } from "react-icons/hi"
 import BasicInfoFields from "./BasicInfoFields"
-import ChangePasswordFields from "./ChangePasswordFields"
+// import ChangePasswordFields from "./ChangePasswordFields"
 import { useLocation, useNavigate } from "react-router-dom"
 import { FaRegUserCircle } from "react-icons/fa"
 import { useEffect } from "react"
@@ -44,7 +44,7 @@ export default function EditUserForm({ initialValues, onSubmit, onCancel, onDele
                   <Tabs value={location.hash.replace('#', '')} onChange={onChangeTab}>
                     <TabList>
                       <TabNav value="basic-info" icon={<FaRegUserCircle />}>Información básica</TabNav>
-                      <TabNav value="password" icon={<HiOutlineKey />} >Contraseña</TabNav>
+                      {/* <TabNav value="password" icon={<HiOutlineKey />} >Contraseña</TabNav> */}
                       <TabNav value="permission" icon={<HiOutlineShieldCheck />}>Permisos</TabNav>
                     </TabList>
                     <div className='mb-4'>
@@ -52,9 +52,9 @@ export default function EditUserForm({ initialValues, onSubmit, onCancel, onDele
                         <BasicInfoFields className='mt-4' touched={touched} errors={errors} values={values} />
                       </TabContent>
 
-                      <TabContent value="password">
+                      {/* <TabContent value="password">
                         <ChangePasswordFields className='mt-4' touched={touched} errors={errors} />
-                      </TabContent>
+                      </TabContent> */}
 
                       <TabContent value="permission">
                         <PermissionsFields className='mt-4' touched={touched} errors={errors} />
