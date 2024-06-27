@@ -13,8 +13,8 @@ import { apiGetRoleByNormalizedName } from 'services/RoleService'
 import { setUser } from 'store/auth/userSlice'
 import useURLSearchParams from 'utils/hooks/useURLSearchParams'
 import { PREVIOUS_URL_KEY } from 'constants/app.constant'
-import { apiGetProfilePicture } from 'services/UserService'
 import UserImage from 'components/custom/UserImage'
+import { apiGetProfilePicture } from 'services/ProfileServices'
 
 const dropdownItemList = [
 	{ label: 'Mi Perfil', path: '/profile', icon: <HiOutlineUser /> },
@@ -54,7 +54,7 @@ export const UserDropdown = ({ className }) => {
 			if (getToken()) {
 				async function fetchProfilePicture() {
 					try {
-						const resp = await apiGetProfilePicture(userInfo.id)
+						const resp = await apiGetProfilePicture()
 						if (resp.data) {
 							dispatch(setUser({ ...userInfo, profilePicture: resp.data }))
 						}

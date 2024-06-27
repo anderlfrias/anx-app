@@ -1,13 +1,12 @@
 import ViewTitle from "components/custom/ViewTitle"
 import { PREVIOUS_URL_KEY } from "constants/app.constant"
-import { useSelector } from "react-redux"
 import useQuery from "utils/hooks/useQuery"
-import UserDetails from "views/users/profile/UserDetails"
+import ProfileOverview from "./ProfileOverview"
+import ProfileApps from "./ProfileApps"
+import ProfileAccess from "./ProfileAcces"
 
 export default function Profile() {
-  const { id } = useSelector((state) => state.auth.user)
   const query = useQuery()
-
 
   return (
     <div>
@@ -15,13 +14,15 @@ export default function Profile() {
         <ViewTitle title="Mi Perfil" showBackPage backPath={decodeURIComponent(query.get(PREVIOUS_URL_KEY)) || '/home'} />
       </div>
 
-      <UserDetails
-        id={id}
-        options={{
-          hideActionsButtons: true,
-          canChangeProfilePicture: true,
-        }}
-      />
+      <div className='flex flex-col lg:flex-row gap-4'>
+        <ProfileOverview className='col-span-2 lg:w-96 lg:col-span-1' />
+        <div className='w-full'>
+          <h4 className='mb-4'>Aplicaciones</h4>
+          <ProfileApps />
+          <h4 className='mt-6 mb-4'>Accesos</h4>
+          <ProfileAccess />
+        </div>
+      </div>
     </div>
   )
 }
