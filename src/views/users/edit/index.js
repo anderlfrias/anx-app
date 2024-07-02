@@ -11,6 +11,16 @@ import { apiGetUserPermissions } from "services/UserPermissionServices"
 import { PREVIOUS_URL_KEY } from "constants/app.constant"
 import useURLSearchParams from "utils/hooks/useURLSearchParams"
 
+const mapUserToValidate = (user) => ({
+  name: user.name,
+  firstSurname: user.firstSurname,
+  secondSurname: user.secondSurname,
+  employeeCode: user.employeeCode,
+  externalCode: user.externalCode,
+  phoneNumber: user.phoneNumber,
+  profilePicture: user.profilePicture
+})
+
 export default function EditUser() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -103,6 +113,11 @@ export default function EditUser() {
     setUser(newUser)
   }
   const onSubmit = async (values) => {
+    if (JSON.stringify(mapUserToValidate(user)) === JSON.stringify(mapUserToValidate(values))) {
+      openNotification('info', 'Información', 'No se detectaron cambios, documento no actualizado')
+      return navigate(decodeURIComponent(params.get(PREVIOUS_URL_KEY) || '/users'))
+    }
+
     const resp = await apiRequest(() => apiUpdateUser(id, values))
     if (resp.ok) {
       openNotification('success', 'Usuario actualizado', 'El usuario ha sido actualizado correctamente')
@@ -135,7 +150,6 @@ export default function EditUser() {
       setLoading(true)
       const response = await apiRequest(() => apiGetUserPermissions(id))
       setLoading(false)
-      console.log(response)
       if (response.ok) {
         setUser({
           ...response.data,
@@ -151,7 +165,7 @@ export default function EditUser() {
     }
 
     fetchUser()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiRequest, id, navigate])
 
   return (
