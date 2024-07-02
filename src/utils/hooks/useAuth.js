@@ -22,7 +22,7 @@ function useAuth() {
 		try {
 			const resp = await apiSignIn(values)
 			if (resp.data) {
-				const token = resp.data
+				const { token } = resp.data
         const user = mapUserFromToken(token)
 				dispatch(onSignInSuccess(token))
 				dispatch(setUser(user))

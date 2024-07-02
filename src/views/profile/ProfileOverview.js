@@ -44,8 +44,6 @@ export default function ProfileOverview({ className }) {
     }
   }
 
-
-
   return (
     <div className={className}>
       <Card>
