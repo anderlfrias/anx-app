@@ -18,8 +18,8 @@ export default function UserOptionsDropdown({ userId, onOpenChange, className })
   const onDropdownClose = () => { onOpenChange?.(false) }
 
   const onResetPassword = async () => {
+
     const resp = await apiRequest(() => apiResetPassword(userId))
-    console.log(resp)
     if (resp.ok) {
       openNotification('success', 'Contraseña reseteada', 'La contraseña ha sido reseteada correctamente')
     }
@@ -31,35 +31,37 @@ export default function UserOptionsDropdown({ userId, onOpenChange, className })
   }
 
   return (
-    <Dropdown
-      placement="middle-end-top"
-      renderTitle={<EllipsisButton shape='round' className={`rotate-90 ${className}`} />}
-      onOpen={onDropdownOpen}
-      onClose={onDropdownClose}
-    >
-      <Dropdown.Item
-        eventKey='change-password'
+    <>
+      <Dropdown
+        placement="middle-end-top"
+        renderTitle={<EllipsisButton shape='round' className={`rotate-90 ${className}`} />}
+        onOpen={onDropdownOpen}
+        onClose={onDropdownClose}
       >
-        <Link to={`/users/${userId}/change-password?${PREVIOUS_URL_KEY}=${encodeURIComponent(params.fullPath)}`} className="flex gap-2 items-center">
-          <span className="text-xl opacity-50"><ChangePasswordSvg /></span>
-          <span>Cambiar Contraseña</span>
-        </Link>
-      </Dropdown.Item>
-
-      <Dropdown.Item
-        eventKey='reset-password'
-      >
-        <Confirm
-          type='warning'
-          subtitle='¿Estás seguro de desear resetear la contraseña de este usuario?'
-          onConfirm={onResetPassword}
+        <Dropdown.Item
+          eventKey='change-password'
         >
-          <div className="flex gap-2 items-center">
-            <span className="text-xl opacity-50"><ResetPasswordSvg /></span>
-            <span>Resetear Contraseña</span>
-          </div>
-        </Confirm>
-      </Dropdown.Item>
-    </Dropdown>
+          <Link to={`/users/${userId}/change-password?${PREVIOUS_URL_KEY}=${encodeURIComponent(params.fullPath)}`} className="flex gap-2 items-center">
+            <span className="text-xl opacity-50"><ChangePasswordSvg /></span>
+            <span>Cambiar Contraseña</span>
+          </Link>
+        </Dropdown.Item>
+
+        <Dropdown.Item
+          eventKey='reset-password'
+        >
+          <Confirm
+            type='warning'
+            subtitle='¿Estás seguro de desear resetear la contraseña de este usuario?'
+            onConfirm={onResetPassword}
+          >
+            <div className="flex gap-2 items-center">
+              <span className="text-xl opacity-50"><ResetPasswordSvg /></span>
+              <span>Resetear Contraseña</span>
+            </div>
+          </Confirm>
+        </Dropdown.Item>
+      </Dropdown>
+    </>
   )
 }

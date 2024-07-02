@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { FaRegUserCircle } from "react-icons/fa"
 import { useEffect } from "react"
 import PermissionsFields from "./PermissionsFields"
+import UserOptionsDropdown from "views/users/UserOptionsDropdown"
 
 const { TabNav, TabList, TabContent } = Tabs
 const { editValidationSchema: validationSchema } = userConfig
@@ -41,26 +42,29 @@ export default function EditUserForm({ initialValues, onSubmit, onCancel, onDele
             <Form>
               <FormContainer>
                 <Card className='mb-6'>
-                  <Tabs value={location.hash.replace('#', '')} onChange={onChangeTab}>
-                    <TabList>
-                      <TabNav value="basic-info" icon={<FaRegUserCircle />}>Información básica</TabNav>
-                      {/* <TabNav value="password" icon={<HiOutlineKey />} >Contraseña</TabNav> */}
-                      <TabNav value="permission" icon={<HiOutlineShieldCheck />}>Permisos</TabNav>
-                    </TabList>
-                    <div className='mb-4'>
-                      <TabContent value="basic-info">
-                        <BasicInfoFields className='mt-4' touched={touched} errors={errors} values={values} />
-                      </TabContent>
+                  <div className='flex justify-between'>
+                    <Tabs className='w-full' value={location.hash.replace('#', '')} onChange={onChangeTab}>
+                      <TabList>
+                        <TabNav value="basic-info" icon={<FaRegUserCircle />}>Información básica</TabNav>
+                        {/* <TabNav value="password" icon={<HiOutlineKey />} >Contraseña</TabNav> */}
+                        <TabNav value="permission" icon={<HiOutlineShieldCheck />}>Permisos</TabNav>
+                      </TabList>
+                      <div className='mb-4'>
+                        <TabContent value="basic-info">
+                          <BasicInfoFields className='mt-4' touched={touched} errors={errors} values={values} />
+                        </TabContent>
 
-                      {/* <TabContent value="password">
-                        <ChangePasswordFields className='mt-4' touched={touched} errors={errors} />
-                      </TabContent> */}
+                        {/* <TabContent value="password">
+                          <ChangePasswordFields className='mt-4' touched={touched} errors={errors} />
+                        </TabContent> */}
 
-                      <TabContent value="permission">
-                        <PermissionsFields className='mt-4' touched={touched} errors={errors} />
-                      </TabContent>
-                    </div>
-                  </Tabs>
+                        <TabContent value="permission">
+                          <PermissionsFields className='mt-4' touched={touched} errors={errors} />
+                        </TabContent>
+                      </div>
+                    </Tabs>
+                    <UserOptionsDropdown className='' userId={initialValues.id} />
+                  </div>
                 </Card>
 
                 <StickyFooter

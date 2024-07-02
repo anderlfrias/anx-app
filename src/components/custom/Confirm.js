@@ -38,7 +38,10 @@ const dialogType = {
 
 export default function Confirm({ onConfirm, children, subtitle, loading: loadingProps, type = 'info' }) {
   const [showConfirmDialog, setShowConfirmDialog] = React.useState(false)
-  const openConfirm = () => setShowConfirmDialog(true)
+  const openConfirm = (e) => {
+    e.stopPropagation();
+    setShowConfirmDialog(true)
+  }
   const closeConfirm = () => setShowConfirmDialog(false)
   const [loading, setLoading] = React.useState(false)
   const handleConfirm = async () => {
